@@ -1,0 +1,79 @@
+export const resumeData = {
+  profile: {
+    name: "Maciek Geneja",
+    headline: "Full Stack Developer & Creative Engineer",
+    subHeadline: "Building predictive web apps and scalable infrastructure. Incoming Placement Developer at Next.",
+    location: "Cambridge / Loughborough, UK",
+    links: {
+      github: "https://github.com/Maseeek",
+      linkedin: "https://www.linkedin.com/in/maciek-geneja-552325332/",
+      email: "maciekgeneja@gmail.com",
+    },
+  },
+  about: {
+    bio: "Second-year Computer Science student at Loughborough University (Year 1: First-Class Honours). I combine a curious, analytical mindset with full-stack engineering skills. Native English and Polish speaker. When I'm not coding, I'm playing competitive basketball or representing the AU Volleyball team.",
+  },
+  skills: {
+    languages: ["Python", "TypeScript", "Java", "C++", "SQL", "PHP"],
+    web: ["React", "Next.js", "Node.js", "Flask", "Tailwind", "Google Cloud APIs"],
+    ai: ["OpenCV", "TensorFlow", "Computer Vision", "Predictive Techniques", "Generative AI & LLMs (Gemini, OpenAI)"],
+    tools: ["Git", "Docker", "MongoDB", "Arduino"],
+  },
+  experience: [
+    {
+      company: "Next",
+      role: "Incoming Placement Developer (Full Stack)",
+      period: "July 2026 - July 2027",
+      description: "Selected for a competitive 12-month industrial placement focusing on enterprise-scale web applications.",
+      isIncoming: true,
+    },
+    {
+      company: "Outlier AI",
+      role: "AI Training Contributor (Coding)",
+      period: "Nov 2024 - Present",
+      description: "Evaluating AI model accuracy, writing Python evaluation rubrics, and fixing 'hallucinations' in code generation models.",
+    },
+    {
+      company: "Co-op",
+      role: "Retail & Customer Service",
+      period: "Oct 2023 - Oct 2025",
+      description: "Developed strong interpersonal skills and problem-solving in fast-paced environments.",
+    },
+  ],
+  projects: [
+    {
+      title: "Nothing But Net",
+      url: "https://nothingbutnet.online",
+      stack: ["Python", "React", "Node.js", "OpenCV", "MongoDB"],
+      description: "A full-stack basketball shot analyzer. Uses Hough Circle Transform for ball tracking and polynomial regression to predict shot success and calculate release angle with >90% precision. Features a real-time dashboard and historical analysis.",
+      size: "large", // 2x2
+      image: "/images/nbn1.png",
+      gallery: ["/images/nbn-more.png"],
+    },
+    {
+      title: "Choi's Cutting Lounge",
+      url: "https://chois-cutting-lounge.vercel.app/contact",
+      stack: ["Next.js", "Vercel", "Tailwind"],
+      description: "Production website for a local business, improving client booking visibility and brand presence.",
+      size: "medium", // 1x1 or 1x2
+      image: "/images/chois.png",
+      gallery: ["/images/chois-more.png"],
+    },
+    {
+      title: "LyricForge",
+      event: "HackNotts 2025",
+      stack: ["Python", "Flask", "Gemini API", "ElevenLabs API"],
+      description: "AI-powered platform that rewrites song lyrics to fit any mood while preserving rhythm. Built in 24 hours.",
+      size: "medium",
+    },
+    {
+      title: "Embedded Payroll System",
+      stack: ["C++", "Arduino"],
+      description: "Designed a Finite State Machine (FSM) for memory-constrained hardware with custom serial communication protocols.",
+      size: "small",
+      gallery: ["/images/arduino-stock.png"],
+    },
+  ],
+} as const;
+
+export type ResumeData = typeof resumeData;
