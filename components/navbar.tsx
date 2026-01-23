@@ -30,12 +30,12 @@ export const Navbar = () => {
             )}
         >
             <div className={cn(
-                "mx-auto flex items-center justify-between px-6 py-3 transition-all duration-300",
+                "mx-auto flex items-center justify-between gap-8 px-6 py-3 transition-all duration-300",
                 scrolled
                     ? "glass rounded-full px-8 py-3"
                     : "bg-transparent"
             )}>
-                <a href="#" className="text-xl font-bold tracking-tighter">
+                <a href="#" className="text-xl font-bold tracking-tighter shrink-0">
                     M<span className="text-accent">.</span>G
                 </a>
 
@@ -44,14 +44,14 @@ export const Navbar = () => {
                         <a
                             key={item.name}
                             href={item.href}
-                            className="text-sm font-medium text-neutral-400 hover:text-white transition-colors"
+                            className="text-sm font-medium text-neutral-400 hover:text-white transition-colors hidden md:block"
                         >
                             {item.name}
                         </a>
                     ))}
                     <a
                         href="mailto:maciekgeneja@gmail.com"
-                        className="px-5 py-2 rounded-full bg-accent/10 border border-accent/20 text-accent text-sm font-medium hover:bg-accent hover:text-white transition-all"
+                        className="px-5 py-2 rounded-full bg-accent/10 border border-accent/20 text-accent text-sm font-medium hover:bg-accent hover:text-white transition-all whitespace-nowrap"
                     >
                         Let's Talk
                     </a>

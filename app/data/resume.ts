@@ -47,8 +47,16 @@ export const resumeData = {
       stack: ["Python", "React", "Node.js", "OpenCV", "MongoDB"],
       description: "A full-stack basketball shot analyzer. Uses Hough Circle Transform for ball tracking and polynomial regression to predict shot success and calculate release angle with >90% precision. Features a real-time dashboard and historical analysis.",
       size: "large", // 2x2
-      image: "/images/nbn1.png",
+      image: "/images/nbn-new.png",
       gallery: ["/images/nbn-more.png"],
+    },
+    {
+      title: "Python Basketball Analysis",
+      stack: ["Python", "OpenCV", "NumPy", "Computer Vision"],
+      description: "A computer vision based app using OpenCV which using polynomial regression can calculate the predicted trajectory of a basketball shot, allowing us to predict whether it is a make or miss and allows us to calculate the release angle.",
+      size: "medium",
+      image: "/images/nbn-trajectory.png",
+      gallery: ["/images/nbn-hud.png"],
     },
     {
       title: "Choi's Cutting Lounge",

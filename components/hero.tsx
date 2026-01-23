@@ -38,12 +38,21 @@ export const Hero = ({ profile }: { profile: ResumeData["profile"] }) => {
       >
         <div className="relative inline-block">
           <h1 className={cn(
-            "text-[12vw] md:text-[8vw] xl:text-[9rem] font-bold tracking-tighter leading-[0.9] lowercase gradient-text",
-            "transition-all duration-700 select-none"
+            "text-[12vw] md:text-[8vw] xl:text-[9rem] font-bold tracking-tighter leading-[1.1] lowercase gradient-text pb-4",
+            "transition-all duration-700 select-none group-hover:animate-glitch relative z-10"
           )}
           >
             {profile.name}
           </h1>
+
+          {/* Glitch Layers */}
+          <span className="absolute top-0 left-0 w-full h-full text-[12vw] md:text-[8vw] xl:text-[9rem] font-bold tracking-tighter leading-[1.1] lowercase text-accent opacity-0 group-hover:opacity-100 group-hover:translate-x-[3px] pointer-events-none transition-opacity duration-100 mix-blend-screen pb-4">
+            {profile.name}
+          </span>
+          <span className="absolute top-0 left-0 w-full h-full text-[12vw] md:text-[8vw] xl:text-[9rem] font-bold tracking-tighter leading-[1.1] lowercase text-blue-500 opacity-0 group-hover:opacity-100 group-hover:-translate-x-[3px] pointer-events-none transition-opacity duration-100 mix-blend-screen pb-4">
+            {profile.name}
+          </span>
+
           <div className="absolute -inset-x-2 -inset-y-2 bg-gradient-to-r from-accent to-primary blur-3xl opacity-0 group-hover:opacity-20 transition-opacity duration-1000" />
         </div>
       </motion.div>
