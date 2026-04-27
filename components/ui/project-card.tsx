@@ -21,7 +21,7 @@ export const ProjectCard = ({ project, className }: { project: ProjectProps, cla
             className={project.url ? "h-full" : className}
             title={
                 <div className="flex items-center justify-between">
-                    <span className="font-display tracking-tight text-3xl lowercase">{project.title}</span>
+                    <span className="font-display tracking-tight text-3xl">{project.title}</span>
                     {project.url && (
                         <div className="p-2 rounded-full glass border-white/5 group-hover/bento:bg-white/10 transition-colors">
                             <ExternalLink className="w-5 h-5 text-neutral-400 group-hover/bento:text-accent transition-colors" />
@@ -31,7 +31,7 @@ export const ProjectCard = ({ project, className }: { project: ProjectProps, cla
             }
             description={
                 <div className="flex flex-col h-full">
-                    <p className="mb-8 text-neutral-400 text-lg leading-relaxed">{project.description}</p>
+                    <p className="mb-8 text-muted-foreground text-lg leading-relaxed">{project.description}</p>
                     <div className="flex flex-wrap gap-2 mt-auto">
                         {project.stack.map((tech) => (
                             <span
@@ -46,14 +46,14 @@ export const ProjectCard = ({ project, className }: { project: ProjectProps, cla
             }
             header={
                 project.image ? (
-                    <div className="w-full h-64 md:h-full min-h-[16rem] rounded-2xl overflow-hidden relative group/img border border-white/5">
+                    <div className="w-full aspect-video rounded-2xl overflow-hidden relative group/img border border-white/5">
                         <Image
                             src={project.image}
                             alt={project.title}
                             fill
-                            className="object-cover group-hover/img:scale-110 transition-transform duration-700 ease-out"
+                            className="object-cover group-hover/img:scale-105 transition-transform duration-1000 ease-in-out"
                         />
-                        <div className="absolute inset-0 bg-black/40 group-hover/img:bg-black/10 transition-colors duration-500" />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover/img:opacity-100 transition-opacity duration-500" />
                     </div>
                 ) : (
                     <div className="flex flex-1 w-full h-full min-h-[10rem] rounded-2xl bg-gradient-to-br from-neutral-800/50 to-neutral-900/50 border border-white/5 flex items-center justify-center group-hover/bento:border-accent/30 transition-all duration-500">

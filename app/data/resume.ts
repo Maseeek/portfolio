@@ -11,13 +11,13 @@ export const resumeData = {
     },
   },
   about: {
-    bio: "Second-year Computer Science student at Loughborough University (Year 1: First-Class Honours). I combine a curious, analytical mindset with full-stack engineering skills. Native English and Polish speaker. When I'm not coding, I'm playing competitive basketball or representing the AU Volleyball team.",
+    bio: "Second-year Computer Science student at Loughborough University (Year 1: First-Class Honours). I combine a curious, analytical mindset with full-stack engineering skills. Native English and Polish speaker. When I'm not coding, I'm playing competitive basketball, representing the AU Volleyball team, or travelling to explore new places.",
   },
   skills: {
     languages: ["Python", "TypeScript", "Java", "C++", "SQL", "PHP"],
-    web: ["React", "Next.js", "Node.js", "Flask", "Tailwind", "Google Cloud APIs"],
+    web: ["React", "Next.js", "Node.js", "Flask", "Tailwind", "MySQL", "GCP", "Google Cloud APIs"],
     ai: ["OpenCV", "TensorFlow", "Computer Vision", "Predictive Techniques", "Generative AI & LLMs (Gemini, OpenAI)"],
-    tools: ["Git", "Docker", "MongoDB", "Arduino"],
+    tools: ["Git", "Docker", "MongoDB", "Arduino", "JWT"],
   },
   experience: [
     {
@@ -47,8 +47,15 @@ export const resumeData = {
       stack: ["Python", "React", "Node.js", "OpenCV", "MongoDB"],
       description: "A full-stack basketball shot analyzer. Uses Hough Circle Transform for ball tracking and polynomial regression to predict shot success and calculate release angle with >90% precision. Features a real-time dashboard and historical analysis.",
       size: "large", // 2x2
-      image: "/images/nbn-new.png",
-      gallery: ["/images/nbn-more.png"],
+      image: "/images/nbn-home.png",
+      gallery: ["/images/nbn-dash.png", "/images/nbn-upload.png"],
+    },
+    {
+      title: "Make-It-All",
+      stack: ["Next.js", "TypeScript", "Tailwind", "MySQL", "Docker", "GCP", "Recharts"],
+      description: "A high-performance enterprise productivity platform with role-based dashboards (RBAC). Features real-time analytics using Recharts for productivity prediction and team satisfaction tracking. Built with a premium atomic component architecture and secure JWT authentication.",
+      size: "large",
+      image: "/images/make-it-all.png",
     },
     {
       title: "Python Basketball Analysis",
@@ -73,12 +80,14 @@ export const resumeData = {
       stack: ["Python", "Flask", "Gemini API", "ElevenLabs API"],
       description: "AI-powered platform that rewrites song lyrics to fit any mood while preserving rhythm. Built in 24 hours.",
       size: "medium",
+      image: "/images/lyricforge.png",
     },
     {
       title: "Embedded Payroll System",
       stack: ["C++", "Arduino"],
       description: "Designed a Finite State Machine (FSM) for memory-constrained hardware with custom serial communication protocols.",
       size: "small",
+      image: "/images/embedded-payroll.png",
       gallery: ["/images/arduino-stock.png"],
     },
   ],

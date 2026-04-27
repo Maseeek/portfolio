@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demo 1 | Elite Minimalist</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #050505;
+            --fg: #f8fafc;
+            --accent: #8b5cf6;
+            --muted: #64748b;
+            --card-bg: rgba(255, 255, 255, 0.02);
+            --border: rgba(255, 255, 255, 0.08);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: var(--bg);
+            color: var(--fg);
+            line-height: 1.6;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Noise Texture Overlay */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://grainy-gradients.vercel.app/noise.svg');
+            opacity: 0.05;
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Navigation */
+        nav {
+            padding: 3rem 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            font-size: 1.25rem;
+            font-weight: 700;
+            letter-spacing: -0.05em;
+            background: linear-gradient(to right, #fff, #666);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 3rem;
+        }
+
+        .nav-links a {
+            color: var(--muted);
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            transition: all 0.4s;
+        }
+
+        .nav-links a:hover {
+            color: var(--fg);
+            letter-spacing: 0.15em;
+        }
+
+        /* Hero */
+        .hero {
+            height: 85vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            margin-bottom: 5rem;
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px) scale(0.98);
+            transition: all 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        h1 {
+            font-size: clamp(3.5rem, 12vw, 8rem);
+            font-weight: 700;
+            letter-spacing: -0.04em;
+            line-height: 0.85;
+            margin-bottom: 2.5rem;
+        }
+
+        .hero p {
+            font-size: clamp(1rem, 2vw, 1.25rem);
+            color: var(--muted);
+            max-width: 500px;
+            margin-bottom: 4rem;
+            font-weight: 300;
+        }
+
+        .cta-button {
+            padding: 1.25rem 3rem;
+            background: var(--fg);
+            color: var(--bg);
+            text-decoration: none;
+            font-weight: 600;
+            border-radius: 2px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-size: 0.8rem;
+            transition: all 0.5s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-button:hover {
+            background: var(--accent);
+            color: #fff;
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(139, 92, 246, 0.2);
+        }
+
+        /* Headshot Section */
+        .profile-section {
+            display: grid;
+            grid-template-cols: 1.2fr 1fr;
+            gap: 8rem;
+            align-items: center;
+            margin-bottom: 20rem;
+        }
+
+        .headshot {
+            width: 100%;
+            aspect-ratio: 4/5;
+            background: var(--card-bg);
+            border-radius: 4px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--muted);
+            transition: all 0.8s;
+            filter: grayscale(1);
+        }
+
+        .headshot:hover {
+            filter: grayscale(0);
+            border-color: var(--accent);
+        }
+
+        .profile-content h2 {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            margin-bottom: 2rem;
+            letter-spacing: -0.03em;
+            line-height: 1;
+        }
+
+        .profile-content p {
+            color: var(--muted);
+            font-size: 1.1rem;
+            font-weight: 300;
+        }
+
+        /* Projects Section */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12rem;
+            margin-bottom: 20rem;
+        }
+
+        .project-card {
+            display: grid;
+            grid-template-cols: 1.4fr 1fr;
+            gap: 6rem;
+            align-items: flex-start;
+        }
+
+        .project-image {
+            width: 100%;
+            aspect-ratio: 16/10;
+            background: var(--card-bg);
+            border-radius: 4px;
+            border: 1px solid var(--border);
+            transition: all 0.8s;
+            position: relative;
+        }
+
+        .project-card:hover .project-image {
+            transform: scale(1.02);
+            border-color: rgba(255,255,255,0.2);
+        }
+
+        .project-info h3 {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.02em;
+        }
+
+        .project-info p {
+            color: var(--muted);
+            margin-bottom: 3rem;
+            font-weight: 300;
+            font-size: 1rem;
+        }
+
+        .text-link {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: var(--fg);
+            text-decoration: none;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 0.5rem;
+            transition: all 0.4s;
+        }
+
+        .text-link:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+            padding-left: 1rem;
+        }
+
+        /* Work With Me CTA */
+        .work-with-me {
+            background: var(--card-bg);
+            padding: 12rem 4rem;
+            border-radius: 4px;
+            text-align: center;
+            border: 1px solid var(--border);
+            margin-bottom: 10rem;
+            position: relative;
+        }
+
+        .work-with-me h2 {
+            font-size: clamp(2.5rem, 8vw, 6rem);
+            margin-bottom: 2rem;
+            letter-spacing: -0.05em;
+            line-height: 0.8;
+        }
+
+        @media (max-width: 768px) {
+            .profile-section, .project-card {
+                grid-template-cols: 1fr;
+            }
+            .work-with-me h2 {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="container">
+        <div class="logo">MG.</div>
+        <div class="nav-links">
+            <a href="#about">About</a>
+            <a href="#projects">Work</a>
+            <a href="#contact">Contact</a>
+        </div>
+    </nav>
+
+    <main class="container">
+        <!-- Hero Section -->
+        <section class="hero">
+            <h1 class="reveal">Maciek<br>Geneja</h1>
+            <p class="reveal">Software Engineer specializing in high-performance web applications and AI integration.</p>
+            <a href="#contact" class="cta-button reveal">Work with me</a>
+        </section>
+
+        <!-- Profile Section -->
+        <section id="about" class="profile-section">
+            <div class="headshot reveal">
+                [ Professional Headshot Placeholder ]
+            </div>
+            <div class="profile-content reveal">
+                <h2>Building digital<br>experiences.</h2>
+                <p>I help companies build scalable, modern web applications that deliver results. With a focus on performance and clean code, I turn complex problems into elegant solutions.</p>
+            </div>
+        </section>
+
+        <!-- Projects Section -->
+        <section id="projects" class="projects-grid">
+            <div class="project-card reveal">
+                <div class="project-image"></div>
+                <div class="project-info">
+                    <h3>LyricForge</h3>
+                    <p>An AI-powered music generation platform built with Next.js and OpenAI API. Features real-time lyrics and music synchronization.</p>
+                    <a href="#" class="nav-links">View Project &rarr;</a>
+                </div>
+            </div>
+
+            <div class="project-card reveal">
+                <div class="project-image" style="order: 2;"></div>
+                <div class="project-info" style="order: 1;">
+                    <h3>Make-It-All Dashboard</h3>
+                    <p>A comprehensive enterprise productivity dashboard with real-time data visualization and team management features.</p>
+                    <a href="#" class="nav-links">View Project &rarr;</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Work With Me CTA -->
+        <section id="contact" class="work-with-me reveal">
+            <h2>Ready to build something?</h2>
+            <p style="margin-bottom: 3rem;">I am currently available for new web development projects and partnerships.</p>
+            <a href="mailto:contact@maciekgeneja.com" class="cta-button">Let's Talk</a>
+        </section>
+    </main>
+
+    <footer class="container" style="padding-bottom: 4rem; text-align: center; color: var(--muted); font-size: 0.8rem;">
+        &copy; 2026 Maciek Geneja. Built for performance.
+    </footer>
+
+    <script>
+        // Scroll Reveal Animation
+        const revealElements = document.querySelectorAll('.reveal');
+
+        const revealOnScroll = () => {
+            const triggerBottom = window.innerHeight * 0.85;
+
+            revealElements.forEach(el => {
+                const rect = el.getBoundingClientRect();
+                if (rect.top < triggerBottom) {
+                    el.classList.add('active');
+                }
+            });
+        };
+
+        window.addEventListener('scroll', revealOnScroll);
+        // Initial check
+        revealOnScroll();
+    </script>
+</body>
+</html>
