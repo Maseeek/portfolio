@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maciek Geneja | Software Engineer</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #080808;
+            --fg: #f5f5f5;
+            --accent: #3b82f6;
+            --muted: #666;
+            --card-bg: rgba(255,255,255,0.03);
+            --border: rgba(255,255,255,0.08);
+        }
+        * { margin:0; padding:0; box-sizing:border-box; cursor:none; }
+        body { font-family:'Inter',sans-serif; background:var(--bg); color:var(--fg); overflow-x:hidden; -webkit-font-smoothing:antialiased; }
+        ::selection { background:var(--accent); color:#fff; }
+
+        /* Custom Cursor */
+        #cursor { width:16px; height:16px; background:#fff; border-radius:50%; position:fixed; pointer-events:none; z-index:9999; mix-blend-mode:difference; transition:width 0.3s,height 0.3s; will-change:transform; }
+        #cursor.grow { width:60px; height:60px; margin-left:-22px; margin-top:-22px; }
+
+        /* Hover Reveal */
+        .hover-reveal { position:fixed; width:380px; height:240px; pointer-events:none; opacity:0; z-index:10; border-radius:8px; overflow:hidden; background:var(--card-bg); transition:opacity 0.3s; will-change:transform; }
+        .hover-reveal.visible { opacity:1; }
+
+        .container { max-width:1400px; margin:0 auto; padding:0 clamp(1.5rem,4vw,4rem); }
+
+        /* ─── NAV ─── */
+        nav { position:fixed; top:0; left:0; right:0; z-index:100; padding:2rem 0; }
+        nav .container { display:flex; justify-content:space-between; align-items:center; }
+        .logo { font-size:1.1rem; font-weight:700; letter-spacing:-0.03em; }
+        .nav-links { display:flex; gap:2.5rem; }
+        .nav-links a { color:var(--muted); text-decoration:none; font-size:0.75rem; text-transform:uppercase; letter-spacing:0.15em; font-weight:500; transition:color 0.3s; }
+        .nav-links a:hover { color:var(--fg); }
+
+        /* ─── HERO ─── */
+        .hero { min-height:100vh; display:flex; flex-direction:column; justify-content:center; position:relative; }
+        .hero .eyebrow { font-size:0.7rem; text-transform:uppercase; letter-spacing:0.35em; color:var(--muted); margin-bottom:2.5rem; }
+        .hero h1 { font-size:clamp(3.5rem,16vw,14rem); font-weight:900; letter-spacing:-0.06em; line-height:0.78; margin-left:-0.04em; }
+        .hero-intro { display:grid; grid-template-columns:1fr 1fr; gap:4rem; margin-top:5rem; }
+        .hero-intro p { font-size:clamp(1rem,1.5vw,1.35rem); color:var(--muted); font-weight:400; line-height:1.5; }
+        .hero-intro .cta-row { display:flex; align-items:flex-end; gap:2rem; }
+        .cta-pill { display:inline-flex; align-items:center; gap:0.75rem; padding:1rem 2.5rem; border:1px solid var(--border); border-radius:100px; color:var(--fg); text-decoration:none; font-size:0.8rem; text-transform:uppercase; letter-spacing:0.1em; font-weight:500; transition:all 0.4s; }
+        .cta-pill:hover { background:var(--fg); color:var(--bg); border-color:var(--fg); }
+        .scroll-hint { position:absolute; bottom:3rem; left:50%; transform:translateX(-50%); font-size:0.65rem; text-transform:uppercase; letter-spacing:0.3em; color:var(--muted); animation:float 2s ease-in-out infinite; }
+        @keyframes float { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(-8px)} }
+
+        /* ─── SECTION SHARED ─── */
+        .section { padding:8rem 0; }
+        .section-header { display:flex; justify-content:space-between; align-items:center; padding-bottom:1.5rem; border-bottom:1px solid var(--border); margin-bottom:3rem; }
+        .section-label { font-size:0.75rem; font-weight:500; text-transform:uppercase; letter-spacing:0.15em; color:var(--muted); }
+
+        /* ─── ABOUT ─── */
+        .about-grid { display:grid; grid-template-columns:1fr 1.5fr; gap:6rem; align-items:start; }
+        .headshot { width:100%; aspect-ratio:3/4; background:var(--card-bg); border:1px solid var(--border); border-radius:8px; display:flex; align-items:center; justify-content:center; color:#333; font-size:0.8rem; overflow:hidden; transition:border-color 0.5s; }
+        .headshot:hover { border-color:var(--accent); }
+        .about-text h2 { font-size:clamp(2rem,4vw,3.5rem); font-weight:900; letter-spacing:-0.04em; line-height:1; margin-bottom:2rem; }
+        .about-text p { color:var(--muted); font-size:1.05rem; line-height:1.7; font-weight:300; margin-bottom:1.5rem; }
+        .about-text .location { font-size:0.8rem; text-transform:uppercase; letter-spacing:0.1em; color:var(--accent); }
+
+        /* ─── PROJECTS BENTO ─── */
+        .projects-bento { display:grid; grid-template-columns:repeat(3,1fr); grid-auto-rows:minmax(280px,auto); gap:1.25rem; }
+        .p-card { background:var(--card-bg); border:1px solid var(--border); border-radius:16px; padding:2.5rem; display:flex; flex-direction:column; justify-content:flex-end; position:relative; overflow:hidden; transition:all 0.5s cubic-bezier(0.16,1,0.3,1); }
+        .p-card::before { content:""; position:absolute; inset:0; background:linear-gradient(135deg,transparent 60%,rgba(59,130,246,0.05)); opacity:0; transition:opacity 0.5s; pointer-events:none; }
+        .p-card:hover::before { opacity:1; }
+        .p-card:hover { border-color:rgba(255,255,255,0.15); transform:translateY(-6px); box-shadow:0 20px 50px rgba(0,0,0,0.5); }
+        .p-card.large { grid-column:span 2; grid-row:span 2; }
+        .p-card.tall { grid-row:span 2; }
+        .p-card .tag { font-size:0.6rem; text-transform:uppercase; letter-spacing:0.2em; color:var(--accent); font-weight:600; margin-bottom:1rem; }
+        .p-card h3 { font-size:clamp(1.5rem,3vw,2.5rem); font-weight:900; letter-spacing:-0.03em; margin-bottom:0.75rem; text-transform:uppercase; }
+        .p-card .p-desc { color:var(--muted); font-size:0.9rem; line-height:1.5; font-weight:300; }
+        .p-card .p-stack { display:flex; flex-wrap:wrap; gap:0.5rem; margin-top:auto; padding-top:1.5rem; }
+        .p-card .p-stack span { font-size:0.6rem; text-transform:uppercase; letter-spacing:0.1em; color:var(--muted); border:1px solid var(--border); padding:0.3rem 0.8rem; border-radius:100px; transition:border-color 0.3s; }
+        .p-card:hover .p-stack span { border-color:rgba(255,255,255,0.2); }
+        .p-card .p-img { position:absolute; inset:0; background-size:cover; background-position:center; opacity:0.08; transition:opacity 0.5s; pointer-events:none; }
+        .p-card:hover .p-img { opacity:0.15; }
+
+        /* ─── EXPERIENCE ─── */
+        .exp-list { display:flex; flex-direction:column; }
+        .exp-item { display:grid; grid-template-columns:1fr 2fr 1fr; gap:2rem; padding:2.5rem 0; border-bottom:1px solid var(--border); transition:all 0.3s; }
+        .exp-item:hover { padding-left:1.5rem; }
+        .exp-company { font-size:1.5rem; font-weight:900; letter-spacing:-0.02em; }
+        .exp-role { color:var(--muted); font-size:0.95rem; font-weight:300; line-height:1.5; }
+        .exp-period { text-align:right; font-size:0.75rem; text-transform:uppercase; letter-spacing:0.1em; color:var(--muted); align-self:center; }
+        .exp-badge { display:inline-block; background:var(--accent); color:#fff; font-size:0.6rem; padding:0.25rem 0.75rem; border-radius:100px; text-transform:uppercase; letter-spacing:0.1em; margin-top:0.5rem; }
+
+        /* ─── SERVICES ─── */
+        .services-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1.25rem; }
+        .svc-card { background:var(--card-bg); border:1px solid var(--border); border-radius:16px; padding:3rem 2.5rem; transition:all 0.4s; }
+        .svc-card:hover { border-color:var(--accent); transform:translateY(-4px); }
+        .svc-card h3 { font-size:1.25rem; font-weight:700; margin-bottom:1rem; }
+        .svc-card p { color:var(--muted); font-size:0.9rem; line-height:1.6; font-weight:300; }
+        .svc-num { font-size:3rem; font-weight:900; color:rgba(255,255,255,0.04); margin-bottom:1.5rem; letter-spacing:-0.04em; }
+
+        /* ─── CTA ─── */
+        .cta-section { text-align:center; padding:15vh 0 10vh; }
+        .cta-section .eyebrow { font-size:0.7rem; text-transform:uppercase; letter-spacing:0.3em; color:var(--muted); margin-bottom:3rem; display:block; }
+        .cta-section h2 { font-size:clamp(3rem,10vw,9rem); font-weight:900; letter-spacing:-0.06em; line-height:0.8; margin-bottom:4rem; }
+        .cta-email { font-size:clamp(1rem,2vw,1.5rem); color:var(--fg); text-decoration:none; position:relative; padding-bottom:0.5rem; font-weight:500; }
+        .cta-email::after { content:""; position:absolute; bottom:0; left:0; width:100%; height:2px; background:var(--accent); transform:scaleX(0); transform-origin:right; transition:transform 0.5s cubic-bezier(0.19,1,0.22,1); }
+        .cta-email:hover::after { transform:scaleX(1); transform-origin:left; }
+
+        /* ─── FOOTER ─── */
+        footer { border-top:1px solid var(--border); padding:3rem 0; }
+        footer .container { display:flex; justify-content:space-between; align-items:center; }
+        .footer-links { display:flex; gap:2rem; }
+        .footer-links a { color:var(--muted); text-decoration:none; font-size:0.75rem; text-transform:uppercase; letter-spacing:0.1em; transition:color 0.3s; }
+        .footer-links a:hover { color:var(--fg); }
+        .footer-copy { font-size:0.7rem; color:#333; }
+
+        /* ─── SCROLL REVEAL ─── */
+        .sr { opacity:0; transform:translateY(40px); transition:all 1s cubic-bezier(0.16,1,0.3,1); }
+        .sr.visible { opacity:1; transform:translateY(0); }
+
+        /* ─── RESPONSIVE ─── */
+        @media(max-width:1024px) {
+            .projects-bento { grid-template-columns:repeat(2,1fr); }
+            .p-card.large { grid-column:span 2; grid-row:span 1; }
+            .about-grid { grid-template-columns:1fr; gap:3rem; }
+            .headshot { max-width:400px; }
+            .services-grid { grid-template-columns:1fr; }
+            .exp-item { grid-template-columns:1fr 1fr; }
+            .exp-period { text-align:left; }
+        }
+        @media(max-width:640px) {
+            .projects-bento { grid-template-columns:1fr; }
+            .p-card.large { grid-column:span 1; }
+            .hero h1 { font-size:clamp(3rem,20vw,6rem); }
+            .hero-intro { grid-template-columns:1fr; gap:2rem; }
+            .nav-links { display:none; }
+            .exp-item { grid-template-columns:1fr; gap:0.5rem; }
+            .exp-period { text-align:left; }
+            #cursor,.hover-reveal { display:none !important; }
+            * { cursor:auto; }
+        }
+    </style>
+</head>
+<body>
+    <div id="cursor"></div>
+    <div class="hover-reveal" id="reveal-img"></div>
+
+    <!-- Nav -->
+    <nav><div class="container">
+        <span class="logo">MG.</span>
+        <div class="nav-links">
+            <a href="#about">About</a>
+            <a href="#work">Work</a>
+            <a href="#experience">Experience</a>
+            <a href="#services">Services</a>
+            <a href="#contact">Contact</a>
+        </div>
+    </div></nav>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="container">
+            <span class="hero eyebrow">Software Engineer &amp; Designer / 2026</span>
+            <h1>MACIEK<br>GENEJA</h1>
+            <div class="hero-intro">
+                <div class="cta-row">
+                    <a href="#contact" class="cta-pill">Work with me &rarr;</a>
+                </div>
+                <p>Full stack engineer building high-performance web applications and intelligent systems for modern companies.</p>
+            </div>
+        </div>
+        <span class="scroll-hint">Scroll</span>
+    </section>
+
+    <!-- About -->
+    <section class="section" id="about">
+        <div class="container">
+            <div class="section-header"><span class="section-label">About</span><span class="section-label">01</span></div>
+            <div class="about-grid">
+                <div class="headshot sr">[ Your Headshot ]</div>
+                <div class="about-text sr">
+                    <h2>I build things<br>that work.</h2>
+                    <p>Second-year Computer Science student at Loughborough University with First-Class Honours. I combine a curious, analytical mindset with full-stack engineering skills to deliver production-ready web applications.</p>
+                    <p>Incoming Placement Developer at <strong>Next</strong>, with experience training AI models at <strong>Outlier AI</strong>.</p>
+                    <span class="location">📍 Cambridge / Loughborough, UK</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects -->
+    <section class="section" id="work">
+        <div class="container">
+            <div class="section-header"><span class="section-label">Selected Work</span><span class="section-label">02</span></div>
+            <div class="projects-bento">
+
+                <div class="p-card large sr" data-img="https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=600">
+                    <div class="p-img" style="background-image:url('/images/make-it-all.png')"></div>
+                    <span class="tag">Next.js &bull; TypeScript &bull; GCP</span>
+                    <h3>Make-It-All</h3>
+                    <p class="p-desc">Enterprise productivity platform with role-based dashboards, real-time analytics, and predictive tracking.</p>
+                    <div class="p-stack"><span>Next.js</span><span>TypeScript</span><span>MySQL</span><span>Docker</span><span>GCP</span></div>
+                </div>
+
+                <div class="p-card tall sr" data-img="https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=600">
+                    <div class="p-img" style="background-image:url('/images/nbn-new.png')"></div>
+                    <span class="tag">Python &bull; Computer Vision</span>
+                    <h3>Nothing But Net</h3>
+                    <p class="p-desc">Basketball shot analyzer using Hough Circle Transform and polynomial regression with >90% precision.</p>
+                    <div class="p-stack"><span>Python</span><span>React</span><span>OpenCV</span><span>MongoDB</span></div>
+                </div>
+
+                <div class="p-card sr" data-img="https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=600">
+                    <div class="p-img" style="background-image:url('/images/lyricforge.png')"></div>
+                    <span class="tag">Flask &bull; Gemini API</span>
+                    <h3>LyricForge</h3>
+                    <p class="p-desc">AI-powered lyric rewriter preserving rhythm. Built in 24hrs at HackNotts 2025.</p>
+                    <div class="p-stack"><span>Python</span><span>Flask</span><span>Gemini</span></div>
+                </div>
+
+                <div class="p-card sr">
+                    <div class="p-img" style="background-image:url('/images/chois.png')"></div>
+                    <span class="tag">Next.js &bull; Vercel</span>
+                    <h3>Choi's Cutting</h3>
+                    <p class="p-desc">Production business website improving client booking and brand presence.</p>
+                    <div class="p-stack"><span>Next.js</span><span>Vercel</span><span>Tailwind</span></div>
+                </div>
+
+                <div class="p-card sr">
+                    <div class="p-img" style="background-image:url('/images/embedded-payroll.png')"></div>
+                    <span class="tag">C++ &bull; Arduino</span>
+                    <h3>Payroll System</h3>
+                    <p class="p-desc">FSM-driven embedded payroll on memory-constrained hardware with custom serial protocols.</p>
+                    <div class="p-stack"><span>C++</span><span>Arduino</span></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Experience -->
+    <section class="section" id="experience">
+        <div class="container">
+            <div class="section-header"><span class="section-label">Experience</span><span class="section-label">03</span></div>
+            <div class="exp-list">
+                <div class="exp-item sr">
+                    <div><span class="exp-company">Next</span><br><span class="exp-badge">Incoming</span></div>
+                    <span class="exp-role">Placement Developer (Full Stack) — Enterprise-scale web applications.</span>
+                    <span class="exp-period">Jul 2026 – Jul 2027</span>
+                </div>
+                <div class="exp-item sr">
+                    <span class="exp-company">Outlier AI</span>
+                    <span class="exp-role">AI Training Contributor — Evaluating model accuracy, writing Python evaluation rubrics, fixing hallucinations in code generation.</span>
+                    <span class="exp-period">Nov 2024 – Present</span>
+                </div>
+                <div class="exp-item sr">
+                    <span class="exp-company">Co-op</span>
+                    <span class="exp-role">Retail & Customer Service — Developed strong interpersonal and problem-solving skills in fast-paced environments.</span>
+                    <span class="exp-period">Oct 2023 – Oct 2025</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services -->
+    <section class="section" id="services">
+        <div class="container">
+            <div class="section-header"><span class="section-label">Services</span><span class="section-label">04</span></div>
+            <div class="services-grid">
+                <div class="svc-card sr">
+                    <div class="svc-num">01</div>
+                    <h3>Web Development</h3>
+                    <p>High-performance, responsive web applications built with modern frameworks like Next.js, React, and Node.js.</p>
+                </div>
+                <div class="svc-card sr">
+                    <div class="svc-num">02</div>
+                    <h3>UI/UX Design</h3>
+                    <p>Clean, functional interfaces that prioritize user experience and visual polish for maximum engagement.</p>
+                </div>
+                <div class="svc-card sr">
+                    <div class="svc-num">03</div>
+                    <h3>AI Integration</h3>
+                    <p>Integrating generative AI, computer vision, and predictive models into production applications.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-section" id="contact">
+        <div class="container">
+            <span class="eyebrow">Available for new projects</span>
+            <h2>LET'S<br>WORK</h2>
+            <a href="mailto:maciekgeneja@gmail.com" class="cta-email">maciekgeneja@gmail.com</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer><div class="container">
+        <div class="footer-links">
+            <a href="https://github.com/Maseeek" target="_blank">GitHub</a>
+            <a href="https://www.linkedin.com/in/maciek-geneja-552325332/" target="_blank">LinkedIn</a>
+        </div>
+        <span class="footer-copy">&copy; 2026 Maciek Geneja</span>
+    </div></footer>
+
+    <script>
+        // ─── Custom Cursor ───
+        const cursor = document.getElementById('cursor');
+        let cx = 0, cy = 0, px = 0, py = 0;
+        document.addEventListener('mousemove', e => { cx = e.clientX; cy = e.clientY; });
+        (function loop() {
+            px += (cx - px) * 0.15; py += (cy - py) * 0.15;
+            cursor.style.transform = `translate(${px - 8}px, ${py - 8}px)`;
+            requestAnimationFrame(loop);
+        })();
+
+        // Grow cursor on interactive elements
+        document.querySelectorAll('a, .p-card, .svc-card, .exp-item').forEach(el => {
+            el.addEventListener('mouseenter', () => cursor.classList.add('grow'));
+            el.addEventListener('mouseleave', () => cursor.classList.remove('grow'));
+        });
+
+        // ─── Hover Reveal on Bento Cards ───
+        const revealImg = document.getElementById('reveal-img');
+        document.querySelectorAll('.p-card[data-img]').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                revealImg.style.backgroundImage = `url(${card.dataset.img})`;
+                revealImg.style.backgroundSize = 'cover';
+                revealImg.classList.add('visible');
+            });
+            card.addEventListener('mouseleave', () => { revealImg.classList.remove('visible'); });
+        });
+        document.addEventListener('mousemove', e => {
+            revealImg.style.transform = `translate(${e.clientX + 20}px, ${e.clientY - 120}px)`;
+        });
+
+        // ─── Hero Scroll Zoom ───
+        const h1 = document.querySelector('.hero h1');
+        window.addEventListener('scroll', () => {
+            const s = window.pageYOffset;
+            if (h1) {
+                h1.style.transform = `scale(${1 + s * 0.00015}) translateY(${s * 0.08}px)`;
+                h1.style.opacity = Math.max(0, 1 - s * 0.0012);
+            }
+        }, { passive: true });
+
+        // ─── Scroll Reveal ───
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry, i) => {
+                if (entry.isIntersecting) {
+                    setTimeout(() => entry.target.classList.add('visible'), i * 80);
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.sr').forEach(el => observer.observe(el));
+
+        // ─── Smooth Scroll ───
+        document.querySelectorAll('a[href^="#"]').forEach(a => {
+            a.addEventListener('click', e => {
+                e.preventDefault();
+                const target = document.querySelector(a.getAttribute('href'));
+                if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+        });
+    </script>
+</body>
+</html>

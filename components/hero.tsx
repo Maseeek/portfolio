@@ -1,99 +1,132 @@
 "use client";
-import { motion, useMotionValue, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { ResumeData } from "@/app/data/resume";
-import React from "react";
-import { cn } from "@/lib/utils";
+import { useRef } from "react";
 
 export const Hero = ({ profile }: { profile: ResumeData["profile"] }) => {
-  const x = useMotionValue(0);
-  const y = useMotionValue(0);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start start", "end start"],
+  });
 
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    const { clientX, clientY, currentTarget } = e;
-    const { width, height, left, top } = currentTarget.getBoundingClientRect();
-    const xPos = (clientX - left) / width - 0.5;
-    const yPos = (clientY - top) / height - 0.5;
-    x.set(xPos);
-    y.set(yPos);
+  const y = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
+  const opacity = useTransform(scrollYProgress, [0, 1], [1, 0]);
+  const scale = useTransform(scrollYProgress, [0, 1], [1, 0.9]);
+
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: { staggerChildren: 0.15, delayChildren: 0.2 },
+    },
   };
 
-  const nameX = useTransform(x, [-0.5, 0.5], [-30, 30]);
-  const nameY = useTransform(y, [-0.5, 0.5], [-30, 30]);
-  const roleX = useTransform(x, [-0.5, 0.5], [15, -15]);
-  const roleY = useTransform(y, [-0.5, 0.5], [15, -15]);
+  const itemVariants = {
+    hidden: { opacity: 0, y: 30 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.9, ease: [0.16, 1, 0.3, 1] },
+    },
+  };
 
   return (
-    <div
-      className="min-h-screen w-full flex flex-col items-center justify-center relative py-20 overflow-hidden"
-      onMouseMove={handleMouseMove}
+    <section 
+      ref={containerRef}
+      className="min-h-screen flex flex-col justify-center relative overflow-hidden"
     >
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-accent/20 blur-[150px] rounded-full -z-10" />
+      {/* Premium Background Effects */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_var(--tw-gradient-stops))] from-blue-900/20 via-background to-background -z-20" />
+      <div className="absolute inset-0 bg-dot-white opacity-40 -z-10" />
+      <div className="absolute inset-0 bg-background/80 [mask-image:radial-gradient(ellipse_at_center,transparent_10%,black_80%)] -z-10" />
+
+      {/* Floating abstract shapes for extra "wow" - disabled or simplified on small screens for performance */}
+      <motion.div 
+        animate={{ 
+          rotate: 360,
+          scale: [1, 1.1, 1],
+        }}
+        transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+        className="absolute top-1/4 -right-32 w-64 h-64 md:w-96 md:h-96 bg-accent/10 rounded-full blur-[80px] md:blur-[120px] -z-10"
+      />
+      <motion.div 
+        animate={{ 
+          rotate: -360,
+          scale: [1, 1.2, 1],
+        }}
+        transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
+        className="absolute bottom-1/4 -left-32 w-64 h-64 md:w-96 md:h-96 bg-purple-500/10 rounded-full blur-[80px] md:blur-[120px] -z-10"
+      />
 
       <motion.div
-        style={{ x: nameX, y: nameY }}
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
-        className="text-center z-20 relative group w-full px-6 flex flex-col items-center"
+        style={{ y, opacity, scale }}
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
+        className="max-w-[1400px] mx-auto px-[clamp(1.5rem,4vw,4rem)] w-full relative z-10 pt-20 md:pt-0"
       >
-        <div className="relative inline-block">
-          <h1 className={cn(
-            "text-[12vw] md:text-[8vw] xl:text-[9rem] font-bold tracking-tighter leading-[1.1] lowercase gradient-text pb-4",
-            "transition-all duration-700 select-none group-hover:animate-glitch relative z-10"
-          )}
-          >
-            {profile.name}
-          </h1>
-
-          {/* Glitch Layers */}
-          <span className="absolute top-0 left-0 w-full h-full text-[12vw] md:text-[8vw] xl:text-[9rem] font-bold tracking-tighter leading-[1.1] lowercase text-accent opacity-0 group-hover:opacity-100 group-hover:translate-x-[3px] pointer-events-none transition-opacity duration-100 mix-blend-screen pb-4">
-            {profile.name}
+        <motion.div variants={itemVariants} className="flex items-center gap-4 mb-6 md:mb-10">
+          <span className="text-[0.6rem] md:text-[0.7rem] uppercase tracking-[0.35em] text-muted-foreground">
+            Software Engineer & Designer
           </span>
-          <span className="absolute top-0 left-0 w-full h-full text-[12vw] md:text-[8vw] xl:text-[9rem] font-bold tracking-tighter leading-[1.1] lowercase text-blue-500 opacity-0 group-hover:opacity-100 group-hover:-translate-x-[3px] pointer-events-none transition-opacity duration-100 mix-blend-screen pb-4">
-            {profile.name}
-          </span>
+          <div className="flex items-center gap-2 px-3 py-1 rounded-full border border-accent/20 bg-accent/5 backdrop-blur-sm">
+            <span className="relative flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-500 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+            </span>
+            <span className="text-[0.55rem] md:text-[0.6rem] uppercase tracking-[0.2em] text-green-500 font-semibold">
+              Available
+            </span>
+          </div>
+        </motion.div>
 
-          <div className="absolute -inset-x-2 -inset-y-2 bg-gradient-to-r from-accent to-primary blur-3xl opacity-0 group-hover:opacity-20 transition-opacity duration-1000" />
-        </div>
-      </motion.div>
-
-      <motion.div
-        style={{ x: roleX, y: roleY }}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.5, duration: 1 }}
-        className="mt-12 text-center z-10 max-w-3xl px-4 flex flex-col items-center"
-      >
-        <h2 className="text-2xl md:text-3xl lg:text-4xl font-display font-medium secondary-gradient-text tracking-tight lowercase">
-          {profile.headline}
-        </h2>
-        <p className="mt-6 text-neutral-400 text-lg md:text-xl font-light tracking-wide max-w-xl mx-auto leading-relaxed">
-          {profile.subHeadline}
-        </p>
+        <h1 className="text-[clamp(2.5rem,15vw,14rem)] font-black tracking-[-0.06em] leading-[0.8] md:leading-[0.78]">
+          <motion.span variants={itemVariants} className="block text-transparent bg-clip-text bg-gradient-to-r from-foreground to-foreground/70">
+            {profile.name.split(" ")[0].toUpperCase()}
+          </motion.span>
+          <motion.span variants={itemVariants} className="block text-transparent bg-clip-text bg-gradient-to-r from-foreground/90 to-foreground/40">
+            {profile.name.split(" ")[1].toUpperCase()}
+          </motion.span>
+        </h1>
 
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1, duration: 0.8 }}
-          className="mt-12 flex gap-4"
+          variants={itemVariants}
+          className="flex flex-col md:grid md:grid-cols-[auto_1fr] gap-8 md:gap-16 mt-12 md:mt-20 items-start md:items-end"
         >
-          <a href="#projects" className="px-8 py-3 rounded-full bg-white text-black font-medium hover:scale-105 transition-transform">
-            View Work
-          </a>
-          <a href="#about" className="px-8 py-3 rounded-full border border-white/10 glass hover:bg-white/10 transition-colors">
-            About Me
-          </a>
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6 w-full md:w-auto">
+            <a href="#contact" className="cta-pill group relative overflow-hidden w-full sm:w-auto text-center justify-center">
+              <span className="relative z-10 flex items-center gap-2">
+                Work with me 
+                <motion.span className="inline-block transition-transform group-hover:translate-x-1">→</motion.span>
+              </span>
+            </a>
+            <a href="#work" className="text-xs md:text-sm font-medium uppercase tracking-[0.15em] text-muted-foreground hover:text-foreground transition-colors relative after:absolute after:bottom-0 after:left-0 after:w-full after:h-px after:bg-foreground after:scale-x-0 hover:after:scale-x-100 after:transition-transform after:origin-left">
+              View Projects
+            </a>
+          </div>
+          <p className="text-[clamp(0.9rem,1.5vw,1.35rem)] text-muted-foreground font-normal leading-relaxed max-w-2xl">
+            {profile.subHeadline}
+          </p>
         </motion.div>
       </motion.div>
 
+      {/* Scroll hint */}
       <motion.div
-        animate={{ y: [0, 10, 0] }}
-        transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute bottom-10 left-1/2 -translate-x-1/2 opacity-30"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 2, duration: 1 }}
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
       >
-        <div className="w-1 h-12 rounded-full bg-gradient-to-b from-white to-transparent" />
+        <span className="text-[0.65rem] uppercase tracking-[0.3em] text-muted-foreground">
+          Scroll
+        </span>
+        <motion.div 
+          animate={{ y: [0, 8, 0] }} 
+          transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+          className="w-px h-12 bg-gradient-to-b from-muted-foreground/50 to-transparent"
+        />
       </motion.div>
-    </div>
+    </section>
   );
 };
-

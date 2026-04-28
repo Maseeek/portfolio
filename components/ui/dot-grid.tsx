@@ -12,13 +12,13 @@ interface DotGridProps {
 }
 
 export const DotGrid = ({
-    dotSize = 3,
-    gap = 25,
-    baseColor = "rgba(255, 255, 255, 0.05)",
-    activeColor = "rgba(139, 92, 246, 0.4)",
-    shockRadius = 150,
-    shockStrength = 1.5,
-    returnDuration = 0.9,
+    dotSize = 2,
+    gap = 40,
+    baseColor = "rgba(255, 255, 255, 0.03)",
+    activeColor = "rgba(168, 85, 247, 0.2)",
+    shockRadius = 200,
+    shockStrength = 2,
+    returnDuration = 1.2,
 }: DotGridProps) => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
 
