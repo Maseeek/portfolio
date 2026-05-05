@@ -10,7 +10,7 @@ export const Hero = ({ profile }: { profile: ResumeData["profile"] }) => {
     offset: ["start start", "end start"],
   });
 
-  const y = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
+  const y = useTransform(scrollYProgress, [0, 1], ["0%", "-20%"]);
   const opacity = useTransform(scrollYProgress, [0, 1], [1, 0]);
   const scale = useTransform(scrollYProgress, [0, 1], [1, 0.9]);
 
@@ -27,14 +27,14 @@ export const Hero = ({ profile }: { profile: ResumeData["profile"] }) => {
     visible: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.9, ease: [0.16, 1, 0.3, 1] },
+      transition: { duration: 0.9, ease: [0.16, 1, 0.3, 1] as const },
     },
   };
 
   return (
     <section 
       ref={containerRef}
-      className="min-h-screen flex flex-col justify-center relative overflow-hidden"
+      className="min-h-[85vh] flex flex-col justify-center relative overflow-hidden"
     >
       {/* Premium Background Effects */}
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_var(--tw-gradient-stops))] from-blue-900/20 via-background to-background -z-20" />

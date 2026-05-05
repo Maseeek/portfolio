@@ -56,6 +56,7 @@ export const resumeData = {
       description: "A high-performance enterprise productivity platform with role-based dashboards (RBAC). Features real-time analytics using Recharts for productivity prediction and team satisfaction tracking. Built with a premium atomic component architecture and secure JWT authentication.",
       size: "large",
       image: "/images/make-it-all.png",
+      gallery: [],
     },
     {
       title: "Python Basketball Analysis",
@@ -81,6 +82,7 @@ export const resumeData = {
       description: "AI-powered platform that rewrites song lyrics to fit any mood while preserving rhythm. Built in 24 hours.",
       size: "medium",
       image: "/images/lyricforge.png",
+      gallery: [],
     },
     {
       title: "Embedded Payroll System",

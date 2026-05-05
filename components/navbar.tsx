@@ -1,3 +1,5 @@
+"use client";
+
 import { motion, AnimatePresence } from "framer-motion";
 import { resumeData } from "@/app/data/resume";
 import { Github, Linkedin, Menu, X } from "lucide-react";
@@ -18,7 +20,7 @@ export const Navbar = () => {
       <motion.nav
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] as const }}
         className="fixed top-0 left-0 right-0 z-[60] py-6 md:py-8 backdrop-blur-sm bg-background/50"
       >
         <div className="max-w-[1400px] mx-auto px-[clamp(1.5rem,4vw,4rem)] flex justify-between items-center">
