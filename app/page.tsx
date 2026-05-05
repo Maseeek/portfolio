@@ -18,7 +18,7 @@ export default function Home() {
       <LiveIconsBar />
 
       {/* About Section */}
-      <section id="about" className="py-20 md:py-32">
+      <section id="about" className="pt-8 pb-12 md:pt-12 md:pb-16">
         <div className="max-w-[1400px] mx-auto px-[clamp(1.5rem,4vw,4rem)]">
           <div className="section-header">
             <span className="section-label">About</span>
@@ -27,15 +27,15 @@ export default function Home() {
 
           <div className="grid grid-cols-1 md:grid-cols-[1fr_1.5fr] gap-12 md:gap-24">
             <ScrollReveal>
-              <div className="w-full aspect-[3/4] md:aspect-auto md:h-full rounded-lg overflow-hidden relative group border border-border hover:border-accent/50 transition-all duration-700 hover:scale-[1.02] shadow-2xl">
+              <div className="w-full h-auto rounded-lg overflow-hidden relative group border border-border hover:border-accent/50 transition-all duration-700 hover:scale-[1.02] shadow-2xl bg-card/20">
                 <Image
                   src="/images/maseeek-cool.jpg"
                   alt="Maciek Geneja"
-                  fill
+                  width={800}
+                  height={1200}
                   priority
-                  className="object-cover grayscale-[0.8] group-hover:grayscale-0 transition-all duration-700"
+                  className="w-full h-auto object-contain grayscale-0 transition-all duration-700"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent opacity-60 group-hover:opacity-20 transition-opacity duration-500" />
               </div>
             </ScrollReveal>
 
@@ -59,7 +59,7 @@ export default function Home() {
       </section>
 
       {/* Projects Section — Bento Grid */}
-      <section id="work" className="py-20 md:py-32">
+      <section id="work" className="pt-12 pb-32 md:pt-16 md:pb-48">
         <div className="max-w-[1400px] mx-auto px-[clamp(1.5rem,4vw,4rem)]">
           <div className="section-header">
             <span className="section-label">Selected Work</span>
@@ -79,7 +79,7 @@ export default function Home() {
 
 
       {/* Experience Section */}
-      <section id="experience" className="py-20 md:py-32">
+      <section id="experience" className="pt-20 pb-16 md:pt-24 md:pb-20">
         <div className="max-w-[1400px] mx-auto px-[clamp(1.5rem,4vw,4rem)]">
           <div className="section-header">
             <span className="section-label">Experience</span>

@@ -68,7 +68,7 @@ export const SkillsSection = () => {
   }, []);
 
   return (
-    <section id="skills" className="py-32 relative overflow-hidden">
+    <section id="skills" className="pt-24 pb-16 md:pt-32 md:pb-20 relative overflow-hidden">
       {/* Premium Background elements */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-accent/10 via-transparent to-transparent -z-10" />
       <div className="absolute inset-0 bg-grid-white/[0.02] -z-10" />
@@ -119,8 +119,8 @@ export const SkillsSection = () => {
                         <div key={i} className="space-y-3">
                           <div className="flex justify-between items-center">
                             <div className="flex items-center gap-2">
-                              <cat.icon className="w-4 h-4 text-white/40" />
-                              <span className="text-[11px] font-bold uppercase tracking-widest text-white/60">{cat.title}</span>
+                              <cat.icon className="w-4 h-4 text-white/50" />
+                              <span className="text-[11px] font-bold uppercase tracking-widest text-white/70">{cat.title}</span>
                             </div>
                             <span className="text-[11px] font-mono text-accent">{cat.level}%</span>
                           </div>
@@ -128,7 +128,7 @@ export const SkillsSection = () => {
                             <motion.div
                               initial={{ width: 0 }}
                               whileInView={{ width: `${cat.level}%` }}
-                              transition={{ duration: 2, delay: i * 0.1, ease: [0.16, 1, 0.3, 1] }}
+                              transition={{ duration: 2, delay: i * 0.1, ease: [0.16, 1, 0.3, 1] as const }}
                               className={`h-full bg-gradient-to-r ${cat.color} rounded-full relative ${cat.glow}`}
                             >
                               <div className="absolute inset-0 bg-[linear-gradient(90deg,transparent_0%,rgba(255,255,255,0.4)_50%,transparent_100%)] animate-shimmer" />
@@ -150,7 +150,7 @@ export const SkillsSection = () => {
                             initial={{ opacity: 0, x: -5 }}
                             animate={{ opacity: 1, x: 0 }}
                             key={idx} 
-                            className="flex items-center gap-3 text-white/40"
+                            className="flex items-center gap-3 text-white/60"
                           >
                             <span className="text-accent/50 opacity-50">&gt;</span>
                             <span>{log}</span>
@@ -184,7 +184,7 @@ export const SkillsSection = () => {
                     {category.skills.map((skill, sIdx) => (
                       <span 
                         key={sIdx}
-                        className="px-4 py-1.5 text-[12px] font-medium border border-white/5 rounded-xl bg-black/20 text-white/40 group-hover:border-accent/20 group-hover:text-white/90 transition-all duration-300 hover:bg-accent/5"
+                        className="px-4 py-1.5 text-[12px] font-medium border border-white/5 rounded-xl bg-black/20 text-white/70 group-hover:border-accent/20 group-hover:text-white/90 transition-all duration-300 hover:bg-accent/5"
                       >
                         {skill}
                       </span>

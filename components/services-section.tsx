@@ -21,7 +21,7 @@ const services = [
 
 export const ServicesSection = () => {
   return (
-    <section id="services" className="py-32">
+    <section id="services" className="pt-24 pb-16 md:pt-32 md:pb-20">
       <div className="max-w-[1400px] mx-auto px-[clamp(1.5rem,4vw,4rem)]">
         <div className="section-header">
           <span className="section-label">Services</span>

@@ -45,9 +45,9 @@ export const LiveIconsBar = () => {
   const duplicatedStack = [...techStack, ...techStack];
 
   return (
-    <div className="relative w-full py-12 border-y border-white/5 bg-black/20 backdrop-blur-md overflow-hidden group">
+    <div className="relative w-full py-8 md:py-12 border-y border-white/5 bg-black/20 backdrop-blur-md overflow-hidden group my-0">
       {/* Dynamic Status Indicator */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 px-4 py-1.5 bg-[#080808] border border-white/10 rounded-full flex items-center gap-3 shadow-[0_0_20px_rgba(59,130,246,0.15)]">
+      <div className="absolute top-4 left-1/2 -translate-x-1/2 z-20 px-4 py-1.5 bg-[#080808] border border-white/10 rounded-full flex items-center gap-3 shadow-[0_0_20px_rgba(59,130,246,0.15)]">
         <div className="relative flex h-2 w-2">
           <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75"></span>
           <span className="relative inline-flex rounded-full h-2 w-2 bg-accent"></span>
@@ -65,12 +65,12 @@ export const LiveIconsBar = () => {
               className="flex items-center gap-4 group/icon"
             >
               <div className="relative">
-                <tech.icon className={`text-2xl md:text-4xl ${tech.color} opacity-25 group-hover/icon:opacity-100 group-hover/icon:scale-110 transition-all duration-500`} />
+                <tech.icon className={`text-2xl md:text-4xl ${tech.color} opacity-70 group-hover/icon:opacity-100 group-hover/icon:scale-110 transition-all duration-500`} />
                 {/* Subtle glow on hover */}
-                <div className={`absolute inset-0 blur-xl opacity-0 group-hover/icon:opacity-30 transition-opacity duration-500 ${tech.color} bg-current`} />
+                <div className={`absolute inset-0 blur-xl opacity-0 group-hover/icon:opacity-40 transition-opacity duration-500 ${tech.color} bg-current`} />
               </div>
               <div className="flex flex-col">
-                <span className="text-xs md:text-sm font-bold tracking-widest uppercase text-white/20 group-hover/icon:text-white/80 transition-colors duration-500">
+                <span className="text-xs md:text-sm font-bold tracking-widest uppercase text-white/70 group-hover/icon:text-white/90 transition-colors duration-500">
                   {tech.name}
                 </span>
                 <div className="h-[1px] w-0 group-hover/icon:w-full bg-accent/50 transition-all duration-500" />
