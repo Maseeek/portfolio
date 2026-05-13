@@ -18,22 +18,55 @@
 }
 
 :root {
-  --background: #080808;
-  --foreground: #f5f5f5;
+  --background: #050505;
+  --foreground: #f8f8f8;
 
-  --card: rgba(255, 255, 255, 0.03);
-  --card-foreground: #f5f5f5;
+  --card: rgba(255, 255, 255, 0.02);
+  --card-foreground: #f8f8f8;
 
   --primary: #3b82f6;
   --primary-foreground: #ffffff;
 
-  --muted: #1a1a1a;
-  --muted-foreground: #666666;
+  --muted: #0d0d0d;
+  --muted-foreground: #888888;
 
   --accent: #3b82f6;
+  --accent-rgb: 59, 130, 246;
   --accent-foreground: #ffffff;
 
-  --border: rgba(255, 255, 255, 0.08);
+  --border: rgba(255, 255, 255, 0.05);
+  
+  --glass: rgba(255, 255, 255, 0.02);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-blur: 12px;
+}
+
+/* ─── Grain Overlay ─── */
+.grain::before {
+  content: "";
+  position: fixed;
+  top: -150%;
+  left: -150%;
+  width: 300%;
+  height: 300%;
+  background-image: url("https://grainy-gradients.vercel.app/noise.svg");
+  opacity: 0.04;
+  pointer-events: none;
+  z-index: 9999;
+  animation: grain 8s steps(10) infinite;
+}
+
+@keyframes grain {
+  0%, 100% { transform: translate(0, 0); }
+  10% { transform: translate(-5%, -10%); }
+  20% { transform: translate(-15%, 5%); }
+  30% { transform: translate(7%, -25%); }
+  40% { transform: translate(-5%, 25%); }
+  50% { transform: translate(-15%, 10%); }
+  60% { transform: translate(15%, 0%); }
+  70% { transform: translate(0%, 15%); }
+  80% { transform: translate(3%, 35%); }
+  90% { transform: translate(-10%, 10%); }
 }
 
 @layer base {
@@ -45,6 +78,24 @@
     @apply bg-background text-foreground;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* ─── Custom Scrollbar ─── */
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: var(--background);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: var(--border);
+    border-radius: 10px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--muted-foreground);
   }
 
   ::selection {
@@ -229,3 +280,17 @@ html {
     linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
     linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
 }
+
+.text-glow {
+  text-shadow: 0 0 20px rgba(var(--accent-rgb), 0.3);
+}
+
+.glass {
+  background: var(--glass);
+  backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid var(--glass-border);
+}
+
+.mask-fade-bottom {
+  mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
+}

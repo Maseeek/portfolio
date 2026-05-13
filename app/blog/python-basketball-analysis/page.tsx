@@ -5,7 +5,7 @@ export default function PythonBballAnalysisBlog() {
   return (
     <div className="min-h-screen bg-background text-foreground py-24 px-6 sm:px-12 font-sans selection:bg-accent/30">
       <div className="max-w-4xl mx-auto space-y-12">
-        <Link href="/" className="inline-flex items-center text-sm font-medium text-muted-foreground hover:text-accent transition-colors">
+        <Link href="/" className="inline-flex items-center text-sm font-bold text-foreground/60 hover:text-accent transition-colors">
           <ArrowLeft className="w-4 h-4 mr-2" />
           Back to Portfolio
         </Link>

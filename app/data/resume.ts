@@ -44,9 +44,10 @@ export const resumeData = {
     {
       title: "Nothing But Net",
       url: "/blog/nothing-but-net",
-      stack: ["Python", "React", "Node.js", "OpenCV", "MongoDB"],
-      description: "A full-stack basketball shot analyzer. Uses Hough Circle Transform for ball tracking and polynomial regression to predict shot success and calculate release angle with >90% precision. Features a real-time dashboard and historical analysis.",
+      stack: ["React 19", "Vite 6", "Framer Motion", "OpenCV", "Python", "Node.js", "Stripe"],
+      description: "A premium AI-powered basketball analytics studio and performance platform. Features automated FGM/FGA tracking via OpenCV, precision trajectory mapping, and a 'Liquid Glass' dashboard.",
       size: "large", // 2x2
+      color: "#FF6B6B", // Coral Red
       image: "/images/nbn-home.png",
       gallery: ["/images/nbn-dash.png", "/images/nbn-upload.png"],
     },
@@ -54,17 +55,19 @@ export const resumeData = {
       title: "LED Remote Control & Sync",
       url: "/blog/led-remote-control",
       stack: ["Python", "Flask", "BLE", "Computer Vision", "SQLite"],
-      description: "A full-stack application that syncs Bluetooth Low Energy (BLE) LED light strips with Spotify playback. Features async BLE workers and a computer vision fallback for seamless automated processing. The first step towards a Jarvis-style assistant.",
-      size: "large",
-      image: "/images/led-remote.png", // Placeholder image, but layout will handle if missing
+      description: "A full-stack application that syncs BLE LED light strips with Spotify playback. Features async BLE workers and a computer vision fallback.",
+      size: "tall", // 1x2
+      color: "#4ECDC4", // Teal
+      image: "/images/led-remote.png",
       gallery: [],
     },
     {
       title: "Make-It-All",
       url: "/blog/make-it-all",
       stack: ["Next.js", "TypeScript", "Tailwind", "MySQL", "Docker", "GCP", "Recharts"],
-      description: "A high-performance enterprise productivity platform with role-based dashboards (RBAC). Features real-time analytics using Recharts for productivity prediction and team satisfaction tracking. Built with a premium atomic component architecture and secure JWT authentication.",
-      size: "large",
+      description: "A high-performance enterprise productivity platform with role-based dashboards and real-time productivity analytics.",
+      size: "wide", // 2x1
+      color: "#45B7D1", // Sky Blue
       image: "/images/make-it-all.png",
       gallery: [],
     },
@@ -72,8 +75,9 @@ export const resumeData = {
       title: "Python Basketball Analysis",
       url: "/blog/python-basketball-analysis",
       stack: ["Python", "OpenCV", "NumPy", "Computer Vision"],
-      description: "A computer vision based app using OpenCV which using polynomial regression can calculate the predicted trajectory of a basketball shot, allowing us to predict whether it is a make or miss and allows us to calculate the release angle.",
-      size: "medium",
+      description: "Using polynomial regression to calculate predicted trajectory and release angles for basketball shots.",
+      size: "medium", // 1x1
+      color: "#F7B731", // Amber
       image: "/images/nbn-trajectory.png",
       gallery: ["/images/nbn-hud.png"],
     },
@@ -82,7 +86,8 @@ export const resumeData = {
       url: "/blog/chois-cutting-lounge",
       stack: ["Next.js", "Vercel", "Tailwind"],
       description: "Production website for a local business, improving client booking visibility and brand presence.",
-      size: "medium", // 1x1 or 1x2
+      size: "medium", // 1x1
+      color: "#A55EEA", // Purple
       image: "/images/chois.png",
       gallery: ["/images/chois-more.png"],
     },
@@ -91,8 +96,9 @@ export const resumeData = {
       url: "/blog/lyricforge",
       event: "HackNotts 2025",
       stack: ["Python", "Flask", "Gemini API", "ElevenLabs API"],
-      description: "AI-powered platform that rewrites song lyrics to fit any mood while preserving rhythm. Built in 24 hours.",
-      size: "medium",
+      description: "AI-powered platform that rewrites song lyrics to fit any mood while preserving rhythm.",
+      size: "medium", // 1x1
+      color: "#20BF6B", // Emerald
       image: "/images/lyricforge.png",
       gallery: [],
     },
@@ -100,8 +106,9 @@ export const resumeData = {
       title: "Embedded Payroll System",
       url: "/blog/embedded-payroll-system",
       stack: ["C++", "Arduino"],
-      description: "Designed a Finite State Machine (FSM) for memory-constrained hardware with custom serial communication protocols.",
-      size: "small",
+      description: "Finite State Machine (FSM) for memory-constrained hardware with custom serial protocols.",
+      size: "medium", // 1x1
+      color: "#EB3B5A", // Rose
       image: "/images/embedded-payroll.png",
       gallery: ["/images/arduino-stock.png"],
     },

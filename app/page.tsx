@@ -7,6 +7,7 @@ import { ServicesSection } from "@/components/services-section";
 import { ScrollReveal } from "@/components/scroll-reveal";
 import { LiveIconsBar } from "@/components/live-icons-bar";
 import { SkillsSection } from "@/components/skills-section";
+import Magnetic from "@/components/ui/magnetic";
 
 export default function Home() {
   return (
@@ -58,15 +59,17 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Projects Section — Bento Grid */}
-      <section id="work" className="pt-12 pb-32 md:pt-16 md:pb-48">
+      <section id="work" className="relative pt-12 pb-32 md:pt-16 md:pb-40">
+        {/* Section Background Glow */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[60vw] h-[60vw] bg-accent/5 rounded-full blur-[120px] pointer-events-none -z-10" />
+        
         <div className="max-w-[1400px] mx-auto px-[clamp(1.5rem,4vw,4rem)]">
           <div className="section-header">
             <span className="section-label">Selected Work</span>
             <span className="section-label">02</span>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 auto-rows-[minmax(280px,auto)] gap-5">
+          <div className="grid grid-cols-1 md:grid-cols-3 auto-rows-[minmax(180px,auto)] gap-4 md:gap-6">
             {resumeData.projects.map((project, i) => (
               <ProjectBentoCard key={i} project={project} />
             ))}
@@ -105,17 +108,19 @@ export default function Home() {
             </span>
           </div>
           
-          <h2 className="text-[clamp(3rem,15vw,12rem)] font-black tracking-tighter leading-[0.85] mb-12 md:mb-16 text-transparent bg-clip-text bg-gradient-to-b from-foreground to-foreground/50">
+          <h2 className="text-[clamp(4rem,20vw,16rem)] font-black tracking-tighter leading-[0.75] mb-16 md:mb-24 text-transparent bg-clip-text bg-gradient-to-b from-foreground to-foreground/30">
             LET&apos;S
             <br />
-            WORK
+            BUILD.
           </h2>
           
           <div className="group inline-block">
-            <a href={`mailto:${resumeData.profile.links.email}`} className="cta-email text-[clamp(1.5rem,3vw,2.5rem)] font-bold tracking-tight inline-flex items-center gap-4 transition-transform group-hover:scale-105">
-              {resumeData.profile.links.email}
-              <span className="inline-block transition-transform group-hover:translate-x-2 group-hover:-translate-y-2">↗</span>
-            </a>
+            <Magnetic>
+              <a href={`mailto:${resumeData.profile.links.email}`} className="cta-email text-[clamp(1.5rem,3vw,3rem)] font-bold tracking-tight inline-flex items-center gap-4 transition-transform">
+                {resumeData.profile.links.email}
+                <span className="inline-block transition-transform group-hover:translate-x-2 group-hover:-translate-y-2">↗</span>
+              </a>
+            </Magnetic>
           </div>
         </div>
       </section>

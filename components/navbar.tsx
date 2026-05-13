@@ -4,12 +4,14 @@ import { motion, AnimatePresence } from "framer-motion";
 import { resumeData } from "@/app/data/resume";
 import { Github, Linkedin, Menu, X } from "lucide-react";
 import { useState } from "react";
+import Link from "next/link";
+import Magnetic from "./ui/magnetic";
 
 const navItems = [
-  { name: "About", href: "#about" },
-  { name: "Work", href: "#work" },
-  { name: "Experience", href: "#experience" },
-  { name: "Services", href: "#services" },
+  { name: "About", href: "/#about" },
+  { name: "Work", href: "/#work" },
+  { name: "Experience", href: "/#experience" },
+  { name: "Services", href: "/#services" },
 ];
 
 export const Navbar = () => {
@@ -21,26 +23,28 @@ export const Navbar = () => {
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] as const }}
-        className="fixed top-0 left-0 right-0 z-[60] py-6 md:py-8 backdrop-blur-sm bg-background/50"
+        className="fixed top-0 left-0 right-0 z-[60] py-4 md:py-6 glass border-none m-4 md:m-6 rounded-2xl md:rounded-full"
       >
         <div className="max-w-[1400px] mx-auto px-[clamp(1.5rem,4vw,4rem)] flex justify-between items-center">
           <div className="flex items-center gap-12">
-            <a
-              href="#"
-              className="text-[1.1rem] font-bold tracking-[-0.03em] hover:opacity-70 transition-opacity"
-            >
-              MG.
-            </a>
+            <Magnetic>
+              <Link
+                href="/"
+                className="text-[1.2rem] font-black tracking-[-0.05em] hover:opacity-70 transition-opacity"
+              >
+                MG.
+              </Link>
+            </Magnetic>
 
             <div className="hidden lg:flex items-center gap-8">
               {navItems.map((item) => (
-                <a
+                <Link
                   key={item.name}
                   href={item.href}
                   className="text-[0.7rem] uppercase tracking-[0.15em] font-medium text-muted-foreground hover:text-foreground transition-colors"
                 >
                   {item.name}
-                </a>
+                </Link>
               ))}
             </div>
           </div>
@@ -69,9 +73,9 @@ export const Navbar = () => {
               </motion.a>
             </div>
 
-            <a href="#contact" className="hidden sm:inline-flex cta-pill !py-2.5 !px-5 !text-[0.65rem] md:!py-3 md:!px-6 md:!text-[0.7rem]">
+            <Link href="/#contact" className="hidden sm:inline-flex cta-pill !py-2.5 !px-5 !text-[0.65rem] md:!py-3 md:!px-6 md:!text-[0.7rem]">
               Let's Talk
-            </a>
+            </Link>
 
             {/* Mobile Menu Toggle */}
             <button 
@@ -97,17 +101,20 @@ export const Navbar = () => {
           >
             <div className="flex flex-col gap-8">
               {navItems.map((item, i) => (
-                <motion.a
+                <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: i * 0.1 }}
                   key={item.name}
-                  href={item.href}
-                  onClick={() => setIsOpen(false)}
-                  className="text-[3.5rem] font-black tracking-tighter hover:text-accent transition-colors leading-none"
                 >
-                  {item.name}
-                </motion.a>
+                  <Link
+                    href={item.href}
+                    onClick={() => setIsOpen(false)}
+                    className="text-[3.5rem] font-black tracking-tighter hover:text-accent transition-colors leading-none block"
+                  >
+                    {item.name}
+                  </Link>
+                </motion.div>
               ))}
             </div>
 

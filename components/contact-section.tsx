@@ -74,7 +74,7 @@ export const ContactSection = () => {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="text-5xl font-bold tracking-tighter"
+            className="text-6xl md:text-8xl font-black tracking-tighter"
           >
             Let's <span className="text-accent text-glow">Collaborate</span>
           </motion.h2>
@@ -92,7 +92,7 @@ export const ContactSection = () => {
           initial={{ opacity: 0, scale: 0.95 }}
           whileInView={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.5, delay: 0.2 }}
-          className="bg-card/50 backdrop-blur-xl border border-white/10 rounded-3xl p-8 md:p-12 shadow-2xl relative"
+          className="glass rounded-[2rem] p-8 md:p-16 shadow-2xl relative"
         >
           {submitted ? (
             <div className="flex flex-col items-center justify-center py-20 space-y-6 text-center">

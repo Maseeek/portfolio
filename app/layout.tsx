@@ -54,7 +54,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <body
-        className={`${inter.variable} ${outfit.variable} antialiased bg-background text-foreground`}
+        className={`${inter.variable} ${outfit.variable} antialiased bg-background text-foreground grain`}
         style={{ cursor: "none" }}
       >
         <CustomCursor />

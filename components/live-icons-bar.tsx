@@ -45,9 +45,9 @@ export const LiveIconsBar = () => {
   const duplicatedStack = [...techStack, ...techStack];
 
   return (
-    <div className="relative w-full py-8 md:py-12 border-y border-white/5 bg-black/20 backdrop-blur-md overflow-hidden group my-0">
+    <div className="relative w-full py-16 md:py-24 border-y border-white/5 bg-black/20 backdrop-blur-md overflow-hidden group my-24 md:my-40">
       {/* Dynamic Status Indicator */}
-      <div className="absolute top-4 left-1/2 -translate-x-1/2 z-20 px-4 py-1.5 bg-[#080808] border border-white/10 rounded-full flex items-center gap-3 shadow-[0_0_20px_rgba(59,130,246,0.15)]">
+      <div className="absolute top-6 left-1/2 -translate-x-1/2 z-20 px-4 py-1.5 glass rounded-full flex items-center gap-3">
         <div className="relative flex h-2 w-2">
           <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75"></span>
           <span className="relative inline-flex rounded-full h-2 w-2 bg-accent"></span>
@@ -81,8 +81,8 @@ export const LiveIconsBar = () => {
       </div>
 
       {/* Edge Fades - more premium look */}
-      <div className="absolute inset-y-0 left-0 w-48 bg-gradient-to-r from-[#080808] via-[#080808]/80 to-transparent z-10 pointer-events-none" />
-      <div className="absolute inset-y-0 right-0 w-48 bg-gradient-to-l from-[#080808] via-[#080808]/80 to-transparent z-10 pointer-events-none" />
+      <div className="absolute inset-y-0 left-0 w-48 bg-gradient-to-r from-background via-background/80 to-transparent z-10 pointer-events-none" />
+      <div className="absolute inset-y-0 right-0 w-48 bg-gradient-to-l from-background via-background/80 to-transparent z-10 pointer-events-none" />
       
       {/* Background scanning line effect */}
       <div className="absolute inset-0 bg-[linear-gradient(to_right,transparent_0%,rgba(59,130,246,0.03)_50%,transparent_100%)] w-1/2 h-full -translate-x-full animate-[shimmer_10s_infinite_linear] pointer-events-none" />

@@ -1,30 +1,31 @@
 "use client";
-import { useEffect, useRef, ReactNode } from "react";
+import { motion, useInView } from "framer-motion";
+import { useRef, ReactNode } from "react";
 
-export const ScrollReveal = ({ children }: { children: ReactNode }) => {
-  const ref = useRef<HTMLDivElement>(null);
+interface ScrollRevealProps {
+  children: ReactNode;
+  width?: "fit-content" | "100%";
+  delay?: number;
+}
 
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          el.classList.add("visible");
-          observer.unobserve(el);
-        }
-      },
-      { threshold: 0.1 }
-    );
-
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, []);
+export const ScrollReveal = ({ children, width = "100%", delay = 0 }: ScrollRevealProps) => {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
-    <div ref={ref} className="sr">
-      {children}
+    <div ref={ref} style={{ position: "relative", width, overflow: "hidden" }}>
+      <motion.div
+        variants={{
+          hidden: { opacity: 0, y: 75 },
+          visible: { opacity: 1, y: 0 },
+        }}
+        initial="hidden"
+        animate={isInView ? "visible" : "hidden"}
+        transition={{ duration: 0.8, delay, ease: [0.16, 1, 0.3, 1] }}
+      >
+        {children}
+      </motion.div>
     </div>
   );
 };
+

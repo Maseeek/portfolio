@@ -8,7 +8,7 @@ export default function LedRemoteControlBlog() {
         {/* Navigation */}
         <Link 
           href="/"
-          className="inline-flex items-center text-sm font-medium text-muted-foreground hover:text-accent transition-colors"
+          className="inline-flex items-center text-sm font-bold text-foreground/60 hover:text-accent transition-colors"
         >
           <ArrowLeft className="w-4 h-4 mr-2" />
           Back to Portfolio
