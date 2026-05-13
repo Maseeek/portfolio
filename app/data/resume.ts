@@ -43,7 +43,7 @@ export const resumeData = {
   projects: [
     {
       title: "Nothing But Net",
-      url: "https://nothingbutnet.online",
+      url: "/blog/nothing-but-net",
       stack: ["Python", "React", "Node.js", "OpenCV", "MongoDB"],
       description: "A full-stack basketball shot analyzer. Uses Hough Circle Transform for ball tracking and polynomial regression to predict shot success and calculate release angle with >90% precision. Features a real-time dashboard and historical analysis.",
       size: "large", // 2x2
@@ -61,6 +61,7 @@ export const resumeData = {
     },
     {
       title: "Make-It-All",
+      url: "/blog/make-it-all",
       stack: ["Next.js", "TypeScript", "Tailwind", "MySQL", "Docker", "GCP", "Recharts"],
       description: "A high-performance enterprise productivity platform with role-based dashboards (RBAC). Features real-time analytics using Recharts for productivity prediction and team satisfaction tracking. Built with a premium atomic component architecture and secure JWT authentication.",
       size: "large",
@@ -69,6 +70,7 @@ export const resumeData = {
     },
     {
       title: "Python Basketball Analysis",
+      url: "/blog/python-basketball-analysis",
       stack: ["Python", "OpenCV", "NumPy", "Computer Vision"],
       description: "A computer vision based app using OpenCV which using polynomial regression can calculate the predicted trajectory of a basketball shot, allowing us to predict whether it is a make or miss and allows us to calculate the release angle.",
       size: "medium",
@@ -77,7 +79,7 @@ export const resumeData = {
     },
     {
       title: "Choi's Cutting Lounge",
-      url: "https://chois-cutting-lounge.vercel.app/contact",
+      url: "/blog/chois-cutting-lounge",
       stack: ["Next.js", "Vercel", "Tailwind"],
       description: "Production website for a local business, improving client booking visibility and brand presence.",
       size: "medium", // 1x1 or 1x2
@@ -86,6 +88,7 @@ export const resumeData = {
     },
     {
       title: "LyricForge",
+      url: "/blog/lyricforge",
       event: "HackNotts 2025",
       stack: ["Python", "Flask", "Gemini API", "ElevenLabs API"],
       description: "AI-powered platform that rewrites song lyrics to fit any mood while preserving rhythm. Built in 24 hours.",
@@ -95,6 +98,7 @@ export const resumeData = {
     },
     {
       title: "Embedded Payroll System",
+      url: "/blog/embedded-payroll-system",
       stack: ["C++", "Arduino"],
       description: "Designed a Finite State Machine (FSM) for memory-constrained hardware with custom serial communication protocols.",
       size: "small",
