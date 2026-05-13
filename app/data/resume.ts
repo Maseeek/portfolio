@@ -51,6 +51,15 @@ export const resumeData = {
       gallery: ["/images/nbn-dash.png", "/images/nbn-upload.png"],
     },
     {
+      title: "LED Remote Control & Sync",
+      url: "/blog/led-remote-control",
+      stack: ["Python", "Flask", "BLE", "Computer Vision", "SQLite"],
+      description: "A full-stack application that syncs Bluetooth Low Energy (BLE) LED light strips with Spotify playback. Features async BLE workers and a computer vision fallback for seamless automated processing. The first step towards a Jarvis-style assistant.",
+      size: "large",
+      image: "/images/led-remote.png", // Placeholder image, but layout will handle if missing
+      gallery: [],
+    },
+    {
       title: "Make-It-All",
       stack: ["Next.js", "TypeScript", "Tailwind", "MySQL", "Docker", "GCP", "Recharts"],
       description: "A high-performance enterprise productivity platform with role-based dashboards (RBAC). Features real-time analytics using Recharts for productivity prediction and team satisfaction tracking. Built with a premium atomic component architecture and secure JWT authentication.",
