@@ -3,23 +3,23 @@
 import { useRef } from "react";
 import { 
   SiPython, SiTypescript, SiNextdotjs, SiReact, 
-  SiTailwindcss, SiMysql, SiGooglecloud, SiTensorflow,
-  SiDocker, SiMongodb, SiCplusplus, SiPytorch
+  SiTailwindcss, SiPostgresql, SiMysql, SiDocker, 
+  SiMongodb, SiCplusplus, SiPytorch, SiPhp
 } from "react-icons/si";
 
 const techStack = [
   { icon: SiPython, name: "Python", color: "text-[#3776AB]" },
   { icon: SiTypescript, name: "TypeScript", color: "text-[#3178C6]" },
   { icon: SiNextdotjs, name: "Next.js", color: "text-foreground" },
-  { icon: SiReact, name: "React", color: "text-[#61DAFB]" },
-  { icon: SiTailwindcss, name: "Tailwind", color: "text-[#06B6D4]" },
+  { icon: SiReact, name: "React 19", color: "text-[#61DAFB]" },
+  { icon: SiPostgresql, name: "PostgreSQL RLS", color: "text-[#4169E1]" },
   { icon: SiMysql, name: "MySQL", color: "text-[#4479A1]" },
-  { icon: SiGooglecloud, name: "GCP", color: "text-[#4285F4]" },
-  { icon: SiTensorflow, name: "TensorFlow", color: "text-[#FF6F00]" },
   { icon: SiDocker, name: "Docker", color: "text-[#2496ED]" },
-  { icon: SiMongodb, name: "MongoDB", color: "text-[#47A248]" },
-  { icon: SiCplusplus, name: "C++", color: "text-[#00599C]" },
   { icon: SiPytorch, name: "PyTorch", color: "text-[#EE4C2C]" },
+  { icon: SiCplusplus, name: "C++", color: "text-[#00599C]" },
+  { icon: SiTailwindcss, name: "Tailwind", color: "text-[#06B6D4]" },
+  { icon: SiMongodb, name: "MongoDB", color: "text-[#47A248]" },
+  { icon: SiPhp, name: "PHP", color: "text-[#777BB4]" },
 ];
 
 export const LiveIconsBar = () => {
@@ -62,4 +62,3 @@ export const LiveIconsBar = () => {
     </div>
   );
 };
-

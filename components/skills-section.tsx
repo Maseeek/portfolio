@@ -13,31 +13,31 @@ const skillCategories = [
   {
     title: "Core Languages",
     icon: Code2,
-    skills: ["TypeScript", "Python", "C++", "Java", "SQL"],
-    level: 95,
+    skills: ["Python (Advanced)", "C# / .NET", "TypeScript", "Java", "C/C++", "SQL", "PHP"],
+    level: 96,
     color: "from-blue-500 to-cyan-400",
     glow: "shadow-[0_0_15px_rgba(59,130,246,0.3)]"
   },
   {
-    title: "Engineering",
+    title: "Systems, AI & Vision",
     icon: Cpu,
-    skills: ["Predictive Models", "Computer Vision", "FSM", "Docker"],
-    level: 88,
+    skills: ["OpenCV / Vision", "Claude SDK", "PyTorch / TF", "NumPy & Pandas", "FSM (Arduino)", "Polynomial Regression"],
+    level: 92,
     color: "from-purple-500 to-pink-400",
     glow: "shadow-[0_0_15px_rgba(168,85,247,0.3)]"
   },
   {
-    title: "Cloud & Data",
+    title: "Cloud, Security & Data",
     icon: Database,
-    skills: ["GCP", "MySQL", "MongoDB", "Auth / JWT"],
-    level: 92,
+    skills: ["PostgreSQL RLS", "MySQL (Pool/Soft-Delete)", "Docker", "MongoDB", "GDPR Article 9", "GitHub Actions CI/CD"],
+    level: 94,
     color: "from-orange-500 to-amber-400",
     glow: "shadow-[0_0_15px_rgba(249,115,22,0.3)]"
   },
   {
-    title: "Frontend Architecture",
+    title: "Enterprise & Full-Stack",
     icon: Globe,
-    skills: ["Next.js", "React", "Tailwind", "Framer Motion"],
+    skills: ["Blazor WASM", "Next.js & React 19", "Node.js & Express", "Flask", "Vitest & Playwright", "Tailwind CSS"],
     level: 98,
     color: "from-emerald-500 to-teal-400",
     glow: "shadow-[0_0_15px_rgba(16,185,129,0.3)]"
@@ -46,20 +46,23 @@ const skillCategories = [
 
 const LiveActivityTerminal = memo(function LiveActivityTerminal() {
   const [activeLog, setActiveLog] = useState<string[]>([
-    "Optimizing React tree...",
-    "Syncing with Google Cloud...",
-    "Refining CV algorithms..."
+    "Asserting PostgreSQL RLS tenant boundaries...",
+    "Compiling Blazor WASM microservice...",
+    "Computing 28-day rolling z-score baselines..."
   ]);
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const logs = [
-      "Optimizing React tree...",
-      "Syncing with Google Cloud...",
-      "Refining CV algorithms...",
-      "Updating JWT protocols...",
-      "Scaling MySQL instances...",
-      "Deploying Vercel edge..."
+      "Asserting PostgreSQL RLS tenant boundaries...",
+      "Compiling Blazor WASM microservices...",
+      "Executing dynamic ROI tracking in OpenCV...",
+      "Applying GDPR Article 9 payload masking...",
+      "Evaluating 28-day rolling z-score readiness...",
+      "Validating Claude AI legal regex firewall...",
+      "Optimizing MySQL connection pooling...",
+      "Running Vitest & Playwright isolation suites...",
+      "Deploying Next.js edge microservices..."
     ];
 
     let interval: NodeJS.Timeout | null = null;
@@ -69,7 +72,7 @@ const LiveActivityTerminal = memo(function LiveActivityTerminal() {
       if (!interval && isIntersecting && !document.hidden) {
         interval = setInterval(() => {
           setActiveLog((prev) => [logs[Math.floor(Math.random() * logs.length)], ...prev].slice(0, 3));
-        }, 5000);
+        }, 4000);
       }
     };
 
