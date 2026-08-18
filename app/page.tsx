@@ -7,7 +7,8 @@ import { ServicesSection } from "@/components/services-section";
 import { ScrollReveal } from "@/components/scroll-reveal";
 import { LiveIconsBar } from "@/components/live-icons-bar";
 import { SkillsSection } from "@/components/skills-section";
-import Magnetic from "@/components/ui/magnetic";
+import { ContactCTA } from "@/components/contact-cta";
+import { Award, Briefcase, Zap, Layers } from "lucide-react";
 
 export default function Home() {
   return (
@@ -19,51 +20,102 @@ export default function Home() {
       <LiveIconsBar />
 
       {/* About Section */}
-      <section id="about" className="pt-8 pb-12 md:pt-12 md:pb-16">
-        <div className="max-w-[1400px] mx-auto px-[clamp(1.5rem,4vw,4rem)]">
+      <section id="about" className="py-16 md:py-24 lg:py-28">
+        <div className="max-w-[1400px] mx-auto px-[clamp(1.25rem,4vw,3.5rem)]">
           <div className="section-header">
             <span className="section-label">About</span>
             <span className="section-label">01</span>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-[1fr_1.5fr] gap-12 md:gap-24">
+          <div className="grid grid-cols-1 md:grid-cols-[1fr_1.4fr] gap-8 md:gap-14 lg:gap-20 items-center">
             <ScrollReveal>
-              <div className="w-full h-auto rounded-lg overflow-hidden relative group border border-border hover:border-accent/50 transition-all duration-700 hover:scale-[1.02] shadow-2xl bg-card/20">
+              <div className="w-full aspect-[2/3] max-w-[480px] mx-auto rounded-2xl overflow-hidden relative group border border-white/10 hover:border-accent/50 transition-all duration-700 hover:scale-[1.01] shadow-2xl bg-card/30">
                 <Image
                   src="/images/maseeek-cool.jpg"
                   alt="Maciek Geneja"
                   width={800}
                   height={1200}
                   priority
-                  className="w-full h-auto object-contain grayscale-0 transition-all duration-700"
+                  quality={85}
+                  sizes="(max-width: 768px) 100vw, 40vw"
+                  className="w-full h-full object-cover grayscale-0 transition-all duration-700"
                 />
+                <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent pointer-events-none" />
+                <div className="absolute bottom-4 left-4 right-4 p-3 rounded-xl bg-black/70 backdrop-blur-md border border-white/10 flex items-center justify-between text-xs">
+                  <span className="font-bold text-white">Maciek Geneja</span>
+                  <span className="text-accent font-mono">CS @ Loughborough</span>
+                </div>
               </div>
             </ScrollReveal>
 
             <ScrollReveal>
-              <div>
-                <h2 className="text-[clamp(2rem,4vw,3.5rem)] font-black tracking-[-0.04em] leading-none mb-8">
-                  I build things
+              <div className="space-y-6">
+                <h2 className="text-[clamp(2rem,4vw,3.5rem)] font-black tracking-[-0.04em] leading-[1.05]">
+                  I build high-performance
                   <br />
-                  that work.
+                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent to-cyan-400">
+                    systems & software.
+                  </span>
                 </h2>
-                <p className="text-muted-foreground text-lg font-light leading-relaxed mb-6">
+                <p className="text-slate-300 text-lg font-light leading-relaxed">
                   {resumeData.about.bio}
                 </p>
-                <span className="text-[0.8rem] uppercase tracking-[0.1em] text-accent">
-                  📍 {resumeData.profile.location}
-                </span>
+                <div className="pt-1">
+                  <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-accent/10 border border-accent/20 text-xs uppercase tracking-widest text-accent font-bold">
+                    📍 {resumeData.profile.location}
+                  </span>
+                </div>
+
+                {/* Key Highlights Grid */}
+                <div className="grid grid-cols-2 sm:grid-cols-2 gap-3 sm:gap-4 pt-3">
+                  <div className="stat-card-gradient p-4 rounded-xl space-y-1">
+                    <div className="flex items-center gap-2 text-accent">
+                      <Award className="w-4 h-4" />
+                      <span className="text-xs font-mono font-bold uppercase tracking-wider">Academics</span>
+                    </div>
+                    <div className="text-sm font-black text-white">1st Class Honours</div>
+                    <p className="text-[11px] text-muted-foreground">Year 1 Loughborough CS</p>
+                  </div>
+
+                  <div className="stat-card-gradient p-4 rounded-xl space-y-1">
+                    <div className="flex items-center gap-2 text-emerald-400">
+                      <Briefcase className="w-4 h-4" />
+                      <span className="text-xs font-mono font-bold uppercase tracking-wider">Placement</span>
+                    </div>
+                    <div className="text-sm font-black text-white">Next PIM Strategy</div>
+                    <p className="text-[11px] text-muted-foreground">AI Attribution & Blazor WASM</p>
+                  </div>
+
+                  <div className="stat-card-gradient p-4 rounded-xl space-y-1">
+                    <div className="flex items-center gap-2 text-cyan-400">
+                      <Zap className="w-4 h-4" />
+                      <span className="text-xs font-mono font-bold uppercase tracking-wider">Web Vitals</span>
+                    </div>
+                    <div className="text-sm font-black text-white">&lt; 450ms LCP</div>
+                    <p className="text-[11px] text-muted-foreground">100/100 Core Web Vitals</p>
+                  </div>
+
+                  <div className="stat-card-gradient p-4 rounded-xl space-y-1">
+                    <div className="flex items-center gap-2 text-purple-400">
+                      <Layers className="w-4 h-4" />
+                      <span className="text-xs font-mono font-bold uppercase tracking-wider">Full-Stack</span>
+                    </div>
+                    <div className="text-sm font-black text-white">Microservices</div>
+                    <p className="text-[11px] text-muted-foreground">.NET, Blazor, React & Cloud</p>
+                  </div>
+                </div>
               </div>
             </ScrollReveal>
           </div>
         </div>
       </section>
 
-      <section id="work" className="relative pt-12 pb-32 md:pt-16 md:pb-40">
-        {/* Section Background Glow */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[60vw] h-[60vw] bg-accent/5 rounded-full blur-[120px] pointer-events-none -z-10" />
+      {/* Selected Work Section */}
+      <section id="work" className="relative py-16 md:py-24 lg:py-28">
+        {/* Section Background Glow - Hardware Composited */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[50vw] h-[50vw] bg-accent/5 rounded-full blur-[80px] pointer-events-none -z-10 will-change-transform transform-gpu" />
         
-        <div className="max-w-[1400px] mx-auto px-[clamp(1.5rem,4vw,4rem)]">
+        <div className="max-w-[1400px] mx-auto px-[clamp(1.25rem,4vw,3.5rem)]">
           <div className="section-header">
             <span className="section-label">Selected Work</span>
             <span className="section-label">02</span>
@@ -80,14 +132,14 @@ export default function Home() {
       {/* Skills & Capabilities Section */}
       <SkillsSection />
 
-
       {/* Experience Section */}
-      <section id="experience" className="pt-20 pb-16 md:pt-24 md:pb-20">
-        <div className="max-w-[1400px] mx-auto px-[clamp(1.5rem,4vw,4rem)]">
+      <section id="experience" className="py-16 md:py-24 lg:py-28">
+        <div className="max-w-[1400px] mx-auto px-[clamp(1.25rem,4vw,3.5rem)]">
           <div className="section-header">
             <span className="section-label">Experience</span>
             <span className="section-label">04</span>
           </div>
+
           <ExperienceTimeline experiences={resumeData.experience} />
         </div>
       </section>
@@ -96,34 +148,7 @@ export default function Home() {
       <ServicesSection />
 
       {/* CTA Section */}
-      <section id="contact" className="relative text-center py-[20vh] overflow-hidden">
-        {/* Abstract background elements */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80vw] h-[80vw] max-w-[800px] max-h-[800px] bg-accent/5 rounded-full blur-[100px] -z-10 pointer-events-none" />
-        
-        <div className="max-w-[1400px] mx-auto px-[clamp(1.5rem,4vw,4rem)] relative z-10">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-accent/10 border border-accent/20 mb-12">
-            <div className="w-2 h-2 rounded-full bg-accent animate-pulse" />
-            <span className="text-[0.7rem] uppercase tracking-[0.2em] text-accent font-semibold">
-              Available for new projects
-            </span>
-          </div>
-          
-          <h2 className="text-[clamp(4rem,20vw,16rem)] font-black tracking-tighter leading-[0.75] mb-16 md:mb-24 text-transparent bg-clip-text bg-gradient-to-b from-foreground to-foreground/30">
-            LET&apos;S
-            <br />
-            BUILD.
-          </h2>
-          
-          <div className="group inline-block">
-            <Magnetic>
-              <a href={`mailto:${resumeData.profile.links.email}`} className="cta-email text-[clamp(1.5rem,3vw,3rem)] font-bold tracking-tight inline-flex items-center gap-4 transition-transform">
-                {resumeData.profile.links.email}
-                <span className="inline-block transition-transform group-hover:translate-x-2 group-hover:-translate-y-2">↗</span>
-              </a>
-            </Magnetic>
-          </div>
-        </div>
-      </section>
+      <ContactCTA profile={resumeData.profile} />
     </div>
   );
 }

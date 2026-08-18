@@ -1,27 +1,30 @@
 import Link from "next/link";
-import { ArrowLeft, Github, ExternalLink } from "lucide-react";
+import { ArrowLeft, ExternalLink, Github, Bluetooth, Music, Monitor, Sparkles, Terminal, Code } from "lucide-react";
 
 export default function LedRemoteControlBlog() {
   return (
-    <div className="min-h-screen bg-background text-foreground py-24 px-6 sm:px-12 font-sans selection:bg-accent/30">
-      <div className="max-w-4xl mx-auto space-y-12">
-        {/* Navigation */}
-        <Link 
-          href="/"
-          className="inline-flex items-center text-sm font-bold text-foreground/60 hover:text-accent transition-colors"
-        >
-          <ArrowLeft className="w-4 h-4 mr-2" />
-          Back to Portfolio
-        </Link>
+    <div className="space-y-12 md:space-y-16 font-sans selection:bg-accent/30">
+      {/* Navigation */}
+      <Link 
+        href="/"
+        className="inline-flex items-center text-sm font-bold text-foreground/60 hover:text-accent transition-colors"
+      >
+        <ArrowLeft className="w-4 h-4 mr-2" />
+        Back to Portfolio
+      </Link>
 
         {/* Header */}
         <header className="space-y-6">
-          <div className="space-y-2">
-            <h1 className="text-4xl md:text-5xl font-black tracking-tight text-white uppercase">
-              Automating the Vibe: LED Remote Control & Spotify Sync
+          <div className="space-y-4">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-accent/10 border border-accent/20">
+              <Code className="w-3 h-3 text-accent" />
+              <span className="text-[10px] uppercase tracking-[0.2em] text-accent font-bold">Personal Project</span>
+            </div>
+            <h1 className="text-5xl md:text-7xl font-black tracking-tighter text-white uppercase leading-none break-all sm:break-normal">
+              led<span className="text-accent">remote</span>control
             </h1>
-            <p className="text-xl text-muted-foreground font-light tracking-wide">
-              Building a responsive web app to seamlessly sync Bluetooth LEDs with Spotify playback.
+            <p className="text-xl md:text-2xl text-muted-foreground font-light tracking-tight max-w-2xl">
+              Automating the vibe. Building a responsive web app to seamlessly sync Bluetooth LEDs with Spotify playback.
             </p>
           </div>
           
@@ -30,13 +33,77 @@ export default function LedRemoteControlBlog() {
               href="https://github.com/Maseeek/LED-REMOTE-CONTROL.git"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center px-4 py-2 bg-white/5 hover:bg-white/10 border border-white/10 rounded-full text-sm font-medium transition-all hover:border-accent/40"
+              className="inline-flex items-center px-6 py-3 bg-white text-black hover:bg-accent hover:text-white rounded-full text-sm font-bold transition-all transform hover:scale-105"
             >
               <Github className="w-4 h-4 mr-2" />
               View on GitHub
             </a>
           </div>
         </header>
+
+        {/* Vision Alert */}
+        <div className="p-6 rounded-2xl bg-accent/5 border border-accent/20 flex gap-4 items-start">
+          <div className="p-2 rounded-lg bg-accent/10 text-accent">
+            <Sparkles className="w-5 h-5" />
+          </div>
+          <div>
+            <h3 className="font-bold text-white mb-1">The Jarvis Ecosystem</h3>
+            <p className="text-sm text-muted-foreground leading-relaxed">
+              This is just the first step. My ultimate goal is to evolve this infrastructure into a full-fledged, Jarvis-style automated assistant—an AI that intuitively understands my environment, manages my devices, and anticipates my needs.
+            </p>
+          </div>
+        </div>
+
+        <section className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="space-y-6">
+            <h2 className="text-2xl font-bold text-white flex items-center gap-2">
+              <Terminal className="w-5 h-5 text-accent" />
+              Core Architecture
+            </h2>
+            <ul className="space-y-4">
+              {[
+                { icon: Bluetooth, title: "Persistent BLE", desc: "Asynchronous background connection to LED controller." },
+                { icon: Music, title: "Smart Playback Sync", desc: "Syncing light transitions with OS-level Spotify state." },
+                { icon: Monitor, title: "CV Fallback", desc: "Automated OS interaction (mss/pyautogui) to ensure playback." },
+                { icon: Sparkles, title: "Self-Healing", desc: "Background thread automatically reconnects on Bluetooth drops." },
+              ].map((feature, i) => (
+                <li key={i} className="flex gap-4 p-4 rounded-xl bg-white/5 border border-white/10 hover:border-white/20 transition-colors">
+                  <div className="p-2 h-fit rounded-lg bg-white/5 text-accent">
+                    <feature.icon className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-white text-sm">{feature.title}</h4>
+                    <p className="text-xs text-muted-foreground">{feature.desc}</p>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div className="space-y-6">
+            <h2 className="text-2xl font-bold text-white flex items-center gap-2">
+              <Code className="w-5 h-5 text-accent" />
+              Technology Stack
+            </h2>
+            <div className="rounded-2xl border border-white/10 overflow-hidden">
+              <table className="w-full text-sm">
+                <tbody className="divide-y divide-white/10">
+                  {[
+                    ["Backend", "Python, Flask, SQLite"],
+                    ["Bluetooth", "bleak"],
+                    ["OS Integration", "winrt, pyautogui, mss"],
+                    ["Frontend", "HTML, CSS, JavaScript"],
+                  ].map(([label, tech]) => (
+                    <tr key={label} className="bg-white/5 hover:bg-white/10 transition-colors">
+                      <td className="p-4 font-bold text-accent w-32">{label}</td>
+                      <td className="p-4 text-gray-400">{tech}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
 
         {/* Content */}
         <article className="prose prose-invert prose-lg max-w-none space-y-8 text-gray-300">
@@ -46,11 +113,6 @@ export default function LedRemoteControlBlog() {
               I wanted a way to automatically adjust the ambiance of my room based on the music I'm listening to. 
               Instead of manually fiddling with an infrared remote or relying on closed-ecosystem apps, I decided to build a centralized 
               web application that connects my Bluetooth Low Energy (BLE) light strips directly to my Spotify playback state. 
-            </p>
-            <p>
-              This is just the first step. My ultimate goal is to evolve this infrastructure into a full-fledged, 
-              <strong> Jarvis (Iron Man) style automated assistant</strong>—an AI that intuitively understands my environment, manages my devices, 
-              and anticipates my needs across my entire room and workflow.
             </p>
           </section>
 
@@ -117,7 +179,6 @@ export default function LedRemoteControlBlog() {
             </div>
           </section>
         </article>
-      </div>
     </div>
   );
 }

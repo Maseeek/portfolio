@@ -6,8 +6,10 @@ export default function BlogLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="pt-20 md:pt-32">
-      {children}
+    <div className="pt-28 pb-16 md:pt-36 md:pb-24 px-5 sm:px-8">
+      <div className="max-w-4xl mx-auto">
+        {children}
+      </div>
     </div>
   );
 }

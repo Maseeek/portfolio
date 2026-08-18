@@ -3,28 +3,44 @@ import React, { useEffect } from "react";
 import Lenis from "lenis";
 
 export function SmoothScroll({ children }: { children: React.ReactNode }) {
-    useEffect(() => {
-        const lenis = new Lenis({
-            duration: 1.2,
-            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // Smooth easing
-            orientation: "vertical",
-            gestureOrientation: "vertical",
-            smoothWheel: true,
-            wheelMultiplier: 1,
-            touchMultiplier: 2,
-        });
+  useEffect(() => {
+    // Respect user preference for reduced motion or touch devices
+    const prefersReducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    ).matches;
 
-        function raf(time: number) {
-            lenis.raf(time);
-            requestAnimationFrame(raf);
-        }
+    const isTouchDevice = window.matchMedia("(pointer: coarse)").matches;
 
-        requestAnimationFrame(raf);
+    // Mobile / touch devices use native hardware scroll for lowest INP
+    if (prefersReducedMotion || isTouchDevice) {
+      return;
+    }
 
-        return () => {
-            lenis.destroy();
-        };
-    }, []);
+    const lenis = new Lenis({
+      duration: 0.85,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      orientation: "vertical",
+      gestureOrientation: "vertical",
+      smoothWheel: true,
+      wheelMultiplier: 1.0,
+      syncTouch: false,
+    });
 
-    return <>{children}</>;
+    let rafId: number;
+    function raf(time: number) {
+      if (!document.hidden) {
+        lenis.raf(time);
+      }
+      rafId = requestAnimationFrame(raf);
+    }
+
+    rafId = requestAnimationFrame(raf);
+
+    return () => {
+      cancelAnimationFrame(rafId);
+      lenis.destroy();
+    };
+  }, []);
+
+  return <>{children}</>;
 }

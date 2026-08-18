@@ -1,7 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { useEffect, useState } from "react";
+import { useRef } from "react";
 import { 
   SiPython, SiTypescript, SiNextdotjs, SiReact, 
   SiTailwindcss, SiMysql, SiGooglecloud, SiTensorflow,
@@ -24,68 +23,43 @@ const techStack = [
 ];
 
 export const LiveIconsBar = () => {
-  const [status, setStatus] = useState("SYSTEMS OPERATIONAL");
-  
-  useEffect(() => {
-    const statuses = [
-      "SYSTEMS OPERATIONAL",
-      "CORE STACK SYNCED",
-      "LATENCY: 12ms",
-      "READY FOR DEPLOY",
-      "UPTIME: 99.99%",
-      "OPTIMIZING ASSETS"
-    ];
-    const interval = setInterval(() => {
-      setStatus(statuses[Math.floor(Math.random() * statuses.length)]);
-    }, 3000);
-    return () => clearInterval(interval);
-  }, []);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   // Duplicate the stack once for the marquee effect
   const duplicatedStack = [...techStack, ...techStack];
 
   return (
-    <div className="relative w-full py-16 md:py-24 border-y border-white/5 bg-black/20 backdrop-blur-md overflow-hidden group my-24 md:my-40">
-      {/* Dynamic Status Indicator */}
-      <div className="absolute top-6 left-1/2 -translate-x-1/2 z-20 px-4 py-1.5 glass rounded-full flex items-center gap-3">
-        <div className="relative flex h-2 w-2">
-          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75"></span>
-          <span className="relative inline-flex rounded-full h-2 w-2 bg-accent"></span>
-        </div>
-        <span className="text-[9px] uppercase tracking-[0.2em] font-black text-accent/80 whitespace-nowrap">
-          {status}
-        </span>
-      </div>
-
+    <div ref={containerRef} className="relative w-full py-8 md:py-12 border-y border-white/5 bg-black/20 backdrop-blur-md overflow-hidden group my-8 md:my-14">
       <div className="flex overflow-hidden">
-        <div className="flex items-center gap-20 md:gap-32 whitespace-nowrap px-10 animate-marquee">
+        <div className="flex items-center gap-14 md:gap-28 whitespace-nowrap px-6 md:px-10 animate-marquee">
           {duplicatedStack.map((tech, i) => (
             <div
               key={i}
-              className="flex items-center gap-4 group/icon"
+              className="flex items-center gap-3 md:gap-4 group/icon select-none"
             >
               <div className="relative">
-                <tech.icon className={`text-2xl md:text-4xl ${tech.color} opacity-70 group-hover/icon:opacity-100 group-hover/icon:scale-110 transition-all duration-500`} />
+                <tech.icon className={`text-2xl md:text-3xl ${tech.color} opacity-70 group-hover/icon:opacity-100 group-hover/icon:scale-110 transition-all duration-300`} />
                 {/* Subtle glow on hover */}
-                <div className={`absolute inset-0 blur-xl opacity-0 group-hover/icon:opacity-40 transition-opacity duration-500 ${tech.color} bg-current`} />
+                <div className={`absolute inset-0 blur-lg opacity-0 group-hover/icon:opacity-40 transition-opacity duration-300 ${tech.color} bg-current`} />
               </div>
               <div className="flex flex-col">
-                <span className="text-xs md:text-sm font-bold tracking-widest uppercase text-white/70 group-hover/icon:text-white/90 transition-colors duration-500">
+                <span className="text-xs md:text-sm font-bold tracking-widest uppercase text-white/70 group-hover/icon:text-white/95 transition-colors duration-300">
                   {tech.name}
                 </span>
-                <div className="h-[1px] w-0 group-hover/icon:w-full bg-accent/50 transition-all duration-500" />
+                <div className="h-[1px] w-0 group-hover/icon:w-full bg-accent/50 transition-all duration-300" />
               </div>
             </div>
           ))}
         </div>
       </div>
 
-      {/* Edge Fades - more premium look */}
-      <div className="absolute inset-y-0 left-0 w-48 bg-gradient-to-r from-background via-background/80 to-transparent z-10 pointer-events-none" />
-      <div className="absolute inset-y-0 right-0 w-48 bg-gradient-to-l from-background via-background/80 to-transparent z-10 pointer-events-none" />
+      {/* Edge Fades */}
+      <div className="absolute inset-y-0 left-0 w-24 md:w-48 bg-gradient-to-r from-background via-background/80 to-transparent z-10 pointer-events-none" />
+      <div className="absolute inset-y-0 right-0 w-24 md:w-48 bg-gradient-to-l from-background via-background/80 to-transparent z-10 pointer-events-none" />
       
       {/* Background scanning line effect */}
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,transparent_0%,rgba(59,130,246,0.03)_50%,transparent_100%)] w-1/2 h-full -translate-x-full animate-[shimmer_10s_infinite_linear] pointer-events-none" />
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,transparent_0%,rgba(99,102,241,0.03)_50%,transparent_100%)] w-1/2 h-full -translate-x-full animate-[shimmer_8s_infinite_linear] pointer-events-none" />
     </div>
   );
 };
+

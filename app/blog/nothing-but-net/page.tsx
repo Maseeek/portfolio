@@ -3,12 +3,11 @@ import { ArrowLeft, ExternalLink, Cpu, Layout, Sparkles, CreditCard, Crosshair, 
 
 export default function NothingButNetBlog() {
   return (
-    <div className="min-h-screen bg-background text-foreground py-24 px-6 sm:px-12 font-sans selection:bg-accent/30">
-      <div className="max-w-4xl mx-auto space-y-16">
-        <Link href="/" className="inline-flex items-center text-sm font-bold text-foreground/60 hover:text-accent transition-colors">
-          <ArrowLeft className="w-4 h-4 mr-2" />
-          Back to Portfolio
-        </Link>
+    <div className="space-y-12 md:space-y-16 font-sans selection:bg-accent/30">
+      <Link href="/" className="inline-flex items-center text-sm font-bold text-foreground/60 hover:text-accent transition-colors">
+        <ArrowLeft className="w-4 h-4 mr-2" />
+        Back to Portfolio
+      </Link>
 
         <header className="space-y-6">
           <div className="space-y-4">
@@ -96,7 +95,7 @@ export default function NothingButNetBlog() {
             </div>
 
             <div className="p-6 rounded-2xl bg-orange-500/10 border border-orange-500/20 space-y-3">
-              <h3 className="font-bold text-orange-500 flex items-center gap-2">
+              <h3 className="font-bold text-orange-400 flex items-center gap-2">
                 <Zap className="w-4 h-4" />
                 Performance Optimization
               </h3>
@@ -123,7 +122,6 @@ export default function NothingButNetBlog() {
             </p>
           </section>
         </article>
-      </div>
     </div>
   );
 }

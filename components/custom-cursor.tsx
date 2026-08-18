@@ -1,98 +1,103 @@
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useRef } from "react";
 import { motion, useSpring, useMotionValue, AnimatePresence } from "framer-motion";
 
 export const CustomCursor = () => {
   const [cursorType, setCursorType] = useState<"default" | "hover" | "view">("default");
   const [isClicked, setIsClicked] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
+  const [isEnabled, setIsEnabled] = useState(false);
 
-  const mouseX = useMotionValue(0);
-  const mouseY = useMotionValue(0);
+  const cursorTypeRef = useRef(cursorType);
+  cursorTypeRef.current = cursorType;
 
-  // Smooth springs for the outer ring
-  const ringX = useSpring(mouseX, { damping: 30, stiffness: 200, mass: 0.6 });
-  const ringY = useSpring(mouseY, { damping: 30, stiffness: 200, mass: 0.6 });
+  const isVisibleRef = useRef(isVisible);
+  isVisibleRef.current = isVisible;
 
-  // Fast springs for the inner dot
-  const dotX = useSpring(mouseX, { damping: 20, stiffness: 800, mass: 0.1 });
-  const dotY = useSpring(mouseY, { damping: 20, stiffness: 800, mass: 0.1 });
+  const mouseX = useMotionValue(-100);
+  const mouseY = useMotionValue(-100);
 
-  const handleMouseMove = useCallback((e: MouseEvent) => {
-    mouseX.set(e.clientX);
-    mouseY.set(e.clientY);
-    if (!isVisible) setIsVisible(true);
-  }, [mouseX, mouseY, isVisible]);
+  // High-performance smooth springs for outer ring
+  const ringX = useSpring(mouseX, { damping: 30, stiffness: 350, mass: 0.35 });
+  const ringY = useSpring(mouseY, { damping: 30, stiffness: 350, mass: 0.35 });
 
-  const handleMouseOver = useCallback((e: MouseEvent) => {
-    const target = e.target as HTMLElement;
-    const isView = target.closest(".p-card, .svc-card, [data-cursor='view']");
-    const isInteractive = target.closest("a, button, .exp-item, .interactive");
-
-    if (isView) {
-      setCursorType("view");
-    } else if (isInteractive) {
-      setCursorType("hover");
-    } else {
-      setCursorType("default");
-    }
-  }, []);
-
-  const handleMouseDown = useCallback(() => setIsClicked(true), []);
-  const handleMouseUp = useCallback(() => setIsClicked(false), []);
-  const handleMouseLeaveWindow = useCallback(() => setIsVisible(false), []);
-  const handleMouseEnterWindow = useCallback(() => setIsVisible(true), []);
+  // Fast springs for inner dot
+  const dotX = useSpring(mouseX, { damping: 20, stiffness: 1000, mass: 0.05 });
+  const dotY = useSpring(mouseY, { damping: 20, stiffness: 1000, mass: 0.05 });
 
   useEffect(() => {
-    window.addEventListener("mousemove", handleMouseMove);
-    window.addEventListener("mouseover", handleMouseOver);
-    window.addEventListener("mousedown", handleMouseDown);
-    window.addEventListener("mouseup", handleMouseUp);
-    document.addEventListener("mouseleave", handleMouseLeaveWindow);
-    document.addEventListener("mouseenter", handleMouseEnterWindow);
+    const hasFinePointer = window.matchMedia("(pointer: fine)").matches;
+    if (!hasFinePointer) return;
+
+    setIsEnabled(true);
+    document.body.classList.add("custom-cursor-active");
+
+    let mouseOverRaf: number | null = null;
+
+    const handleMouseMove = (e: MouseEvent) => {
+      mouseX.set(e.clientX);
+      mouseY.set(e.clientY);
+      if (!isVisibleRef.current) {
+        setIsVisible(true);
+      }
+    };
+
+    const handleMouseOver = (e: MouseEvent) => {
+      if (mouseOverRaf) return;
+      mouseOverRaf = requestAnimationFrame(() => {
+        mouseOverRaf = null;
+        const target = e.target as HTMLElement | null;
+        if (!target) return;
+
+        const isView = target.closest(".p-card, .svc-card, [data-cursor='view']");
+        const isInteractive = target.closest("a, button, .exp-item, .interactive, input, select, textarea, [role='button']");
+
+        let nextType: "default" | "hover" | "view" = "default";
+        if (isView) {
+          nextType = "view";
+        } else if (isInteractive) {
+          nextType = "hover";
+        }
+
+        if (nextType !== cursorTypeRef.current) {
+          setCursorType(nextType);
+        }
+      });
+    };
+
+    const handleMouseDown = () => setIsClicked(true);
+    const handleMouseUp = () => setIsClicked(false);
+    const handleMouseLeave = () => setIsVisible(false);
+    const handleMouseEnter = () => setIsVisible(true);
+
+    window.addEventListener("mousemove", handleMouseMove, { passive: true });
+    window.addEventListener("mouseover", handleMouseOver, { passive: true });
+    window.addEventListener("mousedown", handleMouseDown, { passive: true });
+    window.addEventListener("mouseup", handleMouseUp, { passive: true });
+    document.addEventListener("mouseleave", handleMouseLeave);
+    document.addEventListener("mouseenter", handleMouseEnter);
 
     return () => {
+      document.body.classList.remove("custom-cursor-active");
       window.removeEventListener("mousemove", handleMouseMove);
       window.removeEventListener("mouseover", handleMouseOver);
       window.removeEventListener("mousedown", handleMouseDown);
       window.removeEventListener("mouseup", handleMouseUp);
-      document.removeEventListener("mouseleave", handleMouseLeaveWindow);
-      document.removeEventListener("mouseenter", handleMouseEnterWindow);
+      document.removeEventListener("mouseleave", handleMouseLeave);
+      document.removeEventListener("mouseenter", handleMouseEnter);
+      if (mouseOverRaf) cancelAnimationFrame(mouseOverRaf);
     };
-  }, [handleMouseMove, handleMouseOver, handleMouseDown, handleMouseUp, handleMouseLeaveWindow, handleMouseEnterWindow]);
+  }, [mouseX, mouseY]);
 
-  const variants = {
-    default: {
-      width: 32,
-      height: 32,
-      backgroundColor: "rgba(255, 255, 255, 0)",
-      borderWidth: "1.5px",
-      borderColor: "rgba(255, 255, 255, 0.3)",
-    },
-    hover: {
-      width: 64,
-      height: 64,
-      backgroundColor: "rgba(255, 255, 255, 0.1)",
-      borderWidth: "1px",
-      borderColor: "rgba(255, 255, 255, 0.5)",
-    },
-    view: {
-      width: 80,
-      height: 80,
-      backgroundColor: "rgba(255, 255, 255, 1)",
-      borderWidth: "0px",
-      borderColor: "rgba(255, 255, 255, 1)",
-      mixBlendMode: "normal" as const,
-    }
-  };
+  if (!isEnabled) return null;
 
   return (
     <div className="fixed inset-0 pointer-events-none z-[9999] hidden md:block">
       <AnimatePresence>
         {isVisible && (
           <>
-            {/* Outer Ring */}
+            {/* Outer Ring - Hardware Composited */}
             <motion.div
               style={{
                 x: ringX,
@@ -102,28 +107,33 @@ export const CustomCursor = () => {
               }}
               initial={{ scale: 0, opacity: 0 }}
               animate={{
-                ...variants[cursorType],
-                scale: isClicked ? 0.9 : 1,
+                scale: isClicked
+                  ? 0.8
+                  : cursorType === "view"
+                  ? 2.1
+                  : cursorType === "hover"
+                  ? 1.5
+                  : 1,
                 opacity: 1,
               }}
               exit={{ scale: 0, opacity: 0 }}
-              className="absolute rounded-full mix-blend-difference will-change-transform flex items-center justify-center overflow-hidden"
+              transition={{ duration: 0.16, ease: "easeOut" }}
+              className={`absolute w-8 h-8 rounded-full will-change-transform flex items-center justify-center pointer-events-none border transition-colors duration-200 ${
+                cursorType === "view"
+                  ? "bg-white text-black border-transparent shadow-[0_0_20px_rgba(255,255,255,0.4)]"
+                  : cursorType === "hover"
+                  ? "bg-accent/15 border-accent/70 shadow-[0_0_15px_rgba(99,102,241,0.3)]"
+                  : "bg-transparent border-white/40"
+              }`}
             >
-              <AnimatePresence>
-                {cursorType === "view" && (
-                  <motion.span
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -10 }}
-                    className="text-[10px] font-black uppercase tracking-widest text-black"
-                  >
-                    View
-                  </motion.span>
-                )}
-              </AnimatePresence>
+              {cursorType === "view" && (
+                <span className="text-[7px] font-black uppercase tracking-widest text-black select-none">
+                  View
+                </span>
+              )}
             </motion.div>
 
-            {/* Inner Dot */}
+            {/* Inner Dot - Hardware Composited */}
             <motion.div
               style={{
                 x: dotX,
@@ -137,7 +147,8 @@ export const CustomCursor = () => {
                 opacity: cursorType === "view" ? 0 : 1,
               }}
               exit={{ scale: 0, opacity: 0 }}
-              className="absolute w-1.5 h-1.5 rounded-full bg-white mix-blend-difference will-change-transform"
+              transition={{ duration: 0.1 }}
+              className="absolute w-1.5 h-1.5 rounded-full bg-white will-change-transform pointer-events-none shadow-[0_0_6px_rgba(255,255,255,0.8)]"
             />
           </>
         )}
