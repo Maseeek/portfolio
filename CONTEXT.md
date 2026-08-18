@@ -43,3 +43,26 @@ _Avoid_: Song generator
 **Embedded Payroll System**:
 A deterministic Finite State Machine (FSM) managing a memory-constrained payroll system on an Arduino Uno microcontroller with a custom serial communication protocol.
 _Avoid_: Arduino lab
+
+### System & Content Architecture
+
+**Owner**:
+The authenticated administrator and sole creator of the portfolio site with exclusive capabilities to manage Brand Lab and author Blog Posts.
+_Avoid_: Admin, User, Superuser
+
+**Visitor**:
+An unauthenticated public user browsing the portfolio showcase.
+_Avoid_: Guest, Client, Anonymous User
+
+**Brand Lab**:
+The private design and interactive logo/brand identity development laboratory, accessible strictly to the Owner.
+_Avoid_: Brand Preview, Logo Preview
+
+**Case Study**:
+A bespoke, custom-engineered technical deep dive showcasing a major project (e.g. Valdris, NBN, Make-It-All).
+_Avoid_: Blog post, Project page
+
+**Blog Post**:
+A dynamic article or technical note authored by the Owner through the publishing system.
+_Avoid_: Article, Story
+
