@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ArrowLeft, ExternalLink, Scissors, Calendar, Smartphone, Layout, Star, Code, Briefcase } from "lucide-react";
+import { ProjectPagination } from "@/components/project-pagination";
 
 export default function ChoisCuttingLoungeBlog() {
   return (
@@ -106,6 +107,9 @@ export default function ChoisCuttingLoungeBlog() {
             </p>
           </section>
         </article>
+
+        {/* Project Pagination */}
+        <ProjectPagination currentSlug="chois-cutting-lounge" />
     </div>
   );
 }

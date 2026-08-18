@@ -160,7 +160,7 @@ export const Navbar = () => {
                         {resumeData.profile.headline}
                       </p>
                       <p className="text-[11px] text-muted-foreground font-light leading-relaxed">
-                        Loughborough CS (1st Class) • Next PIM Placement Developer
+                        Loughborough CS (1st Class, Y1 & Y2) • Next PIM Placement Developer
                       </p>
                     </div>
 

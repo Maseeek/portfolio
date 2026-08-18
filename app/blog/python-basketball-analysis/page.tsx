@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ArrowLeft, Video, Target, LineChart, Code, Activity, FlaskConical } from "lucide-react";
+import { ProjectPagination } from "@/components/project-pagination";
 
 export default function PythonBballAnalysisBlog() {
   return (
@@ -102,6 +103,9 @@ export default function PythonBballAnalysisBlog() {
             </p>
           </section>
         </article>
+
+        {/* Project Pagination */}
+        <ProjectPagination currentSlug="python-basketball-analysis" />
     </div>
   );
 }

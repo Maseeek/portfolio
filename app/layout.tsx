@@ -5,6 +5,7 @@ import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 import { CustomCursor } from "@/components/custom-cursor";
 import { SmoothScroll } from "@/components/smooth-scroll";
+import { ScrollProgress } from "@/components/scroll-progress";
 import { resumeData } from "./data/resume";
 
 const inter = Inter({
@@ -105,6 +106,13 @@ export default function RootLayout({
       <body
         className={`${inter.variable} ${outfit.variable} antialiased bg-background text-foreground grain min-h-screen`}
       >
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:bg-accent focus:text-white focus:rounded-xl focus:outline-none focus:ring-2 focus:ring-white font-mono text-xs font-bold shadow-2xl"
+        >
+          Skip to main content
+        </a>
+        <ScrollProgress />
         <SmoothScroll>
           <CustomCursor />
           <Navbar />

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ArrowLeft, Cpu, Database, ShieldAlert, Monitor, Microchip, HardDrive, Terminal } from "lucide-react";
+import { ProjectPagination } from "@/components/project-pagination";
 
 export default function EmbeddedPayrollBlog() {
   return (
@@ -99,6 +100,9 @@ export default function EmbeddedPayrollBlog() {
             </p>
           </section>
         </article>
+
+        {/* Project Pagination */}
+        <ProjectPagination currentSlug="embedded-payroll-system" />
     </div>
   );
 }

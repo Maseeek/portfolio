@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ArrowLeft, ExternalLink, Github, Bluetooth, Music, Monitor, Sparkles, Terminal, Code } from "lucide-react";
+import { ProjectPagination } from "@/components/project-pagination";
 
 export default function LedRemoteControlBlog() {
   return (
@@ -179,6 +180,9 @@ export default function LedRemoteControlBlog() {
             </div>
           </section>
         </article>
+
+        {/* Project Pagination */}
+        <ProjectPagination currentSlug="led-remote-control" />
     </div>
   );
 }

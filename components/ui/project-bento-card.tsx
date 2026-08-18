@@ -1,6 +1,7 @@
 "use client";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 
 interface ProjectBentoCardProps {
@@ -34,39 +35,18 @@ export const ProjectBentoCard = ({
     });
   };
 
-  const Wrapper = project.url ? "a" : "div";
-  const linkProps = project.url
-    ? { href: project.url, target: "_blank", rel: "noopener noreferrer" }
-    : {};
+  const themeColor = project.color || "#6366f1";
+  const isInternal = project.url && project.url.startsWith("/");
 
-  const themeColor = project.color || "#ffffff";
-
-  return (
-    <Wrapper
-      {...linkProps}
-      onMouseMove={handleMouseMove}
-      className={cn(
-        "p-card group relative flex flex-col justify-end overflow-hidden rounded-3xl border border-white/10 bg-card/40 backdrop-blur-xl p-6 md:p-8",
-        "transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]",
-        "hover:border-accent/50 hover:-translate-y-1.5 hover:shadow-[0_0_50px_rgba(99,102,241,0.15)] hover:bg-card/70",
-        project.size === "large" && "md:col-span-2 md:row-span-2",
-        project.size === "wide" && "md:col-span-2 md:row-span-1",
-        project.size === "tall" && "md:col-span-1 md:row-span-2",
-        project.size === "medium" && "md:col-span-1 md:row-span-1",
-        project.size === "small" && "md:col-span-1 md:row-span-1",
-        className
-      )}
-      style={{
-        backgroundColor: `rgba(15, 18, 25, 0.45)`,
-      }}
-    >
+  const cardContent = (
+    <>
       {/* Background Color Glow */}
       <div 
         className="absolute inset-0 transition-opacity duration-700 pointer-events-none"
         style={{
-          background: `radial-gradient(circle at 0% 0%, ${themeColor}20 0%, transparent 60%), 
-                      radial-gradient(circle at 100% 100%, ${themeColor}10 0%, transparent 60%)`,
-          opacity: 0.6
+          background: `radial-gradient(circle at 0% 0%, ${themeColor}25 0%, transparent 65%), 
+                      radial-gradient(circle at 100% 100%, ${themeColor}15 0%, transparent 60%)`,
+          opacity: 0.7,
         }}
       />
 
@@ -74,13 +54,13 @@ export const ProjectBentoCard = ({
       <div
         className="pointer-events-none absolute -inset-px opacity-0 transition-opacity duration-500 group-hover:opacity-100 spotlight-effect"
         style={{
-          ['--spotlight-color' as any]: `${themeColor}25`,
+          ['--spotlight-color' as any]: `${themeColor}30`,
         }}
       />
 
       {/* Background image */}
       {project.image && (
-        <div className="absolute inset-0 opacity-[0.04] group-hover:opacity-[0.18] transition-all duration-700 pointer-events-none">
+        <div className="absolute inset-0 opacity-[0.05] group-hover:opacity-[0.22] transition-all duration-700 pointer-events-none">
           <Image
             src={project.image}
             alt={project.title}
@@ -96,15 +76,15 @@ export const ProjectBentoCard = ({
       <div className="relative z-10">
         <div className="flex items-center justify-between gap-2 mb-3">
           <div className="flex items-center gap-2">
-            <span className="text-[0.6rem] uppercase tracking-[0.2em] font-bold" style={{ color: themeColor }}>
+            <span className="text-[0.65rem] uppercase tracking-[0.2em] font-bold" style={{ color: themeColor }}>
               {project.stack[0]}
             </span>
-            <div className="w-1.5 h-[1px] rounded-full" style={{ backgroundColor: `${themeColor}40` }} />
-            <span className="text-[0.6rem] uppercase tracking-[0.2em] text-muted-foreground/60 font-medium">
+            <div className="w-1.5 h-[1px] rounded-full" style={{ backgroundColor: `${themeColor}60` }} />
+            <span className="text-[0.65rem] uppercase tracking-[0.2em] text-slate-400 font-medium">
               Featured Project
             </span>
           </div>
-          <span className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-xs text-white/70">
+          <span className="opacity-0 group-hover:opacity-100 transition-all duration-300 text-xs font-mono font-bold text-white group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
             ↗
           </span>
         </div>
@@ -116,20 +96,20 @@ export const ProjectBentoCard = ({
           {project.title}
         </h3>
         
-        <p className="text-muted-foreground/80 text-xs md:text-sm leading-relaxed font-light max-w-md line-clamp-2 group-hover:text-foreground/90 transition-colors">
+        <p className="text-slate-300/90 text-xs md:text-sm leading-relaxed font-light max-w-md line-clamp-2 group-hover:text-white transition-colors">
           {project.description}
         </p>
 
         {/* Tech stack pills & Case Study CTA */}
         <div className="flex items-center justify-between gap-2 mt-6 pt-2">
-          <div className="flex flex-wrap gap-1.5 opacity-80 group-hover:opacity-100 transition-all duration-300">
+          <div className="flex flex-wrap gap-1.5 opacity-90 group-hover:opacity-100 transition-all duration-300">
             {project.stack.slice(0, 4).map((tech) => (
               <span
                 key={tech}
-                className="text-[0.6rem] uppercase tracking-wider text-slate-200 px-2.5 py-1 rounded-lg border font-mono font-medium shadow-sm"
+                className="text-[0.65rem] uppercase tracking-wider text-slate-200 px-2.5 py-1 rounded-lg border font-mono font-medium shadow-sm transition-transform duration-300 group-hover:scale-105"
                 style={{ 
-                  backgroundColor: `${themeColor}15`,
-                  borderColor: `${themeColor}35`
+                  backgroundColor: `${themeColor}18`,
+                  borderColor: `${themeColor}40`,
                 }}
               >
                 {tech}
@@ -150,11 +130,60 @@ export const ProjectBentoCard = ({
       <div 
         className="absolute inset-0 border border-white/0 group-hover:border-white/25 rounded-3xl transition-all duration-500 pointer-events-none"
         style={{
-          boxShadow: `inset 0 0 35px ${themeColor}20`
+          boxShadow: `inset 0 0 35px ${themeColor}25`
         }}
       />
-    </Wrapper>
+    </>
+  );
+
+  const sharedClasses = cn(
+    "p-card group relative flex flex-col justify-end overflow-hidden rounded-3xl border border-white/10 bg-card/40 backdrop-blur-xl p-6 md:p-8",
+    "transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]",
+    "hover:border-accent/50 hover:-translate-y-1.5 hover:shadow-[0_0_50px_rgba(99,102,241,0.2)] hover:bg-card/70",
+    "focus-visible:ring-2 focus-visible:ring-accent focus-visible:outline-none",
+    project.size === "large" && "md:col-span-2 md:row-span-2",
+    project.size === "wide" && "md:col-span-2 md:row-span-1",
+    project.size === "tall" && "md:col-span-1 md:row-span-2",
+    project.size === "medium" && "md:col-span-1 md:row-span-1",
+    project.size === "small" && "md:col-span-1 md:row-span-1",
+    className
+  );
+
+  if (isInternal && project.url) {
+    return (
+      <Link
+        href={project.url}
+        onMouseMove={handleMouseMove}
+        className={sharedClasses}
+        style={{ backgroundColor: `rgba(15, 18, 25, 0.45)` }}
+      >
+        {cardContent}
+      </Link>
+    );
+  }
+
+  if (project.url) {
+    return (
+      <a
+        href={project.url}
+        target="_blank"
+        rel="noopener noreferrer"
+        onMouseMove={handleMouseMove}
+        className={sharedClasses}
+        style={{ backgroundColor: `rgba(15, 18, 25, 0.45)` }}
+      >
+        {cardContent}
+      </a>
+    );
+  }
+
+  return (
+    <div
+      onMouseMove={handleMouseMove}
+      className={sharedClasses}
+      style={{ backgroundColor: `rgba(15, 18, 25, 0.45)` }}
+    >
+      {cardContent}
+    </div>
   );
 };
-
-
