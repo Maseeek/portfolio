@@ -1,9 +1,61 @@
 // lib/auth.ts
-// Single-Owner cryptographic session management for Antigravity Portfolio
+// Single-Owner cryptographic session management & OAuth whitelist for Antigravity Portfolio
 
 const COOKIE_NAME = "portfolio_owner_session";
 const DEFAULT_DEV_SECRET = "portfolio-owner-secret-2026";
 const SESSION_DURATION_SECONDS = 60 * 60 * 24 * 7; // 7 days
+
+// Whitelisted Owner Identifiers
+export const ALLOWED_EMAILS = [
+  "maciekgeneja@gmail.com",
+];
+
+export const ALLOWED_GITHUB_USERS = [
+  "maseeek",
+];
+
+/**
+ * Validates whether the given email or GitHub username matches the Owner whitelist
+ */
+export function isAllowedOwner({
+  email,
+  githubUsername,
+}: {
+  email?: string | null;
+  githubUsername?: string | null;
+}): boolean {
+  if (githubUsername) {
+    const normalizedUsername = githubUsername.trim().toLowerCase();
+    const envUsers = (process.env.ALLOWED_OWNER_GITHUB_USERS || "")
+      .split(",")
+      .map((u) => u.trim().toLowerCase())
+      .filter(Boolean);
+
+    const matchStatic = ALLOWED_GITHUB_USERS.some(
+      (u) => u.toLowerCase() === normalizedUsername
+    );
+    const matchEnv = envUsers.includes(normalizedUsername);
+
+    if (matchStatic || matchEnv) return true;
+  }
+
+  if (email) {
+    const normalizedEmail = email.trim().toLowerCase();
+    const envEmails = (process.env.ALLOWED_OWNER_EMAILS || "")
+      .split(",")
+      .map((e) => e.trim().toLowerCase())
+      .filter(Boolean);
+
+    const matchStatic = ALLOWED_EMAILS.some(
+      (e) => e.toLowerCase() === normalizedEmail
+    );
+    const matchEnv = envEmails.includes(normalizedEmail);
+
+    if (matchStatic || matchEnv) return true;
+  }
+
+  return false;
+}
 
 export function getOwnerSecret(): string {
   return process.env.OWNER_SECRET_KEY || process.env.NEXT_AUTH_SECRET || DEFAULT_DEV_SECRET;
