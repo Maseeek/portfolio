@@ -1,24 +1,14 @@
 // lib/blog-store.ts
-// Structured File-Based Markdown Repository for Dynamic Blog Posts
+// Structured File-Based Markdown Repository for Dynamic Blog Posts (Server-only)
 
+import "server-only";
 import fs from "fs/promises";
 import path from "path";
 import matter from "gray-matter";
+import { BlogPost, calculateReadingTime, generateSlug } from "./blog-utils";
 
-export interface BlogPost {
-  id: string;
-  slug: string;
-  title: string;
-  summary: string;
-  content: string;
-  tags: string[];
-  coverImage?: string;
-  published: boolean;
-  readingTime: string;
-  publishedAt?: string;
-  createdAt: string;
-  updatedAt: string;
-}
+export type { BlogPost };
+export { calculateReadingTime, generateSlug };
 
 const CONTENT_DIR = path.join(process.cwd(), "content", "blogs");
 
@@ -31,28 +21,6 @@ async function ensureDirectory(): Promise<void> {
   } catch (error) {
     console.error("Error creating content directory:", error);
   }
-}
-
-/**
- * Calculates estimated reading time based on word count
- */
-export function calculateReadingTime(text: string): string {
-  const wordsPerMinute = 200;
-  const wordCount = text.trim().split(/\s+/).filter(Boolean).length;
-  const minutes = Math.max(1, Math.ceil(wordCount / wordsPerMinute));
-  return `${minutes} min read`;
-}
-
-/**
- * Generates a URL-friendly slug from title
- */
-export function generateSlug(title: string): string {
-  return title
-    .toLowerCase()
-    .trim()
-    .replace(/[^\w\s-]/g, "")
-    .replace(/[\s_-]+/g, "-")
-    .replace(/^-+|-+$/g, "");
 }
 
 /**
