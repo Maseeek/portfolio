@@ -176,17 +176,14 @@ export const Navbar = () => {
                       ))}
                     </div>
 
-                    {/* Footer link to Brand Lab */}
+                    {/* Brand Mark Indicator */}
                     <div className="pt-3 mt-3 border-t border-white/5 flex items-center justify-between">
                       <span className="text-[10px] text-muted-foreground font-mono">
                         Brand Mark: Fluid-M
                       </span>
-                      <Link
-                        href="/brand-preview"
-                        className="text-[10px] font-mono text-accent hover:underline flex items-center gap-0.5 font-bold"
-                      >
-                        Brand Lab <ArrowUpRight className="w-3 h-3" />
-                      </Link>
+                      <span className="text-[9px] font-mono px-2 py-0.5 rounded-full bg-accent/10 border border-accent/20 text-accent font-bold">
+                        Active Identity
+                      </span>
                     </div>
                   </motion.div>
                 )}
@@ -319,14 +316,6 @@ export const Navbar = () => {
                   LinkedIn ↗
                 </a>
               </div>
-
-              <Link
-                href="/brand-preview"
-                onClick={() => setIsOpen(false)}
-                className="text-xs font-mono text-accent hover:underline flex items-center gap-1"
-              >
-                Brand Lab <Sparkles className="w-3 h-3" />
-              </Link>
             </div>
           </motion.div>
         )}

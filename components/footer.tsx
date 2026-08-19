@@ -42,12 +42,6 @@ export const Footer = ({ profile }: { profile: ResumeData["profile"] }) => {
           >
             LinkedIn
           </a>
-          <Link
-            href="/brand-preview"
-            className="text-[0.75rem] uppercase tracking-[0.15em] font-mono text-accent/80 hover:text-accent font-semibold transition-colors"
-          >
-            Brand Lab ↗
-          </Link>
         </div>
 
         {/* Copyright */}
