@@ -1,11 +1,10 @@
 // lib/blog-store.ts
-// Structured File-Based Markdown Repository for Dynamic Blog Posts (Server-only)
+// Structured File-Based Markdown Repository for Dynamic Blog Posts
 
-import "server-only";
 import fs from "fs/promises";
 import path from "path";
 import matter from "gray-matter";
-import { BlogPost, calculateReadingTime, generateSlug } from "./blog-utils";
+import { BlogPost, calculateReadingTime, generateSlug } from "@/lib/blog-utils";
 
 export type { BlogPost };
 export { calculateReadingTime, generateSlug };
