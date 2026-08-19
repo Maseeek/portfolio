@@ -15,10 +15,10 @@ export const resumeData = {
     bio: "Computer Science undergraduate at Loughborough University (First-Class Honours across 1st & 2nd Year). Systems Placement Developer at Next plc within the PIM (Product Information & Management) Strategic Team. Experienced across C#, .NET, Blazor WASM, Python, PostgreSQL RLS, OpenCV, and modern distributed web architectures. Combines strong academic grounding in algorithms and discrete logic with practical experience building secure, high-throughput systems.",
   },
   skills: {
-    languages: ["Python (Advanced)", "C#", "TypeScript", "JavaScript", "Java", "C/C++", "SQL", "PHP", "HTML/CSS"],
+    languages: ["Python (Advanced)", "C#", "TypeScript", "JavaScript", "Kotlin", "Java", "C/C++", "SQL", "PHP", "HTML/CSS"],
     web: ["Blazor WebAssembly", ".NET / C#", "React 19", "Next.js", "Node.js", "Express", "Flask", "Microservices", "REST API Design", "Tailwind CSS", "Vite"],
     ai: ["AI Product Attribution", "Anthropic Claude SDK", "OpenCV", "Computer Vision", "Predictive Trajectory Modeling", "TensorFlow", "PyTorch", "NumPy", "Pandas"],
-    tools: ["PostgreSQL (RLS)", "MySQL", "MongoDB", "Docker", "Git", "GitHub Actions (CI/CD)", "Vercel", "Render", "Linux / POSIX", "Playwright", "Vitest", "Arduino"],
+    tools: ["Android SDK", "PostgreSQL (RLS)", "MySQL", "MongoDB", "Docker", "Git", "GitHub Actions (CI/CD)", "Vercel", "Render", "Linux / POSIX", "Playwright", "Vitest", "Arduino"],
     competencies: ["Data Structures & Algorithms", "Systems Architecture", "Multi-Tenant Data Isolation", "GDPR Article 9 Compliance", "Object-Oriented Programming (OOP)", "Agile Methodologies"],
   },
   academics: {
@@ -112,8 +112,8 @@ export const resumeData = {
     {
       title: "Nothing But Net",
       url: "/blog/nothing-but-net",
-      stack: ["React 19", "Python", "OpenCV", "Node.js", "Vercel", "Render"],
-      description: "Production basketball analytics platform featuring dynamic ROI tracking, physics false-positive rejection (>300px jumps), trajectory polynomial regression (>90% accuracy), and async microservices.",
+      stack: ["Android (Kotlin)", "React 19", "Python", "OpenCV", "Node.js", "Render"],
+      description: "Production basketball analytics platform featuring native Android companion capture, dynamic ROI tracking, physics false-positive rejection (>300px jumps), trajectory polynomial regression (>90% accuracy), and async microservices.",
       size: "large", // 2x2
       color: "#FF6B6B", // Coral Red
       image: "/images/nbn-home.png",

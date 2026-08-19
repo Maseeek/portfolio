@@ -65,6 +65,9 @@ export const ProjectsSection = () => {
         combined.includes("uart") ||
         combined.includes("fsm") ||
         combined.includes("java") ||
+        combined.includes("kotlin") ||
+        combined.includes("android") ||
+        combined.includes("mobile") ||
         combined.includes("oop") ||
         combined.includes("rls") ||
         combined.includes("security") ||

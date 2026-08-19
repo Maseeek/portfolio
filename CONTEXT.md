@@ -21,7 +21,7 @@ _Avoid_: Data entry, prompt writer
 ### Technical Projects
 
 **Nothing But Net (NBN)**:
-A full-stack basketball shooting analytics platform utilizing OpenCV computer vision, dynamic ROI tracking, physics-based false-positive rejection, and asynchronous microservices.
+A full-stack basketball shooting analytics ecosystem comprising a native Android mobile companion app (Kotlin), OpenCV computer vision engine, dynamic ROI tracking, physics-based false-positive rejection, React web SPA, and asynchronous microservices.
 _Avoid_: Basketball tracker, CV script
 
 **Make It All**:

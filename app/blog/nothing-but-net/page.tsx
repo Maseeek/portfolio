@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { ArrowLeft, ExternalLink, Cpu, Layout, Sparkles, CreditCard, Zap, Activity, Server, ShieldCheck } from "lucide-react";
+import { ArrowLeft, ExternalLink, Cpu, Layout, Sparkles, CreditCard, Zap, Activity, Server, ShieldCheck, Smartphone } from "lucide-react";
+import { SiGithub } from "react-icons/si";
 import { ProjectPagination } from "@/components/project-pagination";
 
 export default function NothingButNetBlog() {
@@ -14,13 +15,13 @@ export default function NothingButNetBlog() {
         <div className="space-y-4">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-accent/10 border border-accent/20">
             <Sparkles className="w-3 h-3 text-accent" />
-            <span className="text-[10px] uppercase tracking-[0.2em] text-accent font-bold">Production CV Studio</span>
+            <span className="text-[10px] uppercase tracking-[0.2em] text-accent font-bold">Production CV Studio & Mobile Ecosystem</span>
           </div>
           <h1 className="text-5xl md:text-7xl font-black tracking-tighter text-white uppercase leading-none">
             nothing<span className="text-accent">but</span>net
           </h1>
           <p className="text-xl md:text-2xl text-muted-foreground font-light tracking-tight max-w-2xl">
-            A production-ready full-stack application (nothingbutnet.online) providing real-time analytics on basketball shots via custom computer vision and polynomial regression.
+            A production-ready full-stack ecosystem with a native Android mobile companion, React web SPA (nothingbutnet.online), and Python computer vision microservice modeling basketball trajectories via polynomial regression.
           </p>
         </div>
         
@@ -28,6 +29,10 @@ export default function NothingButNetBlog() {
           <a href="https://nothingbutnet.online" target="_blank" rel="noopener noreferrer" className="inline-flex items-center px-6 py-3 bg-white text-black hover:bg-accent hover:text-white rounded-full text-sm font-bold transition-all transform hover:scale-105">
             <ExternalLink className="w-4 h-4 mr-2" />
             Visit Live Site
+          </a>
+          <a href="https://github.com/Maseeek/nothingbutnet" target="_blank" rel="noopener noreferrer" className="inline-flex items-center px-6 py-3 bg-white/10 text-white hover:bg-white/20 border border-white/15 rounded-full text-sm font-bold transition-all transform hover:scale-105">
+            <SiGithub className="w-4 h-4 mr-2" />
+            View on GitHub
           </a>
         </div>
       </header>
@@ -38,9 +43,9 @@ export default function NothingButNetBlog() {
           <Server className="w-5 h-5" />
         </div>
         <div>
-          <h3 className="font-bold text-white mb-1">Decoupled Microservice Architecture & Concurrency</h3>
+          <h3 className="font-bold text-white mb-1">Multi-Platform Architecture & Concurrency</h3>
           <p className="text-sm text-muted-foreground leading-relaxed">
-            Engineered with a clean separation of concerns: a Node.js API gateway coordinates client sessions and Stripe billing, while computationally intensive video analysis is delegated to a dedicated Python engine with asynchronous background worker threads to keep the REST API completely non-blocking.
+            Engineered with a clean separation of concerns: a native Android application (Kotlin) and React 19 web SPA provide seamless multi-device capture and analytics, coordinated by a Node.js API gateway with Stripe billing, while computationally intensive video analysis is delegated to a dedicated Python engine with asynchronous worker threads.
           </p>
         </div>
       </div>
@@ -53,6 +58,7 @@ export default function NothingButNetBlog() {
           </h2>
           <ul className="space-y-4">
             {[
+              { icon: Smartphone, title: "Native Android App & Camera Capture", desc: "Native Kotlin mobile client with CameraX video recording, edge upload queueing, and on-court shot review." },
               { icon: Cpu, title: "Dynamic ROI Tracking", desc: "Drastically reduced CPU load per frame by bounding detection to dynamic Regions of Interest with full-frame fallback." },
               { icon: Activity, title: "Trajectory Modeling (>90% Precision)", desc: "Custom polynomial regression engine in Python modeling 3D parabolic curves and release angles." },
               { icon: ShieldCheck, title: "Physics-Based False-Positive Filter", desc: "Nearest-circle selection rejecting unnatural >300px frame jumps caused by court background noise." },
@@ -82,6 +88,7 @@ export default function NothingButNetBlog() {
             <table className="w-full text-sm">
               <tbody className="divide-y divide-white/10">
                 {[
+                  ["Mobile Client", "Native Android, Kotlin, CameraX, Jetpack, Retrofit"],
                   ["Frontend SPA", "React 19, Vite 6, Framer Motion, Tailwind CSS"],
                   ["Backend Services", "Node.js (Express), Threading, Stripe SDK"],
                   ["CV Engine", "Python 3.x, OpenCV, NumPy, Polynomial Regression"],
@@ -117,6 +124,24 @@ export default function NothingButNetBlog() {
           <p>
             Nothing But Net was born from the intersection of competitive basketball and computer vision engineering. The goal was to build a production-grade analytics platform that provides elite-level intelligence to any player with a smartphone.
           </p>
+        </section>
+
+        <section className="space-y-4">
+          <h2 className="text-2xl font-bold text-white border-b border-white/10 pb-2">Native Android Companion App & On-Court Workflow</h2>
+          <p>
+            To deliver frictionless analytics directly on the court, the system includes a dedicated native Android application built with Kotlin. The mobile client addresses real-world sports recording constraints:
+          </p>
+          <ul className="list-disc list-inside space-y-2 text-sm text-gray-300">
+            <li>
+              <strong>CameraX Recording & Frame Optimization:</strong> High-frame-rate video capture tuned to court lighting conditions with dynamic exposure compensation.
+            </li>
+            <li>
+              <strong>Asynchronous Upload Pipeline:</strong> Non-blocking background worker queues that ingest and transmit session recordings to the cloud microservices without stalling on-device UX.
+            </li>
+            <li>
+              <strong>Instant Mobile Analytics:</strong> Real-time feedback displaying trajectory arcs, entry angles, make/miss shot charts, and session summaries optimized for mobile screens.
+            </li>
+          </ul>
         </section>
 
         <section className="space-y-4">
