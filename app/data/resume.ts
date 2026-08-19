@@ -112,8 +112,8 @@ export const resumeData = {
     {
       title: "Nothing But Net",
       url: "/blog/nothing-but-net",
-      stack: ["Android (Kotlin)", "React 19", "Python", "OpenCV", "Node.js", "Render"],
-      description: "Production basketball analytics platform featuring native Android companion capture, dynamic ROI tracking, physics false-positive rejection (>300px jumps), trajectory polynomial regression (>90% accuracy), and async microservices.",
+      stack: ["React 19", "Node.js", "Python", "OpenCV", "Android (Companion)", "Render"],
+      description: "Flagship full-stack basketball analytics web platform (nothingbutnet.online) with dynamic ROI tracking, physics false-positive rejection, trajectory polynomial regression, and native Android companion capture.",
       size: "large", // 2x2
       color: "#FF6B6B", // Coral Red
       image: "/images/nbn-home.png",

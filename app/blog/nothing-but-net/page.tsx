@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowLeft, ExternalLink, Cpu, Layout, Sparkles, CreditCard, Zap, Activity, Server, ShieldCheck, Smartphone } from "lucide-react";
+import { ArrowLeft, ExternalLink, Cpu, Layout, Sparkles, CreditCard, Zap, Activity, Server, ShieldCheck, Smartphone, Globe } from "lucide-react";
 import { SiGithub } from "react-icons/si";
 import { ProjectPagination } from "@/components/project-pagination";
 
@@ -15,20 +15,20 @@ export default function NothingButNetBlog() {
         <div className="space-y-4">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-accent/10 border border-accent/20">
             <Sparkles className="w-3 h-3 text-accent" />
-            <span className="text-[10px] uppercase tracking-[0.2em] text-accent font-bold">Production CV Studio & Mobile Ecosystem</span>
+            <span className="text-[10px] uppercase tracking-[0.2em] text-accent font-bold">Production Full-Stack Web Platform & CV Studio</span>
           </div>
           <h1 className="text-5xl md:text-7xl font-black tracking-tighter text-white uppercase leading-none">
             nothing<span className="text-accent">but</span>net
           </h1>
           <p className="text-xl md:text-2xl text-muted-foreground font-light tracking-tight max-w-2xl">
-            A production-ready full-stack ecosystem with a native Android mobile companion, React web SPA (nothingbutnet.online), and Python computer vision microservice modeling basketball trajectories via polynomial regression.
+            A production-ready full-stack web platform (<a href="https://nothingbutnet.online" target="_blank" rel="noopener noreferrer" className="text-white hover:text-accent underline underline-offset-4 font-medium transition-colors">nothingbutnet.online</a>) with a dedicated native Android companion app, providing real-time basketball shot analytics via custom computer vision and polynomial regression.
           </p>
         </div>
         
         <div className="flex flex-wrap gap-4 pt-4">
           <a href="https://nothingbutnet.online" target="_blank" rel="noopener noreferrer" className="inline-flex items-center px-6 py-3 bg-white text-black hover:bg-accent hover:text-white rounded-full text-sm font-bold transition-all transform hover:scale-105">
             <ExternalLink className="w-4 h-4 mr-2" />
-            Visit Live Site
+            Visit Live Site (Web App)
           </a>
           <a href="https://github.com/Maseeek/nothingbutnet" target="_blank" rel="noopener noreferrer" className="inline-flex items-center px-6 py-3 bg-white/10 text-white hover:bg-white/20 border border-white/15 rounded-full text-sm font-bold transition-all transform hover:scale-105">
             <SiGithub className="w-4 h-4 mr-2" />
@@ -43,9 +43,9 @@ export default function NothingButNetBlog() {
           <Server className="w-5 h-5" />
         </div>
         <div>
-          <h3 className="font-bold text-white mb-1">Multi-Platform Architecture & Concurrency</h3>
+          <h3 className="font-bold text-white mb-1">Decoupled Microservice Architecture & Multi-Client Ecosystem</h3>
           <p className="text-sm text-muted-foreground leading-relaxed">
-            Engineered with a clean separation of concerns: a native Android application (Kotlin) and React 19 web SPA provide seamless multi-device capture and analytics, coordinated by a Node.js API gateway with Stripe billing, while computationally intensive video analysis is delegated to a dedicated Python engine with asynchronous worker threads.
+            Engineered with a clean separation of concerns: the core full-stack web application (React 19 SPA) and native Android mobile companion communicate through a central Node.js API gateway handling auth, sessions, and Stripe billing, while computationally heavy video analysis is delegated to dedicated Python worker microservices to keep the entire system non-blocking.
           </p>
         </div>
       </div>
@@ -58,13 +58,13 @@ export default function NothingButNetBlog() {
           </h2>
           <ul className="space-y-4">
             {[
-              { icon: Smartphone, title: "Native Android App & Camera Capture", desc: "Native Kotlin mobile client with CameraX video recording, edge upload queueing, and on-court shot review." },
+              { icon: Layout, title: "Full-Stack Web SPA & Analytics", desc: "Interactive React 19 web suite with real-time shot charts, trajectory overlays, and shooting consistency metrics." },
+              { icon: CreditCard, title: "Monetization, Auth & API Gateway", desc: "Node.js REST API with JWT authentication and Stripe webhooks managing Free, Guest, and Pro tiers." },
+              { icon: Smartphone, title: "Native Android Companion App", desc: "Kotlin mobile client with CameraX on-court recording, background upload queueing, and mobile telemetry." },
               { icon: Cpu, title: "Dynamic ROI Tracking", desc: "Drastically reduced CPU load per frame by bounding detection to dynamic Regions of Interest with full-frame fallback." },
               { icon: Activity, title: "Trajectory Modeling (>90% Precision)", desc: "Custom polynomial regression engine in Python modeling 3D parabolic curves and release angles." },
               { icon: ShieldCheck, title: "Physics-Based False-Positive Filter", desc: "Nearest-circle selection rejecting unnatural >300px frame jumps caused by court background noise." },
-              { icon: Server, title: "Asynchronous Concurrency", desc: "Multi-threaded worker pipelines in Node.js/Python ensuring sub-second response times during heavy video encoding." },
-              { icon: Layout, title: "Analytics Dashboard", desc: "Interactive React 19 frontend visualizing make/miss clusters, trajectory arcs, and shooting consistency metrics." },
-              { icon: CreditCard, title: "Monetization & Auth", desc: "Integrated Stripe webhooks and JWT authentication powering Guest, Free, and Pro subscription tiers." },
+              { icon: Server, title: "Asynchronous Worker Pipelines", desc: "Multi-threaded pipelines ensuring sub-second response times during heavy video encoding." },
             ].map((feature, i) => (
               <li key={i} className="flex gap-4 p-4 rounded-xl bg-white/5 border border-white/10 hover:border-white/20 transition-colors">
                 <div className="p-2 h-fit rounded-lg bg-white/5 text-accent shrink-0">
@@ -82,21 +82,20 @@ export default function NothingButNetBlog() {
         <div className="space-y-6">
           <h2 className="text-2xl font-bold text-white flex items-center gap-2">
             <Cpu className="w-5 h-5 text-accent" />
-            Technology Stack & CI/CD
+            Technology Stack & Deployment
           </h2>
           <div className="rounded-2xl border border-white/10 overflow-hidden">
             <table className="w-full text-sm">
               <tbody className="divide-y divide-white/10">
                 {[
-                  ["Mobile Client", "Native Android, Kotlin, CameraX, Jetpack, Retrofit"],
-                  ["Frontend SPA", "React 19, Vite 6, Framer Motion, Tailwind CSS"],
-                  ["Backend Services", "Node.js (Express), Threading, Stripe SDK"],
+                  ["Frontend Web (Main)", "React 19, Vite 6, Framer Motion, Tailwind CSS"],
+                  ["Backend Gateway", "Node.js (Express), Threading, Stripe SDK, MongoDB Atlas"],
                   ["CV Engine", "Python 3.x, OpenCV, NumPy, Polynomial Regression"],
-                  ["Cloud Deployment", "Vercel (Frontend CI/CD), Render (Backend Microservices)"],
-                  ["Database", "MongoDB Atlas"],
+                  ["Mobile Companion", "Native Android, Kotlin, CameraX, Jetpack, Retrofit"],
+                  ["Cloud Hosting", "Vercel (Frontend CI/CD), Render (Microservices)"],
                 ].map(([label, tech]) => (
                   <tr key={label} className="bg-white/5 hover:bg-white/10 transition-colors">
-                    <td className="p-4 font-bold text-accent w-36">{label}</td>
+                    <td className="p-4 font-bold text-accent w-40">{label}</td>
                     <td className="p-4 text-gray-400">{tech}</td>
                   </tr>
                 ))}
@@ -118,34 +117,68 @@ export default function NothingButNetBlog() {
         </div>
       </section>
 
-      <article className="prose prose-invert prose-lg max-w-none space-y-8 text-gray-300">
+      <article className="prose prose-invert prose-lg max-w-none space-y-10 text-gray-300">
         <section className="space-y-4">
           <h2 className="text-2xl font-bold text-white border-b border-white/10 pb-2">The Mission</h2>
           <p>
-            Nothing But Net was born from the intersection of competitive basketball and computer vision engineering. The goal was to build a production-grade analytics platform that provides elite-level intelligence to any player with a smartphone.
+            Nothing But Net was born from the intersection of competitive basketball and computer vision engineering. The goal was to build a production-grade analytics platform that provides elite-level intelligence to any player through a modern web application and mobile companion.
           </p>
         </section>
 
-        <section className="space-y-4">
-          <h2 className="text-2xl font-bold text-white border-b border-white/10 pb-2">Native Android Companion App & On-Court Workflow</h2>
+        {/* Section 1: Full-Stack Web Platform */}
+        <section className="space-y-4 p-6 rounded-2xl bg-white/[0.02] border border-white/10">
+          <div className="flex items-center gap-3">
+            <div className="p-2 rounded-lg bg-accent/10 text-accent">
+              <Globe className="w-5 h-5" />
+            </div>
+            <h2 className="text-2xl font-bold text-white m-0">1. Full-Stack Web Platform & Analytics Suite (Core Flagship)</h2>
+          </div>
           <p>
-            To deliver frictionless analytics directly on the court, the system includes a dedicated native Android application built with Kotlin. The mobile client addresses real-world sports recording constraints:
+            The primary hub of Nothing But Net is a high-performance web application hosted at <a href="https://nothingbutnet.online" target="_blank" rel="noopener noreferrer" className="text-accent underline font-semibold">nothingbutnet.online</a>. Built with modern full-stack standards, the web platform serves as the central control room for shot analysis, player telemetry, and platform management:
           </p>
           <ul className="list-disc list-inside space-y-2 text-sm text-gray-300">
             <li>
-              <strong>CameraX Recording & Frame Optimization:</strong> High-frame-rate video capture tuned to court lighting conditions with dynamic exposure compensation.
+              <strong>Interactive React 19 Frontend:</strong> Engineered with React 19, Vite, and Tailwind CSS to deliver sub-second UI transitions, interactive shot charts, coordinate heatmaps, and customizable video scrubbing.
             </li>
             <li>
-              <strong>Asynchronous Upload Pipeline:</strong> Non-blocking background worker queues that ingest and transmit session recordings to the cloud microservices without stalling on-device UX.
+              <strong>Node.js API Gateway & Session Management:</strong> A secure Node.js/Express backend coordinating user authentication (JWT), MongoDB data persistence, and Stripe payment webhook processing for Free, Guest, and Pro tiers.
             </li>
             <li>
-              <strong>Instant Mobile Analytics:</strong> Real-time feedback displaying trajectory arcs, entry angles, make/miss shot charts, and session summaries optimized for mobile screens.
+              <strong>Comprehensive Visual Telemetry:</strong> Renders 2D shot arcs, calculated entry angles relative to the hoop rim, release points, and historical shooting percentages across multi-session practice routines.
+            </li>
+            <li>
+              <strong>Production CI/CD:</strong> Continuous deployment pipeline with automated preview and production builds on Vercel backed by resilient cloud infrastructure.
             </li>
           </ul>
         </section>
 
+        {/* Section 2: Native Android Mobile Companion */}
+        <section className="space-y-4 p-6 rounded-2xl bg-white/[0.02] border border-white/10">
+          <div className="flex items-center gap-3">
+            <div className="p-2 rounded-lg bg-emerald-500/10 text-emerald-400">
+              <Smartphone className="w-5 h-5" />
+            </div>
+            <h2 className="text-2xl font-bold text-white m-0">2. Native Android Mobile App & On-Court Companion</h2>
+          </div>
+          <p>
+            To bring the power of the web platform directly onto the basketball court, a dedicated native Android application was engineered in Kotlin as a specialized mobile recording companion:
+          </p>
+          <ul className="list-disc list-inside space-y-2 text-sm text-gray-300">
+            <li>
+              <strong>CameraX Recording & Frame Optimization:</strong> High-frame-rate on-court video capture configured with dynamic exposure and shutter speed tuning tailored for high-speed sports motion.
+            </li>
+            <li>
+              <strong>Resilient Background Ingestion:</strong> Non-blocking background upload pipelines that buffer and stream recordings to the cloud microservices without locking the athlete out of reviewing prior sets.
+            </li>
+            <li>
+              <strong>Sideline Shot Telemetry:</strong> Instant on-device feedback displaying make/miss classifications, release angle readouts, and synced session logs synchronized with the user's primary web profile.
+            </li>
+          </ul>
+        </section>
+
+        {/* Section 3: Computer Vision & Physics */}
         <section className="space-y-4">
-          <h2 className="text-2xl font-bold text-white border-b border-white/10 pb-2">Computer Vision Pipeline & Physics Filter</h2>
+          <h2 className="text-2xl font-bold text-white border-b border-white/10 pb-2">3. Computer Vision Pipeline & Physics Filter</h2>
           <p>
             In outdoor basketball courts, lighting conditions change rapidly, and spectators or rim colors can easily fool classical color masks. To achieve &gt;90% trajectory accuracy:
           </p>
@@ -162,10 +195,11 @@ export default function NothingButNetBlog() {
           </ul>
         </section>
 
+        {/* Section 4: Microservices Architecture */}
         <section className="space-y-4">
-          <h2 className="text-2xl font-bold text-white border-b border-white/10 pb-2">Deployment & Continuous Integration</h2>
+          <h2 className="text-2xl font-bold text-white border-b border-white/10 pb-2">4. Microservices Architecture & Cloud Deployment</h2>
           <p>
-            The entire platform is deployed across a modern CI/CD pipeline: GitHub Actions triggers automated preview and production deployments to Vercel for the React frontend, while the containerized Node.js and Python microservices are deployed on Render with automated health check monitoring.
+            The entire ecosystem is deployed across a decoupled multi-service infrastructure: GitHub Actions triggers automated deployments to Vercel for the React frontend, while the containerized Node.js API and Python computer vision microservices run on Render with automated health check monitoring and non-blocking worker threads.
           </p>
         </section>
       </article>
