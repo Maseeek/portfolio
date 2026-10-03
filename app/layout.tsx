@@ -47,7 +47,7 @@ export const metadata: Metadata = {
     title: "Maciek Geneja | Software Engineer & Full Stack Developer",
     description:
       "Building high-performance web apps, enterprise systems, and scalable infrastructure.",
-    url: "https://maciek.dev",
+    url: "https://maciekgeneja.me",
     siteName: "Maciek Geneja Portfolio",
     locale: "en_US",
     type: "website",
@@ -75,7 +75,7 @@ export default function RootLayout({
     "@type": "Person",
     name: "Maciek Geneja",
     jobTitle: "Software Engineer & Developer",
-    url: "https://maciek.dev",
+    url: "https://maciekgeneja.me",
     sameAs: [
       resumeData.profile.links.github,
       resumeData.profile.links.linkedin,

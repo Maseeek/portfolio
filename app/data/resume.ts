@@ -3,7 +3,7 @@ export const resumeData = {
     name: "Maciek Geneja",
     headline: "Systems & Full-Stack Software Engineer",
     subHeadline: "Building high-performance web applications, microservices, and deterministic data platforms. Systems Placement Developer at Next.",
-    location: "Cambridge / Loughborough, UK",
+    location: "UK",
     phone: "07383 557 416",
     links: {
       github: "https://github.com/Maseeek",
