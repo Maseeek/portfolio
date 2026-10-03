@@ -120,6 +120,16 @@ export const resumeData = {
       gallery: ["/images/nbn-dash.png", "/images/nbn-upload.png"],
     },
     {
+      title: "Do It — Habit Parity Engine",
+      url: "/blog/do-it",
+      stack: ["Next.js 16", "TypeScript", "Supabase RLS", "Wearable OAuth", "Tailwind v4"],
+      description: "Multi-tenant two-player habit accountability & competition platform with Supabase Row-Level Security, AES-GCM encrypted wearable sync (Apple Health, Google Health, Strava, Hevy), and 12-week consistency heatmaps.",
+      size: "wide", // 2x1
+      color: "#10B981", // Emerald
+      image: "/images/do-it.png",
+      gallery: [],
+    },
+    {
       title: "Make-It-All",
       url: "/blog/make-it-all",
       stack: ["Node.js", "Express", "React", "MySQL", "JWT", "Chart.js"],

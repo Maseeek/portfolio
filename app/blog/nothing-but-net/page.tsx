@@ -30,7 +30,7 @@ export default function NothingButNetBlog() {
             <ExternalLink className="w-4 h-4 mr-2" />
             Visit Live Site (Web App)
           </a>
-          <a href="https://github.com/Maseeek/nothingbutnet" target="_blank" rel="noopener noreferrer" className="inline-flex items-center px-6 py-3 bg-white/10 text-white hover:bg-white/20 border border-white/15 rounded-full text-sm font-bold transition-all transform hover:scale-105">
+          <a href="https://github.com/Maseeek/nothing-but-net" target="_blank" rel="noopener noreferrer" className="inline-flex items-center px-6 py-3 bg-white/10 text-white hover:bg-white/20 border border-white/15 rounded-full text-sm font-bold transition-all transform hover:scale-105">
             <SiGithub className="w-4 h-4 mr-2" />
             View on GitHub
           </a>
