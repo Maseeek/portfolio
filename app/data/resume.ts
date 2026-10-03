@@ -7,6 +7,7 @@ export const resumeData = {
     phone: "07383 557 416",
     links: {
       github: "https://github.com/Maseeek",
+      x: "https://x.com/maseeek",
       linkedin: "https://www.linkedin.com/in/maciek-geneja-552325332/",
       email: "maciekgeneja@gmail.com",
     },
@@ -66,10 +67,10 @@ export const resumeData = {
       company: "Next plc",
       role: "Systems Placement Developer — PIM Strategy & Enterprise Architecture",
       period: "July 2026 / Active Placement",
-      description: "Secured competitive 12-month industrial placement in the Systems Team of a FTSE 100 retailer. Leading UI re-architecture for AI Attribution 2.0 using Blazor WebAssembly in a multi-repository, multi-solution microservice ecosystem. Engineering cross-environment services, infrastructure reliability, and core automated product classification workflows.",
+      description: "Secured competitive 12-month industrial placement in the Systems Team of a FTSE 100 retailer. Leading UI re-architecture for AI Attribution 2.0 using Blazor WebAssembly in a multi-repository, multi-solution microservice ecosystem. Developing internal engineering playbooks and onboarding fellow developers into structured agentic workflows — codifying domain context (CONTEXT.md, ADRs), designing deep-module boundaries to contain blast radius, and enforcing deterministic verification gates.",
       isCurrent: true,
       team: "PIM Strategic Team",
-      skills: ["Blazor WASM", "C# / .NET", "Microservices", "AI Attribution 2.0", "Multi-Repo Config", "Enterprise Systems"],
+      skills: ["Blazor WASM", "C# / .NET", "Microservices", "AI Attribution 2.0", "Agentic Harness Design", "Enterprise Systems"],
     },
     {
       company: "Valdris",
@@ -127,6 +128,16 @@ export const resumeData = {
       size: "wide", // 2x1
       color: "#10B981", // Emerald
       image: "/images/do-it.png",
+      gallery: [],
+    },
+    {
+      title: "Enterprise Agentic Systems & Multi-Node Lab",
+      url: "/blog/enterprise-agentic-systems",
+      stack: ["Oh My Pi (OMP)", "Tailscale Mesh", "T3 Code", "CONTEXT.md / ADRs", "Pop!_OS & CUDA"],
+      description: "Architectural framework and systems case study on bringing deterministic agentic coding to enterprise teams, paired with a distributed multi-computer AI agent infrastructure over Tailscale & SSH.",
+      size: "wide", // 2x1
+      color: "#F59E0B", // Amber
+      image: "/images/agentic-systems.png",
       gallery: [],
     },
     {

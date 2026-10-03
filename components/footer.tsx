@@ -35,6 +35,14 @@ export const Footer = ({ profile }: { profile: ResumeData["profile"] }) => {
             GitHub
           </a>
           <a
+            href={profile.links.x}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-[0.75rem] uppercase tracking-[0.15em] font-medium text-muted-foreground hover:text-white transition-colors"
+          >
+            X (Twitter)
+          </a>
+          <a
             href={profile.links.linkedin}
             target="_blank"
             rel="noopener noreferrer"
