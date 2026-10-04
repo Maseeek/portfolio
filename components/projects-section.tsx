@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ProjectBentoCard } from "@/components/ui/project-bento-card";
+import { ProjectBentoCard, type BentoShape } from "@/components/ui/project-bento-card";
 import { resumeData } from "@/app/data/resume";
 import { Layers, Cpu, Globe, Binary } from "lucide-react";
 
@@ -21,6 +21,38 @@ const categories: CategoryOption[] = [
   { key: "systems", label: "Systems & Security", icon: Binary },
 ];
 
+const BENTO_PACKING_PATTERNS: Record<number, BentoShape[]> = {
+  1: ["hero"],
+  2: ["hero", "tall"],
+  3: ["hero", "compact", "compact"],
+  4: ["hero", "tall", "wide", "wide"],
+  5: ["hero", "compact", "compact", "wide", "wide"],
+  6: ["hero", "compact", "compact", "compact", "hero", "compact"],
+  7: ["hero", "tall", "compact", "hero", "compact", "wide", "wide"],
+  8: ["hero", "tall", "compact", "hero", "compact", "compact", "compact", "compact"],
+  9: ["hero", "tall", "compact", "hero", "compact", "wide", "wide", "wide", "wide"],
+  10: ["hero", "tall", "compact", "hero", "compact", "wide", "wide", "compact", "compact", "compact"],
+};
+
+export function getBentoShapes(total: number): BentoShape[] {
+  if (total <= 0) return [];
+  if (BENTO_PACKING_PATTERNS[total]) {
+    return BENTO_PACKING_PATTERNS[total];
+  }
+  const base = [...BENTO_PACKING_PATTERNS[10]];
+  const remaining = total - 10;
+  for (let i = 0; i < remaining; i++) {
+    base.push(remaining % 2 === 0 ? "wide" : "compact");
+  }
+  return base;
+}
+
+const SHAPE_SPAN_CLASSES: Record<BentoShape, string> = {
+  hero: "md:col-span-4 md:row-span-2",
+  tall: "md:col-span-2 md:row-span-2",
+  wide: "md:col-span-3 md:row-span-1",
+  compact: "md:col-span-2 md:row-span-1",
+};
 export const ProjectsSection = () => {
   const [activeCategory, setActiveCategory] = useState<CategoryKey>("all");
 
@@ -71,12 +103,15 @@ export const ProjectsSection = () => {
         combined.includes("oop") ||
         combined.includes("rls") ||
         combined.includes("security") ||
-        combined.includes("hardware")
+        combined.includes("hardware") ||
+        combined.includes("tailscale") ||
+        combined.includes("linux")
       );
     }
     return true;
   });
 
+  const shapes = getBentoShapes(filteredProjects.length);
   return (
     <section id="work" className="relative py-16 md:py-24 lg:py-28">
       {/* Section Background Glow - Hardware Composited */}
@@ -130,33 +165,32 @@ export const ProjectsSection = () => {
           </div>
         </div>
 
-        {/* Bento Grid with Framer Motion AnimatePresence */}
-        <motion.div 
+        {/* 6-Column Deterministic Bento Grid with Framer Motion AnimatePresence */}
+        <motion.div
           layout
-          className="grid grid-cols-1 md:grid-cols-3 auto-rows-[minmax(180px,auto)] gap-4 md:gap-6"
+          className="grid grid-cols-1 md:grid-cols-6 auto-rows-[minmax(215px,auto)] grid-flow-dense gap-4 md:gap-5"
         >
           <AnimatePresence mode="popLayout">
-            {filteredProjects.map((project) => (
-              <motion.div
-                key={project.title}
-                layout
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.95 }}
-                transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-                className={
-                  project.size === "large"
-                    ? "md:col-span-2 md:row-span-2"
-                    : project.size === "wide"
-                    ? "md:col-span-2 md:row-span-1"
-                    : project.size === "tall"
-                    ? "md:col-span-1 md:row-span-2"
-                    : "md:col-span-1 md:row-span-1"
-                }
-              >
-                <ProjectBentoCard project={project} className="h-full" />
-              </motion.div>
-            ))}
+            {filteredProjects.map((project, index) => {
+              const shape = shapes[index] ?? "compact";
+              return (
+                <motion.div
+                  key={project.title}
+                  layout
+                  initial={{ opacity: 0, scale: 0.96 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.96 }}
+                  transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+                  className={filteredProjects.length === 1 ? "md:col-span-6 md:row-span-2" : SHAPE_SPAN_CLASSES[shape]}
+                >
+                  <ProjectBentoCard
+                    project={project}
+                    shape={shape}
+                    className="h-full"
+                  />
+                </motion.div>
+              );
+            })}
           </AnimatePresence>
         </motion.div>
       </div>

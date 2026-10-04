@@ -70,7 +70,7 @@ export const resumeData = {
       description: "Secured competitive 12-month industrial placement in the Systems Team of a FTSE 100 retailer. Leading UI re-architecture for AI Attribution 2.0 using Blazor WebAssembly in a multi-repository, multi-solution microservice ecosystem. Developing internal engineering playbooks and onboarding fellow developers into structured agentic workflows — codifying domain context (CONTEXT.md, ADRs), designing deep-module boundaries to contain blast radius, and enforcing deterministic verification gates.",
       isCurrent: true,
       team: "PIM Strategic Team",
-      skills: ["Blazor WASM", "C# / .NET", "Microservices", "AI Attribution 2.0", "Agentic Harness Design", "Enterprise Systems"],
+      skills: ["Blazor WASM", "C# / .NET", "Microservices", "AI Attribution 2.0", "Agentic Systems", "Enterprise Architecture"],
     },
     {
       company: "Valdris",
@@ -111,14 +111,14 @@ export const resumeData = {
       gallery: [],
     },
     {
-      title: "Nothing But Net",
-      url: "/blog/nothing-but-net",
-      stack: ["React 19", "Node.js", "Python", "OpenCV", "Android (Companion)", "Render"],
-      description: "Flagship full-stack basketball analytics web platform (nothingbutnet.online) with dynamic ROI tracking, physics false-positive rejection, trajectory polynomial regression, and native Android companion capture.",
-      size: "large", // 2x2
-      color: "#FF6B6B", // Coral Red
-      image: "/images/nbn-home.png",
-      gallery: ["/images/nbn-dash.png", "/images/nbn-upload.png"],
+      title: "Enterprise Agentic Systems — Software Factory & The Lab",
+      url: "/blog/enterprise-agentic-systems",
+      stack: ["Oh My Pi (OMP)", "Tailscale & SSH", "T3 Code", "CONTEXT.md / ADRs", "Pop!_OS & CUDA"],
+      description: "Deterministic multi-agent software factory and cross-machine compute setup (The Lab) linking Linux and Windows GPU nodes over Tailscale & SSH on a student budget.",
+      size: "tall", // 2x2 showcase
+      color: "#F59E0B", // Amber
+      image: "/images/agentic-systems.png",
+      gallery: [],
     },
     {
       title: "Do It — Habit Parity Engine",
@@ -131,14 +131,14 @@ export const resumeData = {
       gallery: [],
     },
     {
-      title: "Enterprise Agentic Systems & Multi-Node Lab",
-      url: "/blog/enterprise-agentic-systems",
-      stack: ["Oh My Pi (OMP)", "Tailscale Mesh", "T3 Code", "CONTEXT.md / ADRs", "Pop!_OS & CUDA"],
-      description: "Architectural framework and systems case study on bringing deterministic agentic coding to enterprise teams, paired with a distributed multi-computer AI agent infrastructure over Tailscale & SSH.",
-      size: "wide", // 2x1
-      color: "#F59E0B", // Amber
-      image: "/images/agentic-systems.png",
-      gallery: [],
+      title: "Nothing But Net",
+      url: "/blog/nothing-but-net",
+      stack: ["React 19", "Node.js", "Python", "OpenCV", "Android (Companion)", "Render"],
+      description: "Flagship full-stack basketball analytics web platform (nothingbutnet.online) with dynamic ROI tracking, physics false-positive rejection, trajectory polynomial regression, and native Android companion capture.",
+      size: "large", // 4x2 hero
+      color: "#FF6B6B", // Coral Red
+      image: "/images/nbn-home.png",
+      gallery: ["/images/nbn-dash.png", "/images/nbn-upload.png"],
     },
     {
       title: "Make-It-All",
@@ -167,7 +167,7 @@ export const resumeData = {
       description: "Desktop software applying strict OOP (Inheritance, Polymorphism, Encapsulation) with modular role separation between Administrator and Customer workflows.",
       size: "medium", // 1x1
       color: "#8B5CF6", // Violet
-      image: "/images/embedded-payroll.png",
+      image: "/images/event-ticket-booking.png",
       gallery: [],
     },
     {

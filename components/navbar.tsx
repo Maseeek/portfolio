@@ -227,6 +227,15 @@ export const Navbar = () => {
                 <Github size={18} />
               </a>
               <a
+                href={resumeData.profile.links.x}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-muted-foreground hover:text-foreground transition-all hover:scale-110 p-1.5 font-mono text-xs font-bold"
+                aria-label="X (@maseeek)"
+              >
+                𝕏
+              </a>
+              <a
                 href={resumeData.profile.links.linkedin}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -306,6 +315,14 @@ export const Navbar = () => {
                   className="text-muted-foreground hover:text-white text-xs uppercase tracking-widest font-bold transition-colors"
                 >
                   GitHub ↗
+                </a>
+                <a
+                  href={resumeData.profile.links.x}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-muted-foreground hover:text-white text-xs uppercase tracking-widest font-bold transition-colors"
+                >
+                  X (@maseeek) ↗
                 </a>
                 <a 
                   href={resumeData.profile.links.linkedin} 

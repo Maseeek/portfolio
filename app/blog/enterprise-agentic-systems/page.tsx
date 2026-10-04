@@ -22,13 +22,13 @@ export default function EnterpriseAgenticSystemsBlog() {
         <div className="space-y-4">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-accent/10 border border-accent/20">
             <Zap className="w-3 h-3 text-accent" />
-            <span className="text-[10px] uppercase tracking-[0.2em] text-accent font-bold">Engineering Framework & Systems Lab</span>
+            <span className="text-[10px] uppercase tracking-[0.2em] text-accent font-bold">The Software Factory & The Lab</span>
           </div>
           <h1 className="text-4xl sm:text-6xl md:text-7xl font-black tracking-tighter text-white uppercase leading-none">
             enterprise<span className="text-accent">agentic</span>systems
           </h1>
           <p className="text-xl md:text-2xl text-muted-foreground font-light tracking-tight max-w-3xl">
-            Bringing deterministic agentic software engineering to enterprise teams, paired with a distributed multi-computer AI agent infrastructure over Tailscale & SSH.
+            Bringing deterministic agentic software engineering to enterprise teams, paired with <strong className="text-white font-medium">The Software Factory</strong> running across <strong className="text-white font-medium">The Lab</strong> over Tailscale & SSH on a student budget.
           </p>
         </div>
 
@@ -97,7 +97,7 @@ export default function EnterpriseAgenticSystemsBlog() {
             },
             {
               icon: Workflow,
-              title: "Composable Skill Harnesses & Spec Execution",
+              title: "Composable Skill Workflows & Spec Execution",
               artifact: "grill-me → to-spec → to-tickets → TDD",
               desc: "Requirements undergo automated Socratic stress-testing before code is written. Features are broken into orthogonal, file-isolated vertical slices executed concurrently by parallel subagents across isolated worktrees, verified against strict red-green test suites.",
             },
@@ -133,13 +133,13 @@ export default function EnterpriseAgenticSystemsBlog() {
       <section className="space-y-8 pt-4">
         <div className="space-y-2">
           <div className="inline-flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-accent font-bold">
-            Part 02
+            Part 02 · The Lab
           </div>
           <h2 className="text-3xl md:text-4xl font-black tracking-tight text-white uppercase">
-            Distributed Multi-Computer AI Agent Infrastructure
+            The Lab: Distributed Multi-Computer Compute Setup
           </h2>
           <p className="text-muted-foreground max-w-2xl text-sm md:text-base">
-            A modular, remotely accessible multi-machine environment linking portable Linux development nodes to desktop CUDA compute over a secure Tailscale and SSH mesh.
+            Running the Software Factory on a student budget: linking the computers I already own (portable Linux development + desktop CUDA compute) over a private Tailscale and SSH network before spending on paid cloud credits.
           </p>
         </div>
 
@@ -148,9 +148,9 @@ export default function EnterpriseAgenticSystemsBlog() {
           <div className="p-4 md:p-6 border-b border-white/10 bg-white/[0.02] flex items-center justify-between">
             <h3 className="font-bold text-white text-base flex items-center gap-2">
               <HardDrive className="w-4 h-4 text-accent" />
-              Hardware Infrastructure Nodes
+              The Lab — Hardware Nodes
             </h3>
-            <span className="text-xs font-mono text-muted-foreground">Tailscale Encrypted Mesh</span>
+            <span className="text-xs font-mono text-muted-foreground">Tailscale Private Network</span>
           </div>
 
           <div className="divide-y divide-white/5 text-sm">
@@ -221,7 +221,7 @@ export default function EnterpriseAgenticSystemsBlog() {
               </li>
               <li className="flex items-start gap-2">
                 <span className="text-emerald-400 mt-1">•</span>
-                <span><strong>Active Agent Orchestration:</strong> Experimenting with and executing multi-agent pipelines using <strong>Oh My Pi (OMP)</strong> and <strong>T3 Code</strong>.</span>
+                <span><strong>Software Factory Orchestration:</strong> Planning, building, and verifying projects across machines using <strong>Oh My Pi (OMP)</strong> and <strong>T3 Code</strong>.</span>
               </li>
               <li className="flex items-start gap-2">
                 <span className="text-emerald-400 mt-1">•</span>
