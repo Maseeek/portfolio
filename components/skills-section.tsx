@@ -144,7 +144,7 @@ export const SkillsSection = () => {
       <div className="max-w-[1400px] mx-auto px-[clamp(1.25rem,4vw,3.5rem)]">
         <div className="section-header">
           <span className="section-label">Capabilities</span>
-          <span className="section-label">03</span>
+          <span className="section-label">04</span>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-[1.2fr_1.8fr] gap-8 md:gap-12 lg:gap-16 items-start">

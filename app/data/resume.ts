@@ -15,7 +15,7 @@ export const resumeData = {
   about: {
     bio: "Computer Science undergraduate at Loughborough University (First-Class Honours across 1st & 2nd Year). Systems Placement Developer at Next plc within the PIM (Product Information & Management) Strategic Team. Experienced across C#, .NET, Blazor WASM, Python, PostgreSQL RLS, OpenCV, and modern distributed web architectures. Combines strong academic grounding in algorithms and discrete logic with practical experience building secure, high-throughput systems.",
   },
-  openSource: {
+  openSourceContributions: [{
     project: "T3 Code",
     role: "Open-source contributor",
     title: "Antigravity subscription quotas & usage limits",
@@ -26,7 +26,7 @@ export const resumeData = {
     description: "Contributed subscription quota tracking for the Antigravity provider, with web and mobile displays for Gemini and shared Claude/GPT limits and reset times when available.",
     details: "Added tests and documentation, and addressed review feedback on OAuth token handling and authenticated redirects. Accepted and merged into the upstream main branch.",
     skills: ["TypeScript", "React", "OAuth", "API Integration", "Testing"],
-  },
+  }],
   skills: {
     languages: ["Python (Advanced)", "C#", "TypeScript", "JavaScript", "Kotlin", "Java", "C/C++", "SQL", "PHP", "HTML/CSS"],
     web: ["Blazor WebAssembly", ".NET / C#", "React 19", "Next.js", "Node.js", "Express", "Flask", "Microservices", "REST API Design", "Tailwind CSS", "Vite"],

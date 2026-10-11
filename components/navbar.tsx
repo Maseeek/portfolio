@@ -11,6 +11,7 @@ import { BrandLogo } from "./ui/brand-logo";
 const navItems = [
   { name: "About", href: "/#about", id: "about" },
   { name: "Work", href: "/#work", id: "work" },
+  { name: "Open Source", href: "/#open-source", id: "open-source" },
   { name: "Skills", href: "/#skills", id: "skills" },
   { name: "Experience", href: "/#experience", id: "experience" },
   { name: "Services", href: "/#services", id: "services" },
@@ -190,7 +191,7 @@ export const Navbar = () => {
               </AnimatePresence>
             </div>
 
-            <div className="hidden lg:flex items-center gap-6 xl:gap-8">
+            <div className="hidden lg:flex items-center gap-4 xl:gap-6">
               {navItems.map((item) => {
                 const isActive = activeSection === item.id;
                 return (

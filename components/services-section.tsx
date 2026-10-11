@@ -33,7 +33,7 @@ export const ServicesSection = () => {
       <div className="max-w-[1400px] mx-auto px-[clamp(1.25rem,4vw,3.5rem)]">
         <div className="section-header">
           <span className="section-label">Services</span>
-          <span className="section-label">05</span>
+          <span className="section-label">06</span>
         </div>
 
         <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4 mb-10 md:mb-12">
