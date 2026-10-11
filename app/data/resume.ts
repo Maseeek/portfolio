@@ -13,7 +13,7 @@ export const resumeData = {
     },
   },
   about: {
-    bio: "Computer Science undergraduate at Loughborough University (First-Class Honours across 1st & 2nd Year). Systems Placement Developer at Next plc within the PIM (Product Information & Management) Strategic Team. Experienced across C#, .NET, Blazor WASM, Python, PostgreSQL RLS, OpenCV, and modern distributed web architectures. Combines strong academic grounding in algorithms and discrete logic with practical experience building secure, high-throughput systems.",
+    bio: "Computer Science undergraduate at Loughborough University (First-Class Honours across 1st & 2nd Year). Systems Placement Developer at Next plc within the PIM (Product Information & Management) Strategic Team. Experienced across C#, .NET, Blazor WASM, Python, PostgreSQL RLS, OpenCV, and modern distributed web architectures. Combines strong academic grounding in algorithms and discrete logic with practical experience building secure, high-throughput systems. I also contribute to T3 Code, including merged support for Antigravity subscription quotas and usage limits.",
   },
   openSourceContributions: [{
     project: "T3 Code",
