@@ -8,7 +8,7 @@ import { ScrollReveal } from "@/components/scroll-reveal";
 import { LiveIconsBar } from "@/components/live-icons-bar";
 import { SkillsSection } from "@/components/skills-section";
 import { ContactCTA } from "@/components/contact-cta";
-import { Award, Briefcase, Zap, Layers, GraduationCap, Trophy, Users, Globe2 } from "lucide-react";
+import { Award, Briefcase, Zap, Layers, GraduationCap, Trophy, Users, Globe2, GitPullRequest, ArrowUpRight } from "lucide-react";
 
 export default function Home() {
   return (
@@ -70,6 +70,34 @@ export default function Home() {
                     </span>
                   </div>
                 </div>
+
+                <article aria-labelledby="open-source-title" className="p-5 md:p-6 rounded-2xl bg-emerald-500/5 border border-emerald-500/20 space-y-4">
+                  <div className="flex flex-wrap items-center justify-between gap-3">
+                    <div className="flex items-center gap-2 text-emerald-400">
+                      <GitPullRequest className="w-4 h-4" aria-hidden="true" />
+                      <span className="text-xs font-mono font-bold uppercase tracking-wider">{resumeData.openSource.role}</span>
+                    </div>
+                    <span className="text-xs text-emerald-300">
+                      Merged <time dateTime={resumeData.openSource.mergedDateISO}>{resumeData.openSource.mergedDate}</time>
+                    </span>
+                  </div>
+                  <div className="space-y-2">
+                    <h3 id="open-source-title" className="font-bold text-lg text-white">
+                      {resumeData.openSource.project}: {resumeData.openSource.title}
+                    </h3>
+                    <p className="text-sm text-slate-300 leading-relaxed">{resumeData.openSource.description}</p>
+                    <p className="text-sm text-slate-400 leading-relaxed">{resumeData.openSource.details}</p>
+                  </div>
+                  <div className="flex flex-wrap gap-2">
+                    {resumeData.openSource.skills.map((skill) => (
+                      <span key={skill} className="text-xs text-slate-300 px-2.5 py-1 rounded-full bg-white/5 border border-white/10">{skill}</span>
+                    ))}
+                  </div>
+                  <a href={resumeData.openSource.pullRequestUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 text-sm font-semibold text-emerald-400 hover:text-emerald-300 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-emerald-400">
+                    View merged PR #{resumeData.openSource.pullRequestNumber}
+                    <ArrowUpRight className="w-4 h-4" aria-hidden="true" />
+                  </a>
+                </article>
 
                 {/* Key Highlights Grid */}
                 <div className="grid grid-cols-2 sm:grid-cols-2 gap-3 sm:gap-4">

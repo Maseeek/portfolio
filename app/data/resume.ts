@@ -2,7 +2,7 @@ export const resumeData = {
   profile: {
     name: "Maciek Geneja",
     headline: "Systems & Full-Stack Software Engineer",
-    subHeadline: "Building high-performance web applications, microservices, and deterministic data platforms. Systems Placement Developer at Next.",
+    subHeadline: "Building high-performance web applications, microservices, and deterministic data platforms. Systems Placement Developer at Next and open-source contributor to T3 Code.",
     location: "UK",
     phone: "07383 557 416",
     links: {
@@ -14,6 +14,18 @@ export const resumeData = {
   },
   about: {
     bio: "Computer Science undergraduate at Loughborough University (First-Class Honours across 1st & 2nd Year). Systems Placement Developer at Next plc within the PIM (Product Information & Management) Strategic Team. Experienced across C#, .NET, Blazor WASM, Python, PostgreSQL RLS, OpenCV, and modern distributed web architectures. Combines strong academic grounding in algorithms and discrete logic with practical experience building secure, high-throughput systems.",
+  },
+  openSource: {
+    project: "T3 Code",
+    role: "Open-source contributor",
+    title: "Antigravity subscription quotas & usage limits",
+    mergedDate: "11 October 2026",
+    mergedDateISO: "2026-10-11",
+    pullRequestNumber: 17530,
+    pullRequestUrl: "https://github.com/pingdotgg/t3code/pull/17530",
+    description: "Contributed subscription quota tracking for the Antigravity provider, with web and mobile displays for Gemini and shared Claude/GPT limits and reset times when available.",
+    details: "Added tests and documentation, and addressed review feedback on OAuth token handling and authenticated redirects. Accepted and merged into the upstream main branch.",
+    skills: ["TypeScript", "React", "OAuth", "API Integration", "Testing"],
   },
   skills: {
     languages: ["Python (Advanced)", "C#", "TypeScript", "JavaScript", "Kotlin", "Java", "C/C++", "SQL", "PHP", "HTML/CSS"],
