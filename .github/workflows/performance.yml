@@ -1,0 +1,58 @@
+name: Website performance
+
+on:
+  pull_request:
+    paths:
+      - "app/**"
+      - "components/**"
+      - "hooks/**"
+      - "lib/**"
+      - "public/**"
+      - "content/**"
+      - "next.config.*"
+      - "package*.json"
+      - "performance.config.mjs"
+      - "scripts/performance/**"
+      - ".github/workflows/performance.yml"
+  workflow_dispatch:
+    inputs:
+      strict:
+        description: Fail when performance targets are missed
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      NEXT_TELEMETRY_DISABLED: "1"
+      STRICT: ${{ inputs.strict || false }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+      # GitHub's ubuntu-latest image includes Google Chrome; chrome-launcher discovers it.
+      - run: npm ci
+      - run: npm run perf:test
+      - run: npm run build
+      - name: Audit phone, tablet, and desktop
+        run: |
+          if [ "$STRICT" = "true" ]; then
+            npm run perf:check -- --no-build
+          else
+            npm run perf -- --no-build
+          fi
+      - name: Save reports and diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: performance-reports
+          path: reports/performance/
+          if-no-files-found: warn
+          retention-days: 30

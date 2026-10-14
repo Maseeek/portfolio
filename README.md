@@ -102,5 +102,11 @@ npm run build
 
 ---
 
+## Checking performance
+
+Run `npm run perf` to audit a production build on phone, tablet, and desktop profiles. It saves an HTML overview and Lighthouse diagnostics for each page and run. Use `npm run perf:check` to enforce performance targets, or `npm run perf -- --url https://maciekgeneja.me` to audit the deployed site.
+
+See [the performance guide](docs/performance.md) for setup, focused checks, CI reports, and real-device interaction testing.
+
 ## 📄 License
 MIT © [Maciek Geneja](https://maciekgeneja.me)
