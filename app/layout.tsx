@@ -11,13 +11,15 @@ import { resumeData } from "./data/resume";
 const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin"],
-  display: "swap",
+  display: "optional",
+  preload: false,
 });
 
 const outfit = Outfit({
   variable: "--font-outfit",
   subsets: ["latin"],
-  display: "swap",
+  display: "optional",
+  preload: false,
 });
 
 export const viewport: Viewport = {

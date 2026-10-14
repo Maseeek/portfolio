@@ -76,7 +76,7 @@ export const Hero = ({ profile }: { profile: ResumeData["profile"] }) => {
       <motion.div
         style={{ y, opacity, scale }}
         variants={containerVariants}
-        initial="hidden"
+        initial={false}
         animate="visible"
         className="max-w-[1400px] mx-auto px-[clamp(1.25rem,4vw,3.5rem)] w-full relative z-10 pt-24 md:pt-36 lg:pt-40"
       >

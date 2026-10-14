@@ -12,6 +12,7 @@
 
 # testing
 /coverage
+/reports/performance/
 
 # next.js
 /.next/
@@ -96,3 +97,8 @@ next-env.d.ts
 /.adal/
 /data/skills/
 skills-lock.json
+/explorations/
+*.pyc
+__pycache__/
+scripts/*blueprint*.py
+scripts/parts/

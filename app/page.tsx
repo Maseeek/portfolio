@@ -36,7 +36,6 @@ export default function Home() {
                   alt="Maciek Geneja"
                   width={800}
                   height={1200}
-                  priority
                   quality={85}
                   sizes="(max-width: 768px) 100vw, 40vw"
                   className="w-full h-full object-cover grayscale-0 transition-all duration-700"

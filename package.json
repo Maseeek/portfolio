@@ -6,7 +6,10 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "perf": "node scripts/performance/run.mjs",
+    "perf:check": "node scripts/performance/run.mjs --strict",
+    "perf:test": "node --test scripts/performance/report.test.mjs"
   },
   "dependencies": {
     "clsx": "^2.1.1",
@@ -27,8 +30,10 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "chrome-launcher": "1.2.2",
     "eslint": "^9",
     "eslint-config-next": "16.1.4",
+    "lighthouse": "12.8.2",
     "tailwindcss": "^4",
     "typescript": "^5"
   }
