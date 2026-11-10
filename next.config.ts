@@ -24,6 +24,18 @@ const nextConfig: NextConfig = {
           source: "/index.html",
           destination: "/05-the-full-portfolio.html",
         },
+        {
+          source: "/1",
+          destination: "/prototype-1.html",
+        },
+        {
+          source: "/2",
+          destination: "/prototype-2.html",
+        },
+        {
+          source: "/3",
+          destination: "/prototype-3.html",
+        },
       ],
       afterFiles: [],
       fallback: [
