@@ -46,24 +46,39 @@ html{scroll-padding-top:84px}
   transition:opacity .24s ease,transform .28s cubic-bezier(.22,1.4,.36,1);
 }
 
-/* Option 01 (Micro-Strain): 75% less shake, subtle 3.35px swell, same signature blue (works on hover or mobile .is-pressurized) */
+/* Resting brimming fullness as soon as scroll reaches the bottom (even before hover on desktop) */
+.brand[data-m-full="true"]:not(.is-bursting) .m-fill{
+  stroke-width:3.45;
+}
+.brand[data-m-full="true"]:not(.is-bursting) .m-pressure-halo{
+  stroke-width:5.6;
+  stroke-opacity:.14;
+}
+.brand[data-m-full="true"]:not(.is-bursting) .m-tension-beads circle{
+  opacity:.65;
+  transform:scale(.85);
+}
+
+/* Midpoint "Almost Bursting" Fullness: engorged 4.15px fluid swell, 7.0px pressure halo, bulging meniscus beads, and elastic tremor */
 .brand[data-m-full="true"]:not(.is-bursting):is(:hover,.is-pressurized) .brand-m{
-  animation:m-micro-strain .34s ease-in-out infinite alternate;
+  animation:m-micro-strain .15s ease-in-out infinite alternate;
+  filter:drop-shadow(0 0 4.5px rgba(59,130,246,.42));
 }
 .brand[data-m-full="true"]:not(.is-bursting):is(:hover,.is-pressurized) .m-fill{
-  stroke-width:3.35;
+  stroke-width:4.15;
 }
 .brand[data-m-full="true"]:not(.is-bursting):is(:hover,.is-pressurized) .m-pressure-halo{
-  stroke-width:5.4;
-  stroke-opacity:.16;
+  stroke-width:7;
+  stroke-opacity:.26;
 }
 .brand[data-m-full="true"]:not(.is-bursting):is(:hover,.is-pressurized) .m-tension-beads circle{
-  opacity:.9;
-  transform:scale(1);
+  opacity:.96;
+  transform:scale(1.28);
 }
 @keyframes m-micro-strain{
-  0%{transform:scale(1.035,1.02) translate(-.2px,.15px) rotate(-.35deg)}
-  100%{transform:scale(1.02,1.04) translate(.2px,-.15px) rotate(.35deg)}
+  0%{transform:scale(1.095,1.035) translate(-.5px,.35px) rotate(-1.1deg)}
+  50%{transform:scale(1.035,1.105) translate(.5px,-.4px) rotate(1.1deg)}
+  100%{transform:scale(1.085,1.055) translate(-.35px,-.3px) rotate(-.65deg)}
 }
 
 /* Burst & Reverse Horizontal Wave Drain on Click / Tap */
@@ -231,15 +246,15 @@ html:not([data-theme="dark"]) .theme-btn:hover .ti-sun{transform:scale(.88) rota
 /* Interactive App Stage + Inbuilt Code HUD Overlays */
 .app-stage{display:flex;flex-direction:column;align-items:stretch;justify-content:flex-end;padding:22px 24px 0 0}
 .app-toolbar{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px;padding-right:4px;flex-wrap:wrap}
-.app-tabs{display:inline-flex;align-items:center;gap:3px;padding:3px;border-radius:20px;background:#0f141dd9;border:1px solid #ffffff1a;backdrop-filter:blur(10px)}
-.app-tabs button{padding:5px 11px;border-radius:16px;background:transparent;color:#9ba6b8;font-size:10px;font-weight:500;transition:background .2s,color .2s}
-.app-tabs button:hover{color:#fff}
+.app-tabs{display:inline-flex;align-items:center;gap:3px;padding:3px;border-radius:20px;background:#ffffffeb;border:1px solid #d5dce8;box-shadow:0 2px 8px #0f172a0d;backdrop-filter:blur(10px)}
+.app-tabs button{padding:5px 11px;border-radius:16px;background:transparent;color:#4b5568;font-size:10px;font-weight:550;transition:background .2s,color .2s}
+.app-tabs button:hover{color:var(--ink)}
 .app-tabs button.is-on{background:var(--accent);color:#fff}
 .app-right-tools{display:inline-flex;align-items:center;gap:6px}
-.mode-pill,.code-pill{padding:5px 11px;border-radius:16px;background:#0f141dd9;border:1px solid #ffffff1f;color:#c7d0df;font-size:10px;font-weight:500;backdrop-filter:blur(10px);transition:border-color .2s,color .2s,background .2s}
-.mode-pill:hover,.code-pill:hover{border-color:var(--accent);color:#fff}
-.code-pill[aria-pressed="true"]{background:#152238e6;border-color:#3b82f688;color:#93c5fd}
-.app-frame{position:relative;width:108%;border-radius:12px 0 0 0;overflow:hidden;border:1px solid #222936;background:#0b0e14;box-shadow:0 20px 45px #00000045}
+.mode-pill,.code-pill{padding:5px 11px;border-radius:16px;background:#ffffffeb;border:1px solid #d5dce8;color:#374151;font-size:10px;font-weight:550;box-shadow:0 2px 8px #0f172a0d;backdrop-filter:blur(10px);transition:border-color .2s,color .2s,background .2s}
+.mode-pill:hover,.code-pill:hover{border-color:var(--accent);color:var(--accent)}
+.code-pill[aria-pressed="true"]{background:#eff6ff;border-color:#93c5fd;color:#1d4ed8}
+.app-frame{position:relative;width:108%;border-radius:12px 0 0 0;overflow:hidden;border:1px solid #cfd8e6;background:#f8fafc;box-shadow:0 18px 40px #0f172a1c}
 .app-frame>img{width:100%;height:365px;object-fit:cover;object-position:top left;display:block;transition:opacity .2s}
 .code-hud{position:absolute;right:34px;bottom:16px;width:min(355px,calc(100% - 48px));background:#0b0f17eb;border:1px solid #ffffff24;border-radius:11px;padding:10px 13px;color:#dbe4f3;box-shadow:0 16px 36px #00000080;-webkit-backdrop-filter:saturate(180%) blur(14px);backdrop-filter:saturate(180%) blur(14px);transition:opacity .22s,transform .22s}
 .code-hud[hidden]{display:none!important}
@@ -413,6 +428,14 @@ html[data-theme="dark"] .neos-subcard p{color:#a8b8ce}
 html[data-theme="dark"] .ns-pill{background:#1a2e52;color:#93c5fd}
 html[data-theme="dark"] .work-slide{background:#141c28;border:1px solid #243042}
 html[data-theme="dark"] .doit-slide{background:#161e2c}
+html[data-theme="dark"] .app-tabs{background:#0f141dd9;border-color:#ffffff1a;box-shadow:none}
+html[data-theme="dark"] .app-tabs button{color:#9ba6b8}
+html[data-theme="dark"] .app-tabs button:hover{color:#fff}
+html[data-theme="dark"] .app-tabs button.is-on{background:var(--accent);color:#fff}
+html[data-theme="dark"] .mode-pill,html[data-theme="dark"] .code-pill{background:#0f141dd9;border-color:#ffffff1f;color:#c7d0df;box-shadow:none}
+html[data-theme="dark"] .mode-pill:hover,html[data-theme="dark"] .code-pill:hover{border-color:var(--accent);color:#fff}
+html[data-theme="dark"] .code-pill[aria-pressed="true"]{background:#152238e6;border-color:#3b82f688;color:#93c5fd}
+html[data-theme="dark"] .app-frame{border-color:#243042;background:#0b0e14;box-shadow:0 20px 45px #00000045}
 html[data-theme="dark"] .slide-copy>p:not(.eyebrow){color:#a8b8ce}
 html[data-theme="dark"] .slide-copy .eyebrow{color:#60a5fa}
 html[data-theme="dark"] .slide-title .st-sub,html[data-theme="dark"] .bento-card .bc-sub{color:#60a5fa}

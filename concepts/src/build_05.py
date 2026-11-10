@@ -38,10 +38,15 @@ photo_about = about_m.group(1)
 wave_m = re.search(r'<div class="waveform" aria-hidden="true">(.*?)</div>', html_04b)
 waveform = wave_m.group(1)
 
-# Nothing But Net screenshots (Live Dashboard, OpenCV HUD, Upload Home)
-nbn_dash_url = img_to_data_url(ARTIFACTS / "browser-screenshot-nbnc-maseeeks-projects-vercel-app-mw3v5a1y-bfa81fbd.png", max_w=1040, quality=85)
-nbn_hud_url = img_to_data_url(PUBLIC_IMGS / "nbn-hud.png", max_w=1040, quality=84)
-nbn_home_url = img_to_data_url(ARTIFACTS / "browser-screenshot-nbnc-maseeeks-projects-vercel-app-mw3v4qu6-9694cb80.png", max_w=1040, quality=84)
+# Nothing But Net screenshots (Dark + Light for Dashboard, OpenCV HUD, Upload Home)
+nbn_dash_dark = img_to_data_url(SCRATCH / "nbn-dash-dark.png", max_w=1040, quality=85)
+nbn_dash_light = img_to_data_url(SCRATCH / "nbn-dash-light.png", max_w=1040, quality=85)
+nbn_hud_dark = img_to_data_url(SCRATCH / "nbn-hud-dark.png", max_w=1040, quality=84)
+nbn_hud_light = img_to_data_url(SCRATCH / "nbn-hud-light.png", max_w=1040, quality=84)
+nbn_home_dark = img_to_data_url(SCRATCH / "nbn-home-dark.png", max_w=1040, quality=84)
+nbn_home_light = img_to_data_url(SCRATCH / "nbn-home-light.png", max_w=1040, quality=84)
+nbn_dash_url = nbn_dash_dark
+nbn_hud_url = nbn_hud_dark
 
 # Do It signed-in screenshots (Dark + Light for Duel, Today, Progress)
 doit_duel_dark = img_to_data_url(SCRATCH / "doit-duel-dark.png", max_w=1040, quality=85)
@@ -64,9 +69,9 @@ tickets_thumb = jpg_to_data_url(SCRATCH / "thumb-event-ticket-booking.jpg")
 
 gallery = {
     "nbn": {
-        "dash": nbn_dash_url,
-        "hud": nbn_hud_url,
-        "home": nbn_home_url
+        "dash": {"dark": nbn_dash_dark, "light": nbn_dash_light},
+        "hud": {"dark": nbn_hud_dark, "light": nbn_hud_light},
+        "home": {"dark": nbn_home_dark, "light": nbn_home_light}
     },
     "doit": {
         "duel": {"dark": doit_duel_dark, "light": doit_duel_light},

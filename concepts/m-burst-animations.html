@@ -1,0 +1,463 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>M — Toned-Down Pressure &amp; Burst Lab · Maciek Geneja</title>
+<style>
+:root{
+  --bg:#090c10;
+  --card:#11161f;
+  --line:#1e2633;
+  --ink:#f1f5f9;
+  --muted:#94a3b8;
+  --accent:#3b82f6;
+  --accent-deep:#155ce9;
+  --cyan:#60a5fa;
+  --fill:1;
+}
+[data-theme="light"]{
+  --bg:#f8fafc;
+  --card:#ffffff;
+  --line:#e2e8f0;
+  --ink:#0f172a;
+  --muted:#64748b;
+  --accent:#155ce9;
+  --accent-deep:#1044b2;
+  --cyan:#3b82f6;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+  background:var(--bg);
+  color:var(--ink);
+  -webkit-font-smoothing:antialiased;
+  padding:36px 20px 96px;
+}
+.wrap{max-width:1140px;margin:0 auto}
+header{
+  display:flex;justify-content:space-between;align-items:flex-end;gap:24px;
+  padding-bottom:24px;border-bottom:1px solid var(--line);margin-bottom:22px;flex-wrap:wrap;
+}
+.eyebrow{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);font-weight:600;margin:0 0 8px}
+h1{font-size:clamp(26px,4vw,40px);font-weight:550;letter-spacing:-.05em;margin:0;line-height:1.08}
+header p{margin:8px 0 0;color:var(--muted);font-size:14px;max-width:640px;line-height:1.6}
+.controls{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.btn{
+  padding:10px 16px;border-radius:99px;border:1px solid var(--line);
+  background:var(--card);color:var(--ink);font:600 12px/1 inherit;cursor:pointer;
+  transition:border-color .2s,background .2s,color .2s,transform .15s;
+  display:inline-flex;align-items:center;gap:7px;
+}
+.btn:hover{border-color:var(--accent)}
+.btn:active{transform:scale(.97)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+.btn.active-toggle{border-color:var(--accent);background:rgba(59,130,246,.14);color:var(--accent)}
+.kbd{
+  display:inline-block;padding:2px 6px;border-radius:5px;font:600 10px/1 ui-monospace,SFMono-Regular,Menlo,monospace;
+  background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.18);
+}
+
+/* Simulated Scroll Fill Bar + Mobile Controls */
+.scroll-bar{
+  background:var(--card);border:1px solid var(--line);border-radius:16px;
+  padding:16px 20px;margin-bottom:26px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;
+}
+.sb-left{display:flex;align-items:center;gap:12px;flex:1;min-width:250px}
+.sb-left label{font-size:12px;font-weight:600;white-space:nowrap}
+.sb-slider{
+  flex:1;accent-color:var(--accent);cursor:pointer;height:6px;
+}
+.sb-val{font:600 12px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--accent);min-width:42px;text-align:right}
+.sb-presets{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.preset-btn{
+  padding:6px 11px;border-radius:99px;border:1px solid var(--line);background:var(--bg);
+  color:var(--muted);font:600 11px/1 ui-monospace,SFMono-Regular,Menlo,monospace;cursor:pointer;
+}
+.preset-btn:hover,.preset-btn.is-active{border-color:var(--accent);color:var(--ink)}
+
+.section-label{
+  display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;
+  margin:28px 0 14px;
+}
+.section-label h2{font-size:18px;font-weight:600;letter-spacing:-.03em;margin:0}
+.section-label span{font-size:12px;color:var(--muted)}
+
+.grid{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px;
+}
+.card{
+  background:var(--card);border:1px solid var(--line);border-radius:18px;
+  padding:22px;display:flex;flex-direction:column;justify-content:space-between;
+  transition:border-color .25s,transform .25s;
+}
+.card:hover{border-color:#3b82f666}
+.card-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;gap:8px}
+.num{font:600 10px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--accent);letter-spacing:.08em;text-transform:uppercase;background:#3b82f618;padding:5px 9px;border-radius:99px}
+.hint{font-size:11px;color:var(--muted)}
+
+/* Interactive preview stage */
+.stage{
+  height:136px;border-radius:13px;background:var(--bg);
+  border:1px solid var(--line);display:flex;align-items:center;justify-content:center;
+  cursor:pointer;user-select:none;position:relative;overflow:hidden;
+  -webkit-tap-highlight-color:transparent;
+}
+.brand-demo{
+  display:inline-flex;align-items:center;gap:13px;
+  font-size:18px;font-weight:600;letter-spacing:-.04em;color:var(--ink);
+  padding:14px 20px;border-radius:12px;position:relative;background:transparent!important;
+}
+.brand-demo svg{width:38px;height:38px;overflow:visible;background:transparent!important}
+.brand-demo svg path{fill:none!important}
+.brand-demo svg clipPath path{fill:#fff!important}
+
+.card h3{font-size:16px;font-weight:560;letter-spacing:-.03em;margin:16px 0 6px}
+.card p{font-size:12.5px;color:var(--muted);line-height:1.6;margin:0}
+
+/* Calibrated Horizontal Wave Fill: starts right at x=2.7 (0% dead zone) */
+.wave-clip{
+  transform:translateX(calc(-27.2px + (var(--fill, 1) * 27.2px)));
+  transition:transform .14s linear;
+}
+.is-draining .wave-clip{
+  transform:translateX(-27.2px)!important;
+  transition:transform .68s cubic-bezier(.32,0,.15,1)!important;
+}
+
+/* Shared Burst Particles & Ring */
+.burst-ring{
+  opacity:0;transform-origin:15px 15px;transform:scale(.5);
+}
+.stage.is-draining .burst-ring{
+  animation:ring-pop .58s cubic-bezier(.16,1,.3,1) forwards;
+}
+@keyframes ring-pop{
+  0%{opacity:.75;transform:scale(.55);stroke-width:2}
+  100%{opacity:0;transform:scale(1.75);stroke-width:.2}
+}
+.burst-drops circle{
+  opacity:0;transform-box:fill-box;transform-origin:center;
+}
+.stage.is-draining .burst-drops circle{
+  animation:drop-pop .6s cubic-bezier(.16,1,.3,1) forwards;
+}
+@keyframes drop-pop{
+  0%{opacity:.95;transform:translate(0,0) scale(1)}
+  100%{opacity:0;transform:translate(var(--dx),var(--dy)) scale(.2)}
+}
+
+/* ==========================================================================
+   NEW TONED-DOWN VARIANTS (Same signature blue, zero/micro shake, mobile-ready)
+   Triggered on :hover OR when .is-pressurized is active (default ON for mobile)
+   ========================================================================== */
+
+/* Option A: Calibrated Midpoint Fullness & Elastic Strain (Live on Portfolio) */
+.v1-svg{transition:transform .28s cubic-bezier(.22,1,.36,1)}
+.v1-svg .m-fill{transition:stroke-width .26s cubic-bezier(.22,1,.36,1)}
+.v1-svg .m-pressure-halo{stroke-opacity:0;stroke-width:2.6;transition:stroke-width .28s cubic-bezier(.22,1,.36,1),stroke-opacity .26s}
+.v1-beads circle{opacity:0;transform:scale(0);transform-box:fill-box;transform-origin:center;transition:opacity .24s ease,transform .28s cubic-bezier(.22,1.4,.36,1)}
+.stage[data-full="true"]:is(:hover,.is-pressurized) .v1-svg{
+  animation:v1-micro-strain .15s ease-in-out infinite alternate;
+  filter:drop-shadow(0 0 4.5px rgba(59,130,246,.42));
+}
+.stage[data-full="true"]:is(:hover,.is-pressurized) .v1-svg .m-fill{
+  stroke-width:4.15;
+}
+.stage[data-full="true"]:is(:hover,.is-pressurized) .v1-svg .m-pressure-halo{
+  stroke-width:7;
+  stroke-opacity:.26;
+}
+.stage[data-full="true"]:is(:hover,.is-pressurized) .v1-beads circle{
+  opacity:.96;
+  transform:scale(1.28);
+}
+@keyframes v1-micro-strain{
+  0%{transform:scale(1.095,1.035) translate(-.5px,.35px) rotate(-1.1deg)}
+  50%{transform:scale(1.035,1.105) translate(.5px,-.4px) rotate(1.1deg)}
+  100%{transform:scale(1.085,1.055) translate(-.35px,-.3px) rotate(-.65deg)}
+}
+
+/* Option B: Pure Surface-Tension Swell (Zero Shake) */
+.v2-svg{transition:transform .32s cubic-bezier(.2,1.3,.4,1)}
+.v2-svg .m-fill{transition:stroke-width .32s cubic-bezier(.2,1.3,.4,1)}
+.stage[data-full="true"]:is(:hover,.is-pressurized) .v2-svg{
+  transform:scale(1.055);
+}
+.stage[data-full="true"]:is(:hover,.is-pressurized) .v2-svg .m-fill{
+  stroke-width:3.45;
+}
+
+/* Option C: Slow Breathing Pressure Pulse (No Shake, Same Blue) */
+.v3-svg .m-fill{transition:stroke-width .3s ease}
+.stage[data-full="true"]:is(:hover,.is-pressurized) .v3-svg{
+  animation:v3-breathe .95s ease-in-out infinite alternate;
+}
+.stage[data-full="true"]:is(:hover,.is-pressurized) .v3-svg .m-fill{
+  stroke-width:3.3;
+}
+@keyframes v3-breathe{
+  0%{transform:scale(1.02)}
+  100%{transform:scale(1.065)}
+}
+
+/* Option D: Brimming Vertex Meniscus Beads (No Shake) */
+.v4-svg{transition:transform .3s ease}
+.v4-svg .m-fill{transition:stroke-width .3s ease}
+.v4-beads circle{
+  opacity:0;transform:scale(.4);transform-origin:center;transform-box:fill-box;
+  transition:opacity .28s ease,transform .32s cubic-bezier(.2,1.4,.4,1);
+}
+.stage[data-full="true"]:is(:hover,.is-pressurized) .v4-svg{
+  transform:scale(1.04);
+}
+.stage[data-full="true"]:is(:hover,.is-pressurized) .v4-svg .m-fill{
+  stroke-width:3.25;
+}
+.stage[data-full="true"]:is(:hover,.is-pressurized) .v4-beads circle{
+  opacity:.95;transform:scale(1);
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div>
+      <p class="eyebrow">Interactive Brand Lab · Mobile &amp; Desktop Ready</p>
+      <h1>Calibrated 0→100% Wave Fill + Toned-Down Burst Options.</h1>
+      <p>The horizontal wave meniscus now starts filling on the <b>very first pixel of scroll (0%)</b> with zero dead zone. All 4 toned-down options keep your signature accent blue without harsh color shifts or heavy shaking—and work on mobile via the <b>Simulate Fullness / Pressure</b> toggle (or press <span class="kbd">W</span>).</p>
+    </div>
+    <div class="controls">
+      <button class="btn active-toggle" type="button" id="toggle-pressure" aria-pressed="true">
+        Simulate Full Pressure: ON <span class="kbd">W</span>
+      </button>
+      <button class="btn primary" type="button" id="burst-all">Burst &amp; Drain All</button>
+      <button class="btn" type="button" id="toggle-theme">Light / Dark</button>
+    </div>
+  </header>
+
+  <div class="scroll-bar">
+    <div class="sb-left">
+      <label for="fill-slider">Scroll Fill Level:</label>
+      <input class="sb-slider" id="fill-slider" type="range" min="0" max="100" value="100">
+      <span class="sb-val" id="fill-val">100%</span>
+    </div>
+    <div class="sb-presets">
+      <button class="preset-btn" type="button" data-pct="0">0%</button>
+      <button class="preset-btn" type="button" data-pct="15">15% (Immediate start)</button>
+      <button class="preset-btn" type="button" data-pct="50">50%</button>
+      <button class="preset-btn is-active" type="button" data-pct="100">100% (Full + Pressurized)</button>
+    </div>
+  </div>
+
+  <div class="section-label">
+    <h2>Toned-Down “About to Burst” Options (Same Blue, Subtle Tension)</h2>
+    <span>Tap any card on mobile or click on desktop to trigger the burst &amp; reverse-drain</span>
+  </div>
+
+  <div class="grid">
+    <!-- Option A -->
+    <article class="card">
+      <div>
+        <div class="card-top"><span class="num">Option A · Installed on Site</span><span class="hint">Tap / Click to burst</span></div>
+        <div class="stage is-pressurized" data-full="true">
+          <div class="brand-demo">
+            <svg class="v1-svg" viewBox="0 0 30 30" fill="none" aria-hidden="true">
+              <defs>
+                <clipPath id="cv1" clipPathUnits="userSpaceOnUse"><path class="wave-clip" d="M0 0 H28 C31 7, 25 14, 29 21 C31 25, 28 28, 30 30 H0 Z"/></clipPath>
+              </defs>
+              <path class="burst-ring" d="M15 4a11 11 0 1 0 0 22 11 11 0 1 0 0-22Z" stroke="var(--accent)" fill="none"/>
+              <path d="M4 24V7l11 12L26 7v17" stroke="currentColor" stroke-opacity=".28" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+              <g clip-path="url(#cv1)">
+                <path class="m-fill" d="M4 24V7l11 12L26 7v17" stroke="var(--accent)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+              </g>
+              <g class="burst-drops" fill="var(--accent)">
+                <circle cx="4" cy="7" r="1.4" style="--dx:-8px;--dy:-9px"/>
+                <circle cx="15" cy="19" r="1.3" style="--dx:0px;--dy:10px"/>
+                <circle cx="26" cy="7" r="1.4" style="--dx:9px;--dy:-8px"/>
+                <circle cx="4" cy="24" r="1.2" style="--dx:-9px;--dy:7px"/>
+                <circle cx="26" cy="24" r="1.2" style="--dx:9px;--dy:7px"/>
+              </g>
+            </svg>
+            <span>Maciek Geneja</span>
+          </div>
+        </div>
+        <h3>A. Subtle Micro-Strain (Toned-Down Tremor)</h3>
+        <p>Keeps the exact same <code>var(--accent)</code> blue. Swells gently from <code>2.6px → 3.25px</code> with a barely perceptible <code>0.25°</code> micro-vibration before popping.</p>
+      </div>
+    </article>
+
+    <!-- Option B -->
+    <article class="card">
+      <div>
+        <div class="card-top"><span class="num">Option B · Zero Shake</span><span class="hint">Tap / Click to burst</span></div>
+        <div class="stage is-pressurized" data-full="true">
+          <div class="brand-demo">
+            <svg class="v2-svg" viewBox="0 0 30 30" fill="none" aria-hidden="true">
+              <defs>
+                <clipPath id="cv2" clipPathUnits="userSpaceOnUse"><path class="wave-clip" d="M0 0 H28 C31 7, 25 14, 29 21 C31 25, 28 28, 30 30 H0 Z"/></clipPath>
+              </defs>
+              <path class="burst-ring" d="M15 4a11 11 0 1 0 0 22 11 11 0 1 0 0-22Z" stroke="var(--accent)" fill="none"/>
+              <path d="M4 24V7l11 12L26 7v17" stroke="currentColor" stroke-opacity=".28" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+              <g clip-path="url(#cv2)">
+                <path class="m-fill" d="M4 24V7l11 12L26 7v17" stroke="var(--accent)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+              </g>
+              <g class="burst-drops" fill="var(--accent)">
+                <circle cx="4" cy="7" r="1.4" style="--dx:-8px;--dy:-9px"/>
+                <circle cx="15" cy="19" r="1.3" style="--dx:0px;--dy:10px"/>
+                <circle cx="26" cy="7" r="1.4" style="--dx:9px;--dy:-8px"/>
+                <circle cx="4" cy="24" r="1.2" style="--dx:-9px;--dy:7px"/>
+                <circle cx="26" cy="24" r="1.2" style="--dx:9px;--dy:7px"/>
+              </g>
+            </svg>
+            <span>Maciek Geneja</span>
+          </div>
+        </div>
+        <h3>B. Pure Surface-Tension Swell (No Shake)</h3>
+        <p>Zero shaking or rotation. The M smoothly inflates to <code>3.45px</code> stroke weight with a <code>1.055x</code> elastic bulge—like water brimming over the rim of a glass.</p>
+      </div>
+    </article>
+
+    <!-- Option C -->
+    <article class="card">
+      <div>
+        <div class="card-top"><span class="num">Option C · Slow Pulse</span><span class="hint">Tap / Click to burst</span></div>
+        <div class="stage is-pressurized" data-full="true">
+          <div class="brand-demo">
+            <svg class="v3-svg" viewBox="0 0 30 30" fill="none" aria-hidden="true">
+              <defs>
+                <clipPath id="cv3" clipPathUnits="userSpaceOnUse"><path class="wave-clip" d="M0 0 H28 C31 7, 25 14, 29 21 C31 25, 28 28, 30 30 H0 Z"/></clipPath>
+              </defs>
+              <path class="burst-ring" d="M15 4a11 11 0 1 0 0 22 11 11 0 1 0 0-22Z" stroke="var(--accent)" fill="none"/>
+              <path d="M4 24V7l11 12L26 7v17" stroke="currentColor" stroke-opacity=".28" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+              <g clip-path="url(#cv3)">
+                <path class="m-fill" d="M4 24V7l11 12L26 7v17" stroke="var(--accent)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+              </g>
+              <g class="burst-drops" fill="var(--accent)">
+                <circle cx="4" cy="7" r="1.4" style="--dx:-8px;--dy:-9px"/>
+                <circle cx="15" cy="19" r="1.3" style="--dx:0px;--dy:10px"/>
+                <circle cx="26" cy="7" r="1.4" style="--dx:9px;--dy:-8px"/>
+                <circle cx="4" cy="24" r="1.2" style="--dx:-9px;--dy:7px"/>
+                <circle cx="26" cy="24" r="1.2" style="--dx:9px;--dy:7px"/>
+              </g>
+            </svg>
+            <span>Maciek Geneja</span>
+          </div>
+        </div>
+        <h3>C. Slow Breathing Pressure Pulse</h3>
+        <p>Instead of a fast tremor, the filled M breathes in a calm <code>0.95s</code> pressure pulse (<code>1.02x ↔ 1.065x</code>) in the same signature blue before bursting on tap.</p>
+      </div>
+    </article>
+
+    <!-- Option D -->
+    <article class="card">
+      <div>
+        <div class="card-top"><span class="num">Option D · Meniscus Beads</span><span class="hint">Tap / Click to burst</span></div>
+        <div class="stage is-pressurized" data-full="true">
+          <div class="brand-demo">
+            <svg class="v4-svg" viewBox="0 0 30 30" fill="none" aria-hidden="true">
+              <defs>
+                <clipPath id="cv4" clipPathUnits="userSpaceOnUse"><path class="wave-clip" d="M0 0 H28 C31 7, 25 14, 29 21 C31 25, 28 28, 30 30 H0 Z"/></clipPath>
+              </defs>
+              <path class="burst-ring" d="M15 4a11 11 0 1 0 0 22 11 11 0 1 0 0-22Z" stroke="var(--accent)" fill="none"/>
+              <path d="M4 24V7l11 12L26 7v17" stroke="currentColor" stroke-opacity=".28" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+              <g clip-path="url(#cv4)">
+                <path class="m-fill" d="M4 24V7l11 12L26 7v17" stroke="var(--accent)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+              </g>
+              <g class="v4-beads" fill="var(--accent)">
+                <circle cx="4" cy="6.6" r="1.25"/>
+                <circle cx="15" cy="18.8" r="1.2"/>
+                <circle cx="26" cy="6.6" r="1.25"/>
+              </g>
+              <g class="burst-drops" fill="var(--accent)">
+                <circle cx="4" cy="7" r="1.4" style="--dx:-8px;--dy:-9px"/>
+                <circle cx="15" cy="19" r="1.3" style="--dx:0px;--dy:10px"/>
+                <circle cx="26" cy="7" r="1.4" style="--dx:9px;--dy:-8px"/>
+                <circle cx="4" cy="24" r="1.2" style="--dx:-9px;--dy:7px"/>
+                <circle cx="26" cy="24" r="1.2" style="--dx:9px;--dy:7px"/>
+              </g>
+            </svg>
+            <span>Maciek Geneja</span>
+          </div>
+        </div>
+        <h3>D. Brimming Vertex Meniscus Beads</h3>
+        <p>No shake at all—three tiny surface-tension beads form quietly on the peaks of the M when full, signaling it’s brimming and ready to pop.</p>
+      </div>
+    </article>
+  </div>
+</div>
+
+<script>
+const slider=document.getElementById('fill-slider');
+const valEl=document.getElementById('fill-val');
+const stages=[...document.querySelectorAll('.stage')];
+const presetBtns=[...document.querySelectorAll('.preset-btn')];
+const pressureBtn=document.getElementById('toggle-pressure');
+let pressureSimOn=true;
+
+function setFill(pct){
+  slider.value=pct;
+  valEl.textContent=pct+'%';
+  document.documentElement.style.setProperty('--fill', String(pct/100));
+  const isFull=pct>=85;
+  stages.forEach(s=>{
+    s.setAttribute('data-full', String(isFull));
+    s.classList.toggle('is-pressurized', pressureSimOn && isFull);
+  });
+  presetBtns.forEach(b=>b.classList.toggle('is-active', Number(b.dataset.pct)===pct));
+}
+
+function togglePressureSim(forceState){
+  pressureSimOn = typeof forceState==='boolean' ? forceState : !pressureSimOn;
+  if(pressureSimOn && Number(slider.value)<85){
+    setFill(100);
+  } else {
+    setFill(Number(slider.value));
+  }
+  pressureBtn.setAttribute('aria-pressed', String(pressureSimOn));
+  pressureBtn.classList.toggle('active-toggle', pressureSimOn);
+  pressureBtn.innerHTML = `Simulate Full Pressure: ${pressureSimOn ? 'ON' : 'OFF'} <span class="kbd">W</span>`;
+}
+
+slider.addEventListener('input',()=>setFill(Number(slider.value)));
+presetBtns.forEach(btn=>btn.addEventListener('click',()=>setFill(Number(btn.dataset.pct))));
+pressureBtn.addEventListener('click',()=>togglePressureSim());
+
+// Keyboard 'W' shortcut to toggle fullness/pressure simulation
+window.addEventListener('keydown',(e)=>{
+  if(e.key==='w' || e.key==='W'){
+    if(slider.value==='100' && pressureSimOn){
+      setFill(0);
+      togglePressureSim(false);
+    } else {
+      setFill(100);
+      togglePressureSim(true);
+    }
+  }
+});
+
+function triggerBurst(stage){
+  if(stage.classList.contains('is-draining'))return;
+  if(Number(slider.value)<85) setFill(100);
+  stage.classList.add('is-draining');
+  setTimeout(()=>{
+    stage.classList.remove('is-draining');
+  }, 820);
+}
+
+stages.forEach(s=>s.addEventListener('click',()=>triggerBurst(s)));
+
+document.getElementById('burst-all').addEventListener('click',()=>{
+  setFill(100);
+  togglePressureSim(true);
+  stages.forEach(s=>triggerBurst(s));
+});
+
+document.getElementById('toggle-theme').addEventListener('click',()=>{
+  const root=document.documentElement;
+  root.setAttribute('data-theme',root.getAttribute('data-theme')==='dark'?'light':'dark');
+});
+</script>
+</body>
+</html>

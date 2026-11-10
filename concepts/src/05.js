@@ -68,7 +68,7 @@ if(brandLink){
   });
 }
 
-/* Do It signed-in multi-view switcher + Dark/Light app UI synced with site theme */
+/* Do It & Nothing But Net multi-view switchers + Dark/Light app UI synced with site theme */
 let doitView='today',doitMode='dark';
 const doitImg=document.querySelector('[data-doit-img]'),doitModeBtn=document.querySelector('[data-doit-mode]');
 function renderDoitStage(){
@@ -92,28 +92,56 @@ if(doitModeBtn){
   });
 }
 
-/* Website Dark / Light theme toggle — automatically syncs Do It showcase theme */
+let nbnView='dash',nbnMode='dark';
+const nbnImg=document.querySelector('[data-nbn-img]'),nbnModeBtn=document.querySelector('[data-nbn-mode]');
+function renderNbnStage(){
+  if(nbnImg&&appGallery.nbn[nbnView]){
+    const entry=appGallery.nbn[nbnView];
+    nbnImg.src=typeof entry==='string'?entry:(entry[nbnMode]||entry.dark);
+  }
+  if(nbnModeBtn){
+    nbnModeBtn.setAttribute('aria-pressed',String(nbnMode==='dark'));
+    nbnModeBtn.textContent=nbnMode==='dark'?'◐ Dark UI':'☀ Light UI';
+  }
+}
+document.querySelectorAll('[data-nbn-view]').forEach(btn=>btn.addEventListener('click',()=>{
+  nbnView=btn.dataset.nbnView;
+  document.querySelectorAll('[data-nbn-view]').forEach(b=>b.classList.toggle('is-on',b===btn));
+  renderNbnStage();
+}));
+if(nbnModeBtn){
+  nbnModeBtn.addEventListener('click',()=>{
+    nbnMode=nbnMode==='dark'?'light':'dark';
+    renderNbnStage();
+  });
+}
+
+/* Website Dark / Light theme — defaults to System preference, then toggles manually between Dark and Light */
 const rootEl=document.documentElement,themeBtn=document.querySelector('[data-theme-toggle]'),themeLabel=document.querySelector('[data-theme-label]');
+const sysColorQuery=window.matchMedia?window.matchMedia('(prefers-color-scheme: dark)'):null;
+let manualThemeOverride=false;
 function applySiteTheme(theme){
   rootEl.setAttribute('data-theme',theme);
   if(themeLabel)themeLabel.textContent=theme==='dark'?'Light':'Dark';
   doitMode=theme==='dark'?'dark':'light';
+  nbnMode=theme==='dark'?'dark':'light';
   renderDoitStage();
+  renderNbnStage();
+}
+/* Initialize from system preference on page load */
+applySiteTheme(sysColorQuery&&!sysColorQuery.matches?'light':'dark');
+if(sysColorQuery&&sysColorQuery.addEventListener){
+  sysColorQuery.addEventListener('change',e=>{
+    if(!manualThemeOverride)applySiteTheme(e.matches?'dark':'light');
+  });
 }
 if(themeBtn){
   themeBtn.addEventListener('click',()=>{
+    manualThemeOverride=true;
     const next=rootEl.getAttribute('data-theme')==='dark'?'light':'dark';
     applySiteTheme(next);
   });
 }
-
-/* Nothing But Net multi-view switcher */
-const nbnImg=document.querySelector('[data-nbn-img]');
-document.querySelectorAll('[data-nbn-view]').forEach(btn=>btn.addEventListener('click',()=>{
-  const v=btn.dataset.nbnView;
-  document.querySelectorAll('[data-nbn-view]').forEach(b=>b.classList.toggle('is-on',b===btn));
-  if(nbnImg&&appGallery.nbn[v])nbnImg.src=appGallery.nbn[v];
-}));
 
 /* Mobile progressive disclosure toggles (NEOS demo, Bento extra repos, Full 12 module marks) */
 document.querySelectorAll('[data-mob-toggle]').forEach(btn=>btn.addEventListener('click',()=>{

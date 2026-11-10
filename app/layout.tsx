@@ -73,9 +73,12 @@ export const metadata: Metadata = {
     images: ["/og-card.png"],
   },
   icons: {
-    icon: "/icon.svg",
-    shortcut: "/icon.svg",
-    apple: "/apple-touch-icon.png",
+    icon: [
+      { url: "/icon.svg?v=2", type: "image/svg+xml" },
+      { url: "/favicon.ico?v=2", sizes: "any" },
+    ],
+    shortcut: "/icon.svg?v=2",
+    apple: "/apple-touch-icon.png?v=2",
   },
 };
 
