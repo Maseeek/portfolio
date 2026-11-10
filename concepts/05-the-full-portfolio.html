@@ -1906,6 +1906,85 @@ document.querySelectorAll('[data-project]').forEach(button=>button.addEventListe
 document.querySelectorAll('[data-open-brief]').forEach(b=>b.addEventListener('click',()=>briefDialog.showModal()));
 document.querySelectorAll('[data-open-talk]').forEach(b=>b.addEventListener('click',()=>talkDialog.showModal()));
 document.querySelectorAll('[data-close]').forEach(b=>b.addEventListener('click',()=>b.closest('dialog').close()));
+/* Brief, contact and project modals: morph out of the button that opened them and shrink back into it on close. */
+function morphDialog(d,triggerSelector){
+  if(!d)return;
+  const nativeShow=HTMLDialogElement.prototype.showModal,nativeClose=HTMLDialogElement.prototype.close;
+  const RM=matchMedia('(prefers-reduced-motion: reduce)');
+  const EASE_OUT='cubic-bezier(0.23, 1, 0.32, 1)',EASE_DRAWER='cubic-bezier(0.32, 0.72, 0, 1)',EASE_SETTLE='cubic-bezier(0.4, 0, 0.2, 1)';
+  let trigger=null,morphed=false,closing=false,anims=[];
+  const run=(el,kf,o)=>{try{const a=el.animate(kf,{fill:'both',...o});anims.push(a);return a}catch(_){return null}};
+  const stop=()=>{anims.forEach(a=>a.cancel());anims=[]};
+  const done=list=>Promise.all(list.filter(Boolean).map(a=>a.finished.catch(()=>{})));
+  const backdrop=(from,to,duration)=>run(d,[{opacity:from},{opacity:to}],{duration,easing:EASE_OUT,pseudoElement:'::backdrop'});
+  const inView=el=>{if(!el)return false;const r=el.getBoundingClientRect();return r.width>0&&r.bottom>0&&r.top<innerHeight};
+  function shapes(){
+    const a=d.getBoundingClientRect(),b=trigger.getBoundingClientRect();
+    const dx=b.left+b.width/2-(a.left+a.width/2),dy=b.top+b.height/2-(a.top+a.height/2);
+    const ix=Math.max(0,(a.width-b.width)/2),iy=Math.max(0,(a.height-b.height)/2);
+    return[
+      {transform:`translate(${dx}px,${dy}px)`,clipPath:`inset(${iy}px ${ix}px round ${Math.min(b.height/2,parseFloat(getComputedStyle(trigger).borderTopLeftRadius)||b.height/2)}px)`,backgroundColor:/^rgba\(.*,\s*0\)$|^transparent$/.test(getComputedStyle(trigger).backgroundColor)?getComputedStyle(d).backgroundColor:getComputedStyle(trigger).backgroundColor},
+      {transform:'translate(0px,0px)',clipPath:`inset(0px 0px round ${getComputedStyle(d).borderTopLeftRadius})`,backgroundColor:getComputedStyle(d).backgroundColor}
+    ];
+  }
+  function enter(){
+    stop();
+    if(RM.matches){backdrop(0,1,150);run(d,[{opacity:0},{opacity:1}],{duration:150,easing:'ease'});}
+    else if(morphed){
+      backdrop(0,1,300);
+      run(d,shapes(),{duration:440,easing:EASE_DRAWER});
+      [...d.children].forEach(el=>run(el,[{opacity:0},{opacity:1}],{duration:220,delay:170,easing:EASE_OUT}));
+    }else{
+      backdrop(0,1,240);
+      run(d,[{opacity:0,transform:'translateY(8px) scale(0.97)'},{opacity:1,transform:'none'}],{duration:240,easing:EASE_OUT});
+    }
+    const entrance=anims.slice();
+    done(entrance).then(()=>{if(!closing&&entrance.length&&entrance.every(a=>a.playState==='finished')){entrance.forEach(a=>a.cancel());anims=anims.filter(a=>!entrance.includes(a))}});
+  }
+  function exit(){
+    // Closed mid-entrance: reverse what is running so it retracts from where it is.
+    const live=anims.filter(a=>a.playState==='running');
+    if(live.length){live.forEach(a=>a.reverse());return done(live)}
+    stop();
+    if(RM.matches)return done([backdrop(1,0,120),run(d,[{opacity:1},{opacity:0}],{duration:120,easing:'ease'})]);
+    if(morphed&&inView(trigger)){
+      // Mirror of the entrance: content fades, the shell glides back into the button, takes on its colour,
+      // and in the last ~110ms crossfades into the real button so its label doesn't pop back in.
+      const[collapsed,open]=shapes(),D=360,geo=k=>({transform:k.transform,clipPath:k.clipPath});
+      trigger.style.visibility='';
+      return done([
+        ...[...d.children].map(el=>run(el,[{opacity:1},{opacity:0}],{duration:180,easing:'ease'})),
+        run(d,[geo(open),geo(collapsed)],{duration:D,easing:EASE_SETTLE}),
+        run(d,[{backgroundColor:open.backgroundColor},{backgroundColor:collapsed.backgroundColor}],{duration:D-126,delay:90,easing:'ease'}),
+        run(d,[{opacity:1},{opacity:0}],{duration:108,delay:D-108,easing:'linear'}),
+        run(trigger,[{opacity:0},{opacity:1}],{duration:126,delay:D-126,easing:'linear'}),
+        backdrop(1,0,D-36)
+      ]);
+    }
+    return done([backdrop(1,0,160),run(d,[{opacity:1,transform:'none'},{opacity:0,transform:'scale(0.98)'}],{duration:160,easing:EASE_OUT})]);
+  }
+  document.addEventListener('click',e=>{const t=e.target.closest(triggerSelector);if(t)trigger=t},true);
+  d.showModal=function(){
+    if(this.open)return;
+    nativeShow.call(this);
+    morphed=!RM.matches&&inView(trigger);
+    if(morphed)trigger.style.visibility='hidden';
+    enter();
+  };
+  d.close=function(){
+    if(!this.open||closing)return;
+    closing=true;
+    // Safety net: never leave the dialog stuck if animation promises don't settle (e.g. tab hidden mid-close).
+    Promise.race([exit(),new Promise(r=>setTimeout(r,700))]).then(()=>{if(this.open)nativeClose.call(this);reset()});
+  };
+  d.addEventListener('cancel',e=>{e.preventDefault();d.close()});
+  function reset(){stop();if(trigger)trigger.style.visibility='';trigger=null;morphed=false;closing=false}
+  // Backup for closes that bypass d.close() (e.g. a forced Esc); ignore a late event if it has been reopened since.
+  d.addEventListener('close',()=>{if(!d.open)reset()});
+}
+morphDialog(briefDialog,'[data-open-brief]');
+morphDialog(talkDialog,'[data-open-talk]');
+morphDialog(projectDialog,'[data-project]');
 [projectDialog,briefDialog,talkDialog].forEach(d=>{
   if(!d)return;
   d.addEventListener('click',e=>{
