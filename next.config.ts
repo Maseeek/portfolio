@@ -26,10 +26,20 @@ const nextConfig: NextConfig = {
         },
       ],
       afterFiles: [],
-      fallback: [],
+      fallback: [
+        {
+          source: "/nothing-but-net",
+          destination: "/nothing-but-net/index.html",
+        },
+        {
+          source: "/nothing-but-net/:path*",
+          destination: "/nothing-but-net/index.html",
+        },
+      ],
     };
   },
 };
 
 export default nextConfig;
+
 

@@ -84,7 +84,7 @@ projects = {
         "note": "Switch between the live Dashboard, OpenCV HUD, and Upload UI directly on the slide card.",
         "image": nbn_hud_url,
         "repo": "https://github.com/Maseeek/nothing-but-net",
-        "live": "https://nbnc-maseeeks-projects.vercel.app/dashboard",
+        "live": "/nothing-but-net/results",
         "url": "https://maciekgeneja.me/blog/nothing-but-net"
     },
     "doit": {
