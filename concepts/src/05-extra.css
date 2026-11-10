@@ -622,7 +622,7 @@ html[data-theme="dark"] .mob-expand-btn{background:#131b29;border-color:#26354d;
 .app-right-tools{width:100%;justify-content:space-between}
 .mode-pill,.code-pill{flex:1;text-align:center;padding:6px 8px;font-size:10px}
 .app-frame{width:100%;border-radius:10px 10px 0 0}
-.app-frame>img{height:195px}
+.app-frame>img{height:320px;object-fit:cover;object-position:top center}
 /* Below-frame collapsible code HUD on mobile so it never covers the screenshot */
 .code-hud{
   position:static;

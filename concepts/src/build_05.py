@@ -41,20 +41,30 @@ waveform = wave_m.group(1)
 # Nothing But Net screenshots (Dark + Light for Dashboard, OpenCV HUD, Upload Home)
 nbn_dash_dark = img_to_data_url(SCRATCH / "nbn-dash-dark.png", max_w=1040, quality=85)
 nbn_dash_light = img_to_data_url(SCRATCH / "nbn-dash-light.png", max_w=1040, quality=85)
+nbn_dash_mob_dark = img_to_data_url(SCRATCH / "nbn-dash-mob-dark.png", max_w=640, quality=85)
 nbn_hud_dark = img_to_data_url(SCRATCH / "nbn-hud-dark.png", max_w=1040, quality=84)
 nbn_hud_light = img_to_data_url(SCRATCH / "nbn-hud-light.png", max_w=1040, quality=84)
-nbn_home_dark = img_to_data_url(SCRATCH / "nbn-home-dark.png", max_w=1040, quality=84)
+nbn_home_dark = img_to_data_url(SCRATCH / "nbn-home-real-dark.png", max_w=1040, quality=85)
 nbn_home_light = img_to_data_url(SCRATCH / "nbn-home-light.png", max_w=1040, quality=84)
+nbn_home_mob_dark = img_to_data_url(SCRATCH / "nbn-home-mob-dark.png", max_w=640, quality=85)
 nbn_dash_url = nbn_dash_dark
 nbn_hud_url = nbn_hud_dark
 
-# Do It signed-in screenshots (Dark + Light for Duel, Today, Progress)
+# Do It signed-in screenshots (Dark + Light for Duel, Today, Progress — Desktop & Mobile)
 doit_duel_dark = img_to_data_url(SCRATCH / "doit-duel-dark.png", max_w=1040, quality=85)
 doit_duel_light = img_to_data_url(SCRATCH / "doit-duel-light.png", max_w=1040, quality=85)
+doit_duel_mob_dark = img_to_data_url(SCRATCH / "doit-duel-mob-dark.png", max_w=640, quality=85)
+doit_duel_mob_light = img_to_data_url(SCRATCH / "doit-duel-mob-light.png", max_w=640, quality=85)
+
 doit_today_dark = img_to_data_url(SCRATCH / "doit-dark.png", max_w=1040, quality=84)
 doit_today_light = img_to_data_url(SCRATCH / "doit-light.png", max_w=1040, quality=84)
+doit_today_mob_dark = img_to_data_url(SCRATCH / "doit-today-mob-dark.png", max_w=640, quality=85)
+doit_today_mob_light = img_to_data_url(SCRATCH / "doit-today-mob-light.png", max_w=640, quality=85)
+
 doit_prog_dark = img_to_data_url(SCRATCH / "doit-progress-dark.png", max_w=1040, quality=85)
 doit_prog_light = img_to_data_url(SCRATCH / "doit-progress-light.png", max_w=1040, quality=85)
+doit_prog_mob_dark = img_to_data_url(SCRATCH / "doit-progress-mob-dark.png", max_w=640, quality=85)
+doit_prog_mob_light = img_to_data_url(SCRATCH / "doit-progress-mob-light.png", max_w=640, quality=85)
 
 # Other project screenshots
 neos_talk_url = img_to_data_url(ARTIFACTS / "browser-screenshot-ai-development-presentation-545a1d7-verc-mw3v9ajg-1ea1db8c.png", max_w=1040, quality=85)
@@ -69,14 +79,14 @@ tickets_thumb = jpg_to_data_url(SCRATCH / "thumb-event-ticket-booking.jpg")
 
 gallery = {
     "nbn": {
-        "dash": {"dark": nbn_dash_dark, "light": nbn_dash_light},
+        "dash": {"dark": nbn_dash_dark, "light": nbn_dash_light, "mob_dark": nbn_dash_mob_dark, "mob_light": nbn_dash_light},
         "hud": {"dark": nbn_hud_dark, "light": nbn_hud_light},
-        "home": {"dark": nbn_home_dark, "light": nbn_home_light}
+        "home": {"dark": nbn_home_dark, "light": nbn_home_light, "mob_dark": nbn_home_mob_dark, "mob_light": nbn_home_mob_dark}
     },
     "doit": {
-        "duel": {"dark": doit_duel_dark, "light": doit_duel_light},
-        "today": {"dark": doit_today_dark, "light": doit_today_light},
-        "progress": {"dark": doit_prog_dark, "light": doit_prog_light}
+        "duel": {"dark": doit_duel_dark, "light": doit_duel_light, "mob_dark": doit_duel_mob_dark, "mob_light": doit_duel_mob_light},
+        "today": {"dark": doit_today_dark, "light": doit_today_light, "mob_dark": doit_today_mob_dark, "mob_light": doit_today_mob_light},
+        "progress": {"dark": doit_prog_dark, "light": doit_prog_light, "mob_dark": doit_prog_mob_dark, "mob_light": doit_prog_mob_light}
     }
 }
 

@@ -68,12 +68,24 @@ if(brandLink){
   });
 }
 
-/* Do It & Nothing But Net multi-view switchers + Dark/Light app UI synced with site theme */
+/* Do It & Nothing But Net multi-view switchers + Dark/Light app UI synced with site theme + Mobile-aware screenshots */
+const mobQuery=window.matchMedia?window.matchMedia('(max-width: 760px)'):null;
+function pickStageUrl(entry, mode){
+  if(!entry)return '';
+  if(typeof entry==='string')return entry;
+  const isMob=mobQuery&&mobQuery.matches;
+  if(isMob){
+    const mobKey='mob_'+mode;
+    if(entry[mobKey])return entry[mobKey];
+  }
+  return entry[mode]||entry.dark||'';
+}
+
 let doitView='today',doitMode='dark';
 const doitImg=document.querySelector('[data-doit-img]'),doitModeBtn=document.querySelector('[data-doit-mode]');
 function renderDoitStage(){
-  if(doitImg&&appGallery.doit[doitView]&&appGallery.doit[doitView][doitMode]){
-    doitImg.src=appGallery.doit[doitView][doitMode];
+  if(doitImg&&appGallery.doit[doitView]){
+    doitImg.src=pickStageUrl(appGallery.doit[doitView],doitMode);
   }
   if(doitModeBtn){
     doitModeBtn.setAttribute('aria-pressed',String(doitMode==='dark'));
@@ -96,8 +108,7 @@ let nbnView='dash',nbnMode='dark';
 const nbnImg=document.querySelector('[data-nbn-img]'),nbnModeBtn=document.querySelector('[data-nbn-mode]');
 function renderNbnStage(){
   if(nbnImg&&appGallery.nbn[nbnView]){
-    const entry=appGallery.nbn[nbnView];
-    nbnImg.src=typeof entry==='string'?entry:(entry[nbnMode]||entry.dark);
+    nbnImg.src=pickStageUrl(appGallery.nbn[nbnView],nbnMode);
   }
   if(nbnModeBtn){
     nbnModeBtn.setAttribute('aria-pressed',String(nbnMode==='dark'));
@@ -112,6 +123,12 @@ document.querySelectorAll('[data-nbn-view]').forEach(btn=>btn.addEventListener('
 if(nbnModeBtn){
   nbnModeBtn.addEventListener('click',()=>{
     nbnMode=nbnMode==='dark'?'light':'dark';
+    renderNbnStage();
+  });
+}
+if(mobQuery&&mobQuery.addEventListener){
+  mobQuery.addEventListener('change',()=>{
+    renderDoitStage();
     renderNbnStage();
   });
 }
