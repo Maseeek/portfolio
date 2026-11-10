@@ -146,7 +146,7 @@ export const resumeData = {
       title: "Nothing But Net",
       url: "/blog/nothing-but-net",
       stack: ["React 19", "Node.js", "Python", "OpenCV", "Android (Companion)", "Render"],
-      description: "Flagship full-stack basketball analytics web platform (nothingbutnet.online) with dynamic ROI tracking, physics false-positive rejection, trajectory polynomial regression, and native Android companion capture.",
+      description: "Flagship full-stack basketball analytics web platform (nbnc-maseeeks-projects.vercel.app) with dynamic ROI tracking, physics false-positive rejection, trajectory polynomial regression, and native Android companion capture.",
       size: "large", // 4x2 hero
       color: "#FF6B6B", // Coral Red
       image: "/images/nbn-home.png",

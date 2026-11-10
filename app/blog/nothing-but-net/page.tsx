@@ -21,12 +21,12 @@ export default function NothingButNetBlog() {
             nothing<span className="text-accent">but</span>net
           </h1>
           <p className="text-xl md:text-2xl text-muted-foreground font-light tracking-tight max-w-2xl">
-            A production-ready full-stack web platform (<a href="https://nothingbutnet.online" target="_blank" rel="noopener noreferrer" className="text-white hover:text-accent underline underline-offset-4 font-medium transition-colors">nothingbutnet.online</a>) with a dedicated native Android companion app, providing real-time basketball shot analytics via custom computer vision and polynomial regression.
+            A production-ready full-stack web platform (<a href="https://nbnc-maseeeks-projects.vercel.app" target="_blank" rel="noopener noreferrer" className="text-white hover:text-accent underline underline-offset-4 font-medium transition-colors">nbnc-maseeeks-projects.vercel.app</a>) with a dedicated native Android companion app, providing real-time basketball shot analytics via custom computer vision and polynomial regression.
           </p>
         </div>
         
         <div className="flex flex-wrap gap-4 pt-4">
-          <a href="https://nothingbutnet.online" target="_blank" rel="noopener noreferrer" className="inline-flex items-center px-6 py-3 bg-white text-black hover:bg-accent hover:text-white rounded-full text-sm font-bold transition-all transform hover:scale-105">
+          <a href="https://nbnc-maseeeks-projects.vercel.app" target="_blank" rel="noopener noreferrer" className="inline-flex items-center px-6 py-3 bg-white text-black hover:bg-accent hover:text-white rounded-full text-sm font-bold transition-all transform hover:scale-105">
             <ExternalLink className="w-4 h-4 mr-2" />
             Visit Live Site (Web App)
           </a>
@@ -134,7 +134,7 @@ export default function NothingButNetBlog() {
             <h2 className="text-2xl font-bold text-white m-0">1. Full-Stack Web Platform & Analytics Suite (Core Flagship)</h2>
           </div>
           <p>
-            The primary hub of Nothing But Net is a high-performance web application hosted at <a href="https://nothingbutnet.online" target="_blank" rel="noopener noreferrer" className="text-accent underline font-semibold">nothingbutnet.online</a>. Built with modern full-stack standards, the web platform serves as the central control room for shot analysis, player telemetry, and platform management:
+            The primary hub of Nothing But Net is a high-performance web application hosted at <a href="https://nbnc-maseeeks-projects.vercel.app" target="_blank" rel="noopener noreferrer" className="text-accent underline font-semibold">nbnc-maseeeks-projects.vercel.app</a>. Built with modern full-stack standards, the web platform serves as the central control room for shot analysis, player telemetry, and platform management:
           </p>
           <ul className="list-disc list-inside space-y-2 text-sm text-gray-300">
             <li>
