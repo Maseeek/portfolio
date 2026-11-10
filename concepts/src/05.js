@@ -1,3 +1,5 @@
+/* iOS Safari only applies :active (press feedback) when a touch listener exists. */
+document.addEventListener('touchstart',()=>{},{passive:true});
 const projectDialog=document.getElementById('project-dialog'),briefDialog=document.getElementById('brief-dialog'),talkDialog=document.getElementById('talk-dialog');
 document.querySelectorAll('[data-project]').forEach(button=>button.addEventListener('click',()=>{
   const p=projects[button.dataset.project];
@@ -23,6 +25,129 @@ document.querySelectorAll('[data-project]').forEach(button=>button.addEventListe
 document.querySelectorAll('[data-open-brief]').forEach(b=>b.addEventListener('click',()=>briefDialog.showModal()));
 document.querySelectorAll('[data-open-talk]').forEach(b=>b.addEventListener('click',()=>talkDialog.showModal()));
 document.querySelectorAll('[data-close]').forEach(b=>b.addEventListener('click',()=>b.closest('dialog').close()));
+/* Brief, contact and project modals: morph out of the button that opened them and shrink back into it on close. */
+function morphDialog(d,triggerSelector){
+  if(!d)return;
+  const nativeShow=HTMLDialogElement.prototype.showModal,nativeClose=HTMLDialogElement.prototype.close;
+  const RM=matchMedia('(prefers-reduced-motion: reduce)'),SHEET=matchMedia('(max-width: 760px)');
+  const EASE_OUT='cubic-bezier(0.23, 1, 0.32, 1)',EASE_DRAWER='cubic-bezier(0.32, 0.72, 0, 1)',EASE_SETTLE='cubic-bezier(0.4, 0, 0.2, 1)';
+  let trigger=null,morphed=false,sheet=false,dragY=0,closing=false,anims=[];
+  const run=(el,kf,o)=>{try{const a=el.animate(kf,{fill:'both',...o});anims.push(a);return a}catch(_){return null}};
+  const stop=()=>{anims.forEach(a=>a.cancel());anims=[]};
+  const done=list=>Promise.all(list.filter(Boolean).map(a=>a.finished.catch(()=>{})));
+  const backdrop=(from,to,duration)=>run(d,[{opacity:from},{opacity:to}],{duration,easing:EASE_OUT,pseudoElement:'::backdrop'});
+  const inView=el=>{if(!el)return false;const r=el.getBoundingClientRect();return r.width>0&&r.bottom>0&&r.top<innerHeight};
+  function shapes(){
+    const a=d.getBoundingClientRect(),b=trigger.getBoundingClientRect();
+    const dx=b.left+b.width/2-(a.left+a.width/2),dy=b.top+b.height/2-(a.top+a.height/2);
+    const ix=Math.max(0,(a.width-b.width)/2),iy=Math.max(0,(a.height-b.height)/2);
+    return[
+      {transform:`translate(${dx}px,${dy}px)`,clipPath:`inset(${iy}px ${ix}px round ${Math.min(b.height/2,parseFloat(getComputedStyle(trigger).borderTopLeftRadius)||b.height/2)}px)`,backgroundColor:/^rgba\(.*,\s*0\)$|^transparent$/.test(getComputedStyle(trigger).backgroundColor)?getComputedStyle(d).backgroundColor:getComputedStyle(trigger).backgroundColor},
+      {transform:'translate(0px,0px)',clipPath:`inset(0px 0px round ${getComputedStyle(d).borderTopLeftRadius})`,backgroundColor:getComputedStyle(d).backgroundColor}
+    ];
+  }
+  function enter(){
+    stop();
+    if(RM.matches){backdrop(0,1,150);run(d,[{opacity:0},{opacity:1}],{duration:150,easing:'ease'});}
+    else if(sheet){
+      backdrop(0,1,300);
+      run(d,[{transform:'translateY(100%)'},{transform:'translateY(0)'}],{duration:500,easing:EASE_DRAWER});
+    }else if(morphed){
+      backdrop(0,1,300);
+      run(d,shapes(),{duration:440,easing:EASE_DRAWER});
+      [...d.children].forEach(el=>run(el,[{opacity:0},{opacity:1}],{duration:220,delay:170,easing:EASE_OUT}));
+    }else{
+      backdrop(0,1,240);
+      run(d,[{opacity:0,transform:'translateY(8px) scale(0.97)'},{opacity:1,transform:'none'}],{duration:240,easing:EASE_OUT});
+    }
+    const entrance=anims.slice();
+    done(entrance).then(()=>{if(!closing&&entrance.length&&entrance.every(a=>a.playState==='finished')){entrance.forEach(a=>a.cancel());anims=anims.filter(a=>!entrance.includes(a))}});
+  }
+  function exit(){
+    // Closed mid-entrance: reverse what is running so it retracts from where it is.
+    const live=anims.filter(a=>a.playState==='running');
+    if(live.length){live.forEach(a=>a.reverse());return done(live)}
+    stop();
+    if(RM.matches)return done([backdrop(1,0,120),run(d,[{opacity:1},{opacity:0}],{duration:120,easing:'ease'})]);
+    if(sheet){
+      // Slide back down from wherever the finger left it.
+      const from=dragY;d.style.transform='';
+      return done([backdrop(1,0,300),run(d,[{transform:`translateY(${from}px)`},{transform:'translateY(100%)'}],{duration:300,easing:EASE_DRAWER})]);
+    }
+    if(morphed&&inView(trigger)){
+      // Mirror of the entrance: content fades, the shell glides back into the button, takes on its colour,
+      // and in the last ~110ms crossfades into the real button so its label doesn't pop back in.
+      const[collapsed,open]=shapes(),D=360,geo=k=>({transform:k.transform,clipPath:k.clipPath});
+      trigger.style.visibility='';
+      return done([
+        ...[...d.children].map(el=>run(el,[{opacity:1},{opacity:0}],{duration:180,easing:'ease'})),
+        run(d,[geo(open),geo(collapsed)],{duration:D,easing:EASE_SETTLE}),
+        run(d,[{backgroundColor:open.backgroundColor},{backgroundColor:collapsed.backgroundColor}],{duration:D-126,delay:90,easing:'ease'}),
+        run(d,[{opacity:1},{opacity:0}],{duration:108,delay:D-108,easing:'linear'}),
+        run(trigger,[{opacity:0},{opacity:1}],{duration:126,delay:D-126,easing:'linear'}),
+        backdrop(1,0,D-36)
+      ]);
+    }
+    return done([backdrop(1,0,160),run(d,[{opacity:1,transform:'none'},{opacity:0,transform:'scale(0.98)'}],{duration:160,easing:EASE_OUT})]);
+  }
+  document.addEventListener('click',e=>{const t=e.target.closest(triggerSelector);if(t)trigger=t},true);
+  d.showModal=function(){
+    if(this.open)return;
+    nativeShow.call(this);
+    sheet=!RM.matches&&SHEET.matches;
+    morphed=!sheet&&!RM.matches&&inView(trigger);
+    if(morphed)trigger.style.visibility='hidden';
+    enter();
+  };
+  d.close=function(){
+    if(!this.open||closing)return;
+    closing=true;
+    // Safety net: never leave the dialog stuck if animation promises don't settle (e.g. tab hidden mid-close).
+    Promise.race([exit(),new Promise(r=>setTimeout(r,700))]).then(()=>{if(this.open)nativeClose.call(this);reset()});
+  };
+  d.addEventListener('cancel',e=>{e.preventDefault();d.close()});
+  // Swipe-to-close for the phone bottom sheet. Drags start only when pulling down with the content scrolled to the top,
+  // so normal scrolling inside the sheet is untouched. Release past 25% of the height or with a quick flick to close.
+  let t0=null;
+  const scrollerAt=el=>{for(;el&&el!==d.parentNode;el=el.parentElement){const cs=getComputedStyle(el);if(/(auto|scroll)/.test(cs.overflowY)&&el.scrollHeight>el.clientHeight)return el}return null};
+  d.addEventListener('touchstart',e=>{
+    if(!sheet||closing||e.touches.length>1||anims.some(a=>a.playState==='running'))return;
+    const sc=scrollerAt(e.target);
+    t0={y:e.touches[0].clientY,x:e.touches[0].clientX,t:performance.now(),sc,dragging:false,lastY:0,lastT:performance.now(),v:0};
+  },{passive:true});
+  d.addEventListener('touchmove',e=>{
+    if(!t0)return;
+    const dy=e.touches[0].clientY-t0.y,dx=e.touches[0].clientX-t0.x;
+    if(!t0.dragging){
+      if(Math.abs(dy)<6&&Math.abs(dx)<6)return;
+      if(dy>0&&Math.abs(dy)>Math.abs(dx)&&!(t0.sc&&t0.sc.scrollTop>0)){t0.dragging=true;t0.y=e.touches[0].clientY;d.classList.add('is-dragging');}
+      else{t0=null;return;}
+    }
+    e.preventDefault();
+    const raw=e.touches[0].clientY-t0.y,now=performance.now();
+    // Rubber-band if pulled above the resting position.
+    dragY=raw<0?-8*Math.log1p(-raw/8):raw;
+    t0.v=(dragY-t0.lastY)/Math.max(1,now-t0.lastT);t0.lastY=dragY;t0.lastT=now;
+    d.style.transform=`translateY(${dragY}px)`;
+  },{passive:false});
+  const endDrag=()=>{
+    if(!t0)return;const st=t0;t0=null;
+    if(!st.dragging)return;
+    d.classList.remove('is-dragging');
+    if(dragY>d.offsetHeight*0.25||(st.v>0.11&&dragY>10)){d.close();return}
+    const from=dragY;dragY=0;d.style.transform='';
+    const a=run(d,[{transform:`translateY(${from}px)`},{transform:'translateY(0)'}],{duration:400,easing:EASE_DRAWER});
+    if(a)a.finished.then(()=>{a.cancel();anims=anims.filter(x=>x!==a)}).catch(()=>{});
+  };
+  d.addEventListener('touchend',endDrag);
+  d.addEventListener('touchcancel',endDrag);
+  function reset(){stop();if(trigger)trigger.style.visibility='';trigger=null;morphed=false;sheet=false;dragY=0;d.style.transform='';d.classList.remove('is-dragging');closing=false}
+  // Backup for closes that bypass d.close() (e.g. a forced Esc); ignore a late event if it has been reopened since.
+  d.addEventListener('close',()=>{if(!d.open)reset()});
+}
+morphDialog(briefDialog,'[data-open-brief]');
+morphDialog(talkDialog,'[data-open-talk]');
+morphDialog(projectDialog,'[data-project]');
 [projectDialog,briefDialog,talkDialog].forEach(d=>{
   if(!d)return;
   d.addEventListener('click',e=>{
@@ -81,11 +206,33 @@ function pickStageUrl(entry, mode){
   return entry[mode]||entry.dark||'';
 }
 
+let themeSwitching=false;
+/* Crossfade an app screenshot to a new src: the old frame fades out on top once the new one has decoded. */
+function swapStageImg(img,url){
+  if(!img||!url||img.getAttribute('src')===url)return;
+  const frame=img.parentElement;
+  const token=img._swapToken=(img._swapToken||0)+1;
+  if(themeSwitching||matchMedia('(prefers-reduced-motion: reduce)').matches||!img.complete||!img.naturalWidth||!frame||!img.getClientRects().length){img.src=url;return;}
+  const next=new Image();next.src=url;
+  Promise.race([(next.decode?next.decode():Promise.resolve()).catch(()=>{}),new Promise(r=>setTimeout(r,300))]).then(()=>{
+    if(img._swapToken!==token)return;
+    frame.querySelectorAll('.stage-ghost').forEach(g=>g.remove());
+    const ghost=img.cloneNode(false);
+    ghost.removeAttribute('data-doit-img');ghost.removeAttribute('data-nbn-img');
+    ghost.className='stage-ghost';ghost.alt='';ghost.setAttribute('aria-hidden','true');
+    ghost.style.cssText='position:absolute;left:0;top:0;width:100%;height:'+img.offsetHeight+'px;object-fit:cover;object-position:top left;pointer-events:none';
+    frame.appendChild(ghost);
+    img.src=url;
+    const a=ghost.animate([{opacity:1},{opacity:0}],{duration:200,easing:'ease',fill:'forwards'});
+    a.finished.catch(()=>{}).then(()=>ghost.remove());setTimeout(()=>ghost.remove(),450);
+  });
+}
+
 let doitView='today',doitMode='dark';
 const doitImg=document.querySelector('[data-doit-img]'),doitModeBtn=document.querySelector('[data-doit-mode]');
 function renderDoitStage(){
   if(doitImg&&appGallery.doit[doitView]){
-    doitImg.src=pickStageUrl(appGallery.doit[doitView],doitMode);
+    swapStageImg(doitImg,pickStageUrl(appGallery.doit[doitView],doitMode));
   }
   if(doitModeBtn){
     doitModeBtn.setAttribute('aria-pressed',String(doitMode==='dark'));
@@ -108,7 +255,7 @@ let nbnView='home',nbnMode='dark';
 const nbnImg=document.querySelector('[data-nbn-img]'),nbnModeBtn=document.querySelector('[data-nbn-mode]');
 function renderNbnStage(){
   if(nbnImg&&appGallery.nbn[nbnView]){
-    nbnImg.src=pickStageUrl(appGallery.nbn[nbnView],nbnMode);
+    swapStageImg(nbnImg,pickStageUrl(appGallery.nbn[nbnView],nbnMode));
   }
   if(nbnModeBtn){
     nbnModeBtn.setAttribute('aria-pressed',String(nbnMode==='dark'));
@@ -156,7 +303,16 @@ if(themeBtn){
   themeBtn.addEventListener('click',()=>{
     manualThemeOverride=true;
     const next=rootEl.getAttribute('data-theme')==='dark'?'light':'dark';
-    applySiteTheme(next);
+    if(document.startViewTransition&&!document.hidden&&!matchMedia('(prefers-reduced-motion: reduce)').matches){
+      themeSwitching=true;
+      const vt=document.startViewTransition(()=>{
+        applySiteTheme(next);
+        // Let the swapped app screenshots decode before the new snapshot is taken (capped so the switch never stalls).
+        const decodes=[doitImg,nbnImg].filter(i=>i&&i.decode&&i.getClientRects().length).map(i=>i.decode().catch(()=>{}));
+        return Promise.race([Promise.all(decodes),new Promise(r=>setTimeout(r,150))]);
+      });
+      vt.ready.catch(()=>{});vt.finished.finally(()=>{themeSwitching=false});
+    }else applySiteTheme(next);
   });
 }
 
@@ -191,6 +347,7 @@ document.querySelectorAll('[data-copy]').forEach(button=>button.addEventListener
   const status=container.querySelector('.copy-status');
   try{await navigator.clipboard.writeText(val);if(status)status.textContent=label;}
   catch{if(status)status.textContent=val;}
+  if(status&&status.animate&&!matchMedia('(prefers-reduced-motion: reduce)').matches)status.animate([{opacity:0},{opacity:1}],{duration:180,easing:'cubic-bezier(0.23, 1, 0.32, 1)'});
 }));
 
 const workTrack=document.getElementById('work-track'),workSlides=[...document.querySelectorAll('.work-slide')];let workIndex=0,workTarget=null;
