@@ -39,15 +39,12 @@ wave_m = re.search(r'<div class="waveform" aria-hidden="true">(.*?)</div>', html
 waveform = wave_m.group(1)
 
 # Nothing But Net screenshots (Dark + Light for Dashboard, OpenCV HUD, Upload Home)
-nbn_dash_dark = img_to_data_url(SCRATCH / "nbn-dash-dark.png", max_w=1040, quality=85)
-nbn_dash_light = img_to_data_url(SCRATCH / "nbn-dash-light.png", max_w=1040, quality=85)
-nbn_dash_mob_dark = img_to_data_url(SCRATCH / "nbn-dash-mob-dark.png", max_w=640, quality=85)
+nbn_dash_dark = img_to_data_url(SCRATCH / "nbn-upload-v2.png", max_w=1280, quality=88)
 nbn_hud_dark = img_to_data_url(SCRATCH / "nbn-hud-dark.png", max_w=1040, quality=84)
 nbn_hud_light = img_to_data_url(SCRATCH / "nbn-hud-light.png", max_w=1040, quality=84)
-nbn_home_dark = img_to_data_url(SCRATCH / "nbn-home-real-dark.png", max_w=1040, quality=85)
-nbn_home_light = img_to_data_url(SCRATCH / "nbn-home-light.png", max_w=1040, quality=84)
+nbn_home_dark = img_to_data_url(SCRATCH / "nbn-landing-v2.png", max_w=1280, quality=88)
 nbn_home_mob_dark = img_to_data_url(SCRATCH / "nbn-home-mob-dark.png", max_w=640, quality=85)
-nbn_dash_url = nbn_dash_dark
+nbn_dash_url = nbn_home_dark
 nbn_hud_url = nbn_hud_dark
 
 # Do It signed-in screenshots (Dark + Light for Duel, Today, Progress — Desktop & Mobile)
@@ -79,9 +76,9 @@ tickets_thumb = jpg_to_data_url(SCRATCH / "thumb-event-ticket-booking.jpg")
 
 gallery = {
     "nbn": {
-        "dash": {"dark": nbn_dash_dark, "light": nbn_dash_light, "mob_dark": nbn_dash_mob_dark, "mob_light": nbn_dash_light},
+        "dash": {"dark": nbn_dash_dark, "light": nbn_dash_dark},
         "hud": {"dark": nbn_hud_dark, "light": nbn_hud_light},
-        "home": {"dark": nbn_home_dark, "light": nbn_home_light, "mob_dark": nbn_home_mob_dark, "mob_light": nbn_home_mob_dark}
+        "home": {"dark": nbn_home_dark, "light": nbn_home_dark, "mob_dark": nbn_home_mob_dark, "mob_light": nbn_home_mob_dark}
     },
     "doit": {
         "duel": {"dark": doit_duel_dark, "light": doit_duel_light, "mob_dark": doit_duel_mob_dark, "mob_light": doit_duel_mob_light},

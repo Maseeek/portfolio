@@ -104,7 +104,7 @@ if(doitModeBtn){
   });
 }
 
-let nbnView='dash',nbnMode='dark';
+let nbnView='home',nbnMode='dark';
 const nbnImg=document.querySelector('[data-nbn-img]'),nbnModeBtn=document.querySelector('[data-nbn-mode]');
 function renderNbnStage(){
   if(nbnImg&&appGallery.nbn[nbnView]){
