@@ -81,7 +81,7 @@ projects = {
         "kind": "Flagship AI & Computer Vision Monorepo · Live on Vercel",
         "description": "End-to-end basketball shot analytics platform. Normalizes footage to 640px width, isolates the basketball via HSV masking and adaptive Hough Circle Transforms inside a dynamic 5r ROI window, rejects 15r false positives, and fits a 2nd-degree polynomial (y = Ax² + Bx + C) to calculate release angles and make/miss outcomes.",
         "stack": "React 19 · Three.js · Python OpenCV & NumPy · Express 5 · MongoDB · Stripe · Kotlin (Jetpack Compose & CameraX)",
-        "note": "Switch between Dashboard, OpenCV HUD, and Upload UI on the slide card, or toggle the inbuilt trajectory regression code overlay.",
+        "note": "Switch between the live Dashboard, OpenCV HUD, and Upload UI directly on the slide card.",
         "image": nbn_hud_url,
         "repo": "https://github.com/Maseeek/nothing-but-net",
         "live": "https://nbnc-maseeeks-projects.vercel.app/dashboard",

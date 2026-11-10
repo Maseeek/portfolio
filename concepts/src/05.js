@@ -115,20 +115,6 @@ document.querySelectorAll('[data-nbn-view]').forEach(btn=>btn.addEventListener('
   if(nbnImg&&appGallery.nbn[v])nbnImg.src=appGallery.nbn[v];
 }));
 
-/* Inbuilt Code HUD overlay toggles (collapsed by default on mobile so screenshots stay clean) */
-if(window.matchMedia('(max-width: 760px)').matches){
-  document.querySelectorAll('.code-hud').forEach(hud=>hud.setAttribute('hidden',''));
-  document.querySelectorAll('[data-code-toggle]').forEach(btn=>btn.setAttribute('aria-pressed','false'));
-}
-document.querySelectorAll('[data-code-toggle]').forEach(btn=>btn.addEventListener('click',()=>{
-  const target=btn.dataset.codeToggle;
-  const hud=document.querySelector('[data-code-hud="'+target+'"]');
-  if(!hud)return;
-  const show=hud.hasAttribute('hidden');
-  hud.toggleAttribute('hidden',!show);
-  btn.setAttribute('aria-pressed',String(show));
-}));
-
 /* Mobile progressive disclosure toggles (NEOS demo, Bento extra repos, Full 12 module marks) */
 document.querySelectorAll('[data-mob-toggle]').forEach(btn=>btn.addEventListener('click',()=>{
   const targetClass=btn.dataset.mobToggle;

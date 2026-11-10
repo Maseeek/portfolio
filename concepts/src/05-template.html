@@ -216,7 +216,7 @@
         <p class="eyebrow muted">02 · Live applications &amp; machine learning builds</p>
         <h2 id="work-title">Inspect the code.<br>Try the live apps.</h2>
       </div>
-      <p class="desktop-only">Toggle views, code overlays, or switch site theme<br>to preview Dark &amp; Light app UI automatically.</p>
+      <p class="desktop-only">Toggle signed-in app views or switch site theme<br>to preview Dark &amp; Light app UI automatically.</p>
     </div>
 
     <div class="work-track" id="work-track" tabindex="0" aria-label="Current live applications. Scroll sideways or use the arrow buttons below.">
@@ -246,18 +246,10 @@
             </div>
             <div class="app-right-tools">
               <button type="button" class="mode-pill" data-doit-mode="dark" aria-pressed="true">◐ Dark UI</button>
-              <button type="button" class="code-pill" data-code-toggle="doit" aria-pressed="true">&lt;/&gt; RLS + GCM</button>
             </div>
           </div>
           <div class="app-frame">
             <img data-doit-img src="{{DOIT_TODAY_DARK}}" alt="Do It signed-in two-player habit competition dashboard" width="1080" height="675" loading="lazy">
-            <aside class="code-hud" data-code-hud="doit" aria-label="Supabase RLS and AES-256-GCM wearable vault snippet">
-              <div class="ch-head"><span class="ch-dot"></span><span>lib/crypto-rls.ts · AES-256-GCM + RLS</span><b>240 Par</b></div>
-              <pre><code>CREATE POLICY "duel_slot_isolation" ON habit_logs
-  USING (auth.uid() IN (player_a_id, player_b_id));
-const cipher = createCipheriv('aes-256-gcm', KEY, iv);
-return Buffer.concat([iv, cipher.getAuthTag(), enc]);</code></pre>
-            </aside>
           </div>
         </div>
       </article>
@@ -285,17 +277,9 @@ return Buffer.concat([iv, cipher.getAuthTag(), enc]);</code></pre>
               <button type="button" data-nbn-view="hud">OpenCV HUD</button>
               <button type="button" data-nbn-view="home">Upload UI</button>
             </div>
-            <button type="button" class="code-pill" data-code-toggle="nbn" aria-pressed="true">&lt;/&gt; Trajectory code</button>
           </div>
           <div class="app-frame">
             <img data-nbn-img src="{{NBN_DASH}}" alt="Nothing But Net live basketball analytics application" width="1080" height="675" loading="lazy">
-            <aside class="code-hud" data-code-hud="nbn" aria-label="Python OpenCV trajectory regression snippet">
-              <div class="ch-head"><span class="ch-dot"></span><span>shot_analyzer.py · OpenCV + NumPy</span><b>5r ROI · 60fps</b></div>
-              <pre><code>roi = mask[y0-5*r : y0+5*r, x0-5*r : x0+5*r]
-if np.hypot(cx - x0, cy - y0) &lt; 15 * r:
-    A, B, C = np.polyfit(pts_x, pts_y, deg=2)
-    theta = np.degrees(np.arctan(2*A*x_rel + B))</code></pre>
-            </aside>
           </div>
         </div>
       </article>
