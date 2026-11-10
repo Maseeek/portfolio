@@ -23,47 +23,59 @@ const outfit = Outfit({
 });
 
 export const viewport: Viewport = {
-  themeColor: "#030407",
+  themeColor: "#0d1118",
   width: "device-width",
   initialScale: 1,
   maximumScale: 5,
 };
 
 export const metadata: Metadata = {
-  title: "Maciek Geneja | Software Engineer & Full Stack Developer",
+  metadataBase: new URL("https://maciekgeneja.me"),
+  title: "Maciek Geneja | Enterprise Systems, Applied AI & Full-Stack Software Engineer",
   description:
-    "Computer Science student and Full Stack Developer specializing in high-performance web applications, modern software, and microservices.",
+    "Systems Placement Developer at Next plc (FTSE 100) & First-Class BSc Computer Science student at Loughborough University. Shipping C# & .NET enterprise systems, applied AI & Python computer vision, and React & TypeScript products.",
   keywords: [
     "Software Engineer",
+    "Enterprise Systems",
+    "Applied AI",
     "Full Stack Developer",
     "React 19",
     "Next.js",
     "Blazor WASM",
     "C#",
     "Python",
-    "Portfolio",
+    "Next plc",
     "Maciek Geneja",
   ],
   authors: [{ name: "Maciek Geneja" }],
   openGraph: {
-    title: "Maciek Geneja | Software Engineer & Full Stack Developer",
+    title: "Maciek Geneja — Enterprise Systems, Applied AI & Full-Stack Engineer",
     description:
-      "Building high-performance web apps, enterprise systems, and scalable infrastructure.",
+      "Systems Placement Developer at Next plc (FTSE 100) · First-Class BSc CS at Loughborough. Sole owner of NEOS AI Attribution 2.0, lead on the Item Tracker Blazor → React port, and creator of Do It & Nothing But Net.",
     url: "https://maciekgeneja.me",
-    siteName: "Maciek Geneja Portfolio",
-    locale: "en_US",
+    siteName: "Maciek Geneja",
+    locale: "en_GB",
     type: "website",
+    images: [
+      {
+        url: "/og-card.png",
+        width: 1200,
+        height: 630,
+        alt: "Maciek Geneja — Enterprise Systems, Applied AI & Full-Stack Engineer",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Maciek Geneja | Software Engineer & Full Stack Developer",
+    title: "Maciek Geneja — Enterprise Systems, Applied AI & Full-Stack Engineer",
     description:
-      "Building high-performance web apps, enterprise systems, and scalable infrastructure.",
+      "Systems Placement Developer at Next plc (FTSE 100) · First-Class BSc CS at Loughborough. Sole owner of NEOS AI Attribution 2.0, lead on the Item Tracker Blazor → React port, and creator of Do It & Nothing But Net.",
+    images: ["/og-card.png"],
   },
   icons: {
     icon: "/icon.svg",
     shortcut: "/icon.svg",
-    apple: "/icon.svg",
+    apple: "/apple-touch-icon.png",
   },
 };
 
