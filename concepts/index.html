@@ -1242,7 +1242,17 @@ html[data-theme="dark"] .mob-expand-btn{background:#131b29;border-color:#26354d;
 .nf-chip{transition:background .2s,color .2s}
 @keyframes m-extra-in{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
 @media(max-width:760px){
-.neos-stage.mob-expanded .m-extra-neos,.bento-wrap.mob-expanded .m-extra-bento,#grades-row.mob-expanded .m-extra-grade{animation:m-extra-in .3s cubic-bezier(.23,1,.32,1) both}
+.neos-stage.mob-expanded .m-extra-neos,.bento-wrap.mob-expanded .m-extra-bento{animation:m-extra-in .3s cubic-bezier(.23,1,.32,1) both}
+html:not(.js) #grades-row.mob-expanded .m-extra-grade{animation:m-extra-in .3s cubic-bezier(.23,1,.32,1) both}
+}
+/* Module marks: landing dot on each bar + "4 of 12" counter (mobile) */
+.grades .cap,.m-count{display:none}
+@media(max-width:760px){
+.m-count{display:inline}
+.grades .track{overflow:visible;position:relative}
+.grades .track i{transform-origin:left center}
+.grades .cap{display:block;position:absolute;left:var(--g);top:50%;width:8px;height:8px;margin:-4px 0 0 -4px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 2.5px var(--bg);opacity:0;transition:opacity .3s ease-out .9s}
+.grades.in .cap,html:not(.js) .grades .cap{opacity:1}
 }
 
 /* Touch: press feedback on large tap targets, and no stuck hover lifts after a tap */
@@ -1727,21 +1737,21 @@ html[data-theme="dark"] .mob-expand-btn{background:#131b29;border-color:#26354d;
       </div>
 
       <div class="spec-row reveal" id="grades-row">
-        <h3>Top module marks<small>12 First-Class modules (≥70%)</small></h3>
+        <h3>Top module marks<small><span class="m-count"><span data-grade-count>4</span> of </span>12 First-Class modules (≥70%)</small></h3>
         <div>
           <ul class="grades">
-            <li><span>Operating Systems, Networks &amp; the Internet 2</span><span class="track"><i style="--g:89%"></i></span><b>89%</b></li>
-            <li><span>Logic for Computer Science</span><span class="track"><i style="--g:86%"></i></span><b>86%</b></li>
-            <li><span>Mathematics for Computer Science</span><span class="track"><i style="--g:77%"></i></span><b>77%</b></li>
-            <li><span>AI Methods <small>(100% coursework)</small></span><span class="track"><i style="--g:74%"></i></span><b>74%</b></li>
-            <li class="m-extra-grade"><span>Formal Methods</span><span class="track"><i style="--g:76%"></i></span><b>76%</b></li>
-            <li class="m-extra-grade"><span>Formal Languages &amp; Theory of Computation</span><span class="track"><i style="--g:76%"></i></span><b>76%</b></li>
-            <li class="m-extra-grade"><span>Computer Graphics</span><span class="track"><i style="--g:76%"></i></span><b>76%</b></li>
-            <li class="m-extra-grade"><span>Embedded Systems Programming</span><span class="track"><i style="--g:75%"></i></span><b>75%</b></li>
-            <li class="m-extra-grade"><span>Introduction to Algorithms</span><span class="track"><i style="--g:75%"></i></span><b>75%</b></li>
-            <li class="m-extra-grade"><span>Web Programming</span><span class="track"><i style="--g:74%"></i></span><b>74%</b></li>
-            <li class="m-extra-grade"><span>Software Engineering 1</span><span class="track"><i style="--g:73%"></i></span><b>73%</b></li>
-            <li class="m-extra-grade"><span>Operating Systems, Networks &amp; the Internet 1</span><span class="track"><i style="--g:71%"></i></span><b>71%</b></li>
+            <li><span>Operating Systems, Networks &amp; the Internet 2</span><span class="track"><i style="--g:89%"></i><em class="cap" style="--g:89%"></em></span><b>89%</b></li>
+            <li><span>Logic for Computer Science</span><span class="track"><i style="--g:86%"></i><em class="cap" style="--g:86%"></em></span><b>86%</b></li>
+            <li><span>Mathematics for Computer Science</span><span class="track"><i style="--g:77%"></i><em class="cap" style="--g:77%"></em></span><b>77%</b></li>
+            <li><span>AI Methods <small>(100% coursework)</small></span><span class="track"><i style="--g:74%"></i><em class="cap" style="--g:74%"></em></span><b>74%</b></li>
+            <li class="m-extra-grade"><span>Formal Methods</span><span class="track"><i style="--g:76%"></i><em class="cap" style="--g:76%"></em></span><b>76%</b></li>
+            <li class="m-extra-grade"><span>Formal Languages &amp; Theory of Computation</span><span class="track"><i style="--g:76%"></i><em class="cap" style="--g:76%"></em></span><b>76%</b></li>
+            <li class="m-extra-grade"><span>Computer Graphics</span><span class="track"><i style="--g:76%"></i><em class="cap" style="--g:76%"></em></span><b>76%</b></li>
+            <li class="m-extra-grade"><span>Embedded Systems Programming</span><span class="track"><i style="--g:75%"></i><em class="cap" style="--g:75%"></em></span><b>75%</b></li>
+            <li class="m-extra-grade"><span>Introduction to Algorithms</span><span class="track"><i style="--g:75%"></i><em class="cap" style="--g:75%"></em></span><b>75%</b></li>
+            <li class="m-extra-grade"><span>Web Programming</span><span class="track"><i style="--g:74%"></i><em class="cap" style="--g:74%"></em></span><b>74%</b></li>
+            <li class="m-extra-grade"><span>Software Engineering 1</span><span class="track"><i style="--g:73%"></i><em class="cap" style="--g:73%"></em></span><b>73%</b></li>
+            <li class="m-extra-grade"><span>Operating Systems, Networks &amp; the Internet 1</span><span class="track"><i style="--g:71%"></i><em class="cap" style="--g:71%"></em></span><b>71%</b></li>
           </ul>
           <button type="button" class="mob-expand-btn mobile-only-inline" data-mob-toggle="grades-row" data-more="Show all 12 First-Class modules ↓" data-less="Show top 4 modules ↑">Show all 12 First-Class modules ↓</button>
         </div>
@@ -2263,10 +2273,69 @@ document.querySelectorAll('[data-mob-toggle]').forEach(btn=>btn.addEventListener
   const targetClass=btn.dataset.mobToggle;
   const container=btn.closest('.'+targetClass)||document.getElementById(targetClass);
   if(!container)return;
+  if(targetClass==='grades-row'){toggleGrades(container,btn);return;}
   const open=container.classList.toggle('mob-expanded');
   btn.textContent=open?btn.dataset.less:btn.dataset.more;
   setTimeout(updateBrandScrollFill,300);
 }));
+
+/* Full 12 module marks: drawer-curve growth, staggered blur-in rows, bar fill, landing dot, 4 → 12 counter */
+function toggleGrades(container,btn){
+  if(container.dataset.animating)return;
+  const ul=container.querySelector('.grades'),xs=[...container.querySelectorAll('.m-extra-grade')],count=container.querySelector('[data-grade-count]');
+  const opening=!container.classList.contains('mob-expanded');
+  const setCount=v=>{if(count)count.textContent=v};
+  const EO='cubic-bezier(.23,1,.32,1)',DRAWER='cubic-bezier(.32,.72,0,1)';
+  const still=matchMedia('(prefers-reduced-motion: reduce)').matches||!ul.animate;
+  const nextLabel=opening?btn.dataset.less:btn.dataset.more;
+  if(still){
+    container.classList.toggle('mob-expanded',opening);
+    btn.textContent=nextLabel;setCount(opening?12:4);
+    if(opening&&ul.animate)xs.forEach(li=>li.animate([{opacity:0},{opacity:1}],{duration:200,easing:'ease-out'}));
+    setTimeout(updateBrandScrollFill,300);
+    return;
+  }
+  container.dataset.animating='1';
+  btn.animate([{opacity:1,filter:'blur(0px)'},{opacity:0,filter:'blur(3px)'}],{duration:90,easing:'ease-out',fill:'forwards'});
+  setTimeout(()=>{
+    btn.getAnimations().forEach(a=>a.cancel());
+    btn.textContent=nextLabel;
+    btn.animate([{opacity:0,filter:'blur(3px)'},{opacity:1,filter:'blur(0px)'}],{duration:170,easing:EO});
+  },90);
+  const grow=(from,to,duration,easing)=>{
+    ul.style.overflow='hidden';
+    const a=ul.animate([{height:from+'px'},{height:to+'px'}],{duration,easing});
+    return a.finished.finally(()=>{ul.style.overflow=''});
+  };
+  const from=ul.offsetHeight;
+  if(opening){
+    container.classList.add('mob-expanded');
+    const to=ul.offsetHeight,STAG=40;
+    grow(from,to,300+xs.length*STAG,DRAWER);
+    xs.forEach((li,i)=>{
+      const d=i*STAG,bar=li.querySelector('.track i'),cap=li.querySelector('.cap');
+      li.animate([{opacity:0,transform:'translateY(8px)',filter:'blur(2px)'},{opacity:1,transform:'none',filter:'blur(0px)'}],{duration:340,delay:d,easing:EO,fill:'backwards'});
+      if(bar)bar.animate([{transform:'scaleX(0)'},{transform:'scaleX(1)'}],{duration:520,delay:d+140,easing:EO,fill:'backwards'});
+      if(cap)cap.animate([{opacity:0,transform:'scale(.3)'},{opacity:1,transform:'scale(1.35)',offset:.55},{opacity:1,transform:'scale(1)'}],{duration:340,delay:d+500,easing:EO,fill:'backwards'});
+      setTimeout(()=>setCount(5+i),d+140);
+    });
+    setTimeout(()=>{delete container.dataset.animating;updateBrandScrollFill();},140+xs.length*STAG);
+  }else{
+    container.classList.remove('mob-expanded');
+    const to=ul.offsetHeight;
+    container.classList.add('mob-expanded');
+    xs.forEach(li=>li.animate([{opacity:1},{opacity:0}],{duration:140,easing:'ease-out',fill:'forwards'}));
+    setCount(4);
+    grow(from,to,240,EO).then(()=>{
+      container.classList.remove('mob-expanded');
+      xs.forEach(li=>li.getAnimations().forEach(a=>a.cancel()));
+      delete container.dataset.animating;
+      updateBrandScrollFill();
+      const r=btn.getBoundingClientRect();
+      if(r.top<0||r.bottom>innerHeight)btn.scrollIntoView({block:'center',behavior:'smooth'});
+    });
+  }
+}
 
 /* Copy email / phone buttons */
 document.querySelectorAll('[data-copy]').forEach(button=>button.addEventListener('click',async()=>{

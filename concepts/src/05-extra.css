@@ -712,7 +712,17 @@ html[data-theme="dark"] .mob-expand-btn{background:#131b29;border-color:#26354d;
 .nf-chip{transition:background .2s,color .2s}
 @keyframes m-extra-in{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
 @media(max-width:760px){
-.neos-stage.mob-expanded .m-extra-neos,.bento-wrap.mob-expanded .m-extra-bento,#grades-row.mob-expanded .m-extra-grade{animation:m-extra-in .3s cubic-bezier(.23,1,.32,1) both}
+.neos-stage.mob-expanded .m-extra-neos,.bento-wrap.mob-expanded .m-extra-bento{animation:m-extra-in .3s cubic-bezier(.23,1,.32,1) both}
+html:not(.js) #grades-row.mob-expanded .m-extra-grade{animation:m-extra-in .3s cubic-bezier(.23,1,.32,1) both}
+}
+/* Module marks: landing dot on each bar + "4 of 12" counter (mobile) */
+.grades .cap,.m-count{display:none}
+@media(max-width:760px){
+.m-count{display:inline}
+.grades .track{overflow:visible;position:relative}
+.grades .track i{transform-origin:left center}
+.grades .cap{display:block;position:absolute;left:var(--g);top:50%;width:8px;height:8px;margin:-4px 0 0 -4px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 2.5px var(--bg);opacity:0;transition:opacity .3s ease-out .9s}
+.grades.in .cap,html:not(.js) .grades .cap{opacity:1}
 }
 
 /* Touch: press feedback on large tap targets, and no stuck hover lifts after a tap */
