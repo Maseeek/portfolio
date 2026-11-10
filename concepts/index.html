@@ -908,16 +908,22 @@ html:not([data-theme="dark"]) .theme-btn:hover .ti-sun{transform:scale(.88) rota
 /* Dialogs & Sleek Editorial "Get in touch" Modal */
 .dialog img[hidden],.dialog a[hidden]{display:none}
 .dialog-links{display:flex;flex-wrap:wrap;gap:12px 24px}
-.brief .dialog-body,.talk-modal .dialog-body{padding-top:10px}
-.brief h2,.talk-modal h2{margin-bottom:6px}
-.brief-sub{font-size:14px;line-height:1.65;color:var(--muted);margin-bottom:20px}
+.dialog.brief[open]{display:flex;flex-direction:column;max-height:min(88dvh,720px);overflow:hidden}
+.brief .dialog-top{flex-shrink:0;padding:15px 28px;border-bottom:1px solid var(--line)}
+.brief .dialog-body{flex:1;min-height:0;overflow-y:auto;padding:18px 28px 14px}
+.talk-modal .dialog-body{padding-top:10px}
+.brief h2{font-size:30px;margin-bottom:4px}
+.talk-modal h2{margin-bottom:6px}
+.brief-sub{font-size:13.5px;line-height:1.55;color:var(--muted);margin-bottom:14px}
 .brief-list{margin:0;border-top:1px solid var(--line)}
-.brief-list>div{display:grid;grid-template-columns:130px 1fr;gap:18px;padding:14px 0;border-bottom:1px solid var(--line)}
+.brief-list>div{display:grid;grid-template-columns:125px 1fr;gap:16px;padding:11px 0;border-bottom:1px solid var(--line)}
+.brief-list>div:last-child{border-bottom:0}
 .brief-list dt{font-size:12px;font-weight:600;color:var(--ink);letter-spacing:-.01em}
-.brief-list dd{margin:0;font-size:13.5px;line-height:1.65}
+.brief-list dd{margin:0;font-size:13px;line-height:1.56}
 .brief-list dd a{color:var(--accent)}
-.brief-actions{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;margin-top:22px}
-.brief-actions .button{justify-content:center;text-align:center;width:100%}
+.brief-foot{flex-shrink:0;padding:13px 28px 17px;border-top:1px solid var(--line);background:var(--bg)}
+.brief-actions{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:0}
+.brief-actions .button{justify-content:center;text-align:center;width:100%;padding:11px 16px}
 
 /* Sleek Editorial Contact Sheet (#talk-dialog) */
 .talk-modal{width:min(540px,calc(100vw - 32px))}
@@ -1203,12 +1209,16 @@ html[data-theme="dark"] .mob-expand-btn{background:#131b29;border-color:#26354d;
   max-height:90dvh;
   border-radius:18px;
 }
-.dialog-top{padding:14px 18px}
-.dialog-body,.brief .dialog-body,.talk-modal .dialog-body{padding:16px 18px 22px}
-.dialog h2{font-size:26px;margin-bottom:8px}
-.brief-sub{font-size:13px;margin-bottom:14px}
-.brief-list>div{grid-template-columns:1fr;gap:4px;padding:11px 0}
-.brief-actions{grid-template-columns:1fr;gap:8px;margin-top:16px}
+.dialog-top,.brief .dialog-top{padding:12px 16px}
+.dialog-body,.talk-modal .dialog-body{padding:16px 18px 22px}
+.brief .dialog-body{padding:14px 16px 12px}
+.dialog h2,.brief h2{font-size:24px;margin-bottom:6px}
+.brief-sub{font-size:12.5px;margin-bottom:10px}
+.brief-list>div{grid-template-columns:1fr;gap:3px;padding:9px 0}
+.brief-list dd{font-size:12.5px;line-height:1.5}
+.brief-foot{padding:11px 16px 14px}
+.brief-actions{grid-template-columns:repeat(2,1fr);gap:8px;margin:0}
+.brief-actions .button{padding:10px 10px;font-size:11.5px;min-height:38px}
 .talk-row{flex-direction:column;align-items:stretch;gap:10px;padding:12px 10px;margin:0 -10px}
 .tr-main{grid-template-columns:1fr;gap:2px}
 .tr-val{font-size:13.5px;white-space:normal;word-break:break-word}
@@ -1790,17 +1800,19 @@ html[data-theme="dark"] .mob-expand-btn{background:#131b29;border-color:#26354d;
   <div class="dialog-top"><p>Recruiter executive summary</p><button class="dialog-close" type="button" aria-label="Close summary" data-close>×</button></div>
   <div class="dialog-body">
     <h2 id="brief-title">Why hire Maciek.</h2>
-    <p class="brief-sub">A commercially proven engineer shipping enterprise systems, applied AI/ML pipelines, and full-stack software at FTSE 100 scale, backed by a First-Class Computer Science track record.</p>
+    <p class="brief-sub">Commercially proven engineer shipping enterprise systems, applied AI/ML, and full-stack software at FTSE 100 scale, backed by a First-Class Computer Science track record.</p>
     <dl class="brief-list">
       <div><dt>Core mix</dt><dd><strong>Enterprise Systems (C# / .NET), Applied AI &amp; Computer Vision (Python, OpenCV, Whisper), and Full-Stack Web (React, TypeScript, Next.js)</strong>.</dd></div>
-      <div><dt>FTSE 100 impact</dt><dd><strong>Systems Placement Developer at Next plc</strong> (Online Shopping — PIM Strategic Team). Solely owned the <strong>AI Attribution 2.0</strong> UI overhaul for NEXT's in-house Shield AI (highlighted by CEO Simon Wolfson in half-year results), developed an agentic workflow to port <strong>NEOS's Item Tracker from Blazor to React</strong> (<code>v5</code> merged to <code>main</code>, <code>v6</code>/<code>v7</code> dev branches), and built reusable hill-climbing review &amp; automated evidence-PR skills.</dd></div>
-      <div><dt>Degree</dt><dd><strong>BSc (Hons) Computer Science at Loughborough University — First-Class Honours</strong> across Years 1 &amp; 2 (89% in OS &amp; Networks 2, 86% in Logic, 100% in AI Methods coursework). A, A, A at Hills Road Sixth Form, Cambridge (Maths, Physics, Computing).</dd></div>
-      <div><dt>Live products &amp; OSS</dt><dd>Creator of <a href="https://do-it-plum-seven.vercel.app/?tab=today" target="_blank" rel="noopener noreferrer">Do It</a> (Next.js 16 + Supabase RLS + AES-256-GCM habit duel app), <a href="/nothing-but-net/results" target="_blank" rel="noopener noreferrer">Nothing But Net</a> (Python OpenCV trajectory regression + React 19 + Kotlin), and <a href="https://github.com/Maseeek/LED-REMOTE-CONTROL" target="_blank" rel="noopener noreferrer">Lumina</a> (Async BLE GATT hardware controller), plus upstream open-source PRs merged into <a href="https://github.com/pingdotgg/t3code/pulls?q=is%3Apr+author%3AMaseeek" target="_blank" rel="noopener noreferrer">T3 Code</a> (which I also use to orchestrate cross-machine agents in The Lab).</dd></div>
+      <div><dt>FTSE 100 impact</dt><dd><strong>Systems Placement Developer at Next plc</strong> (PIM Strategic Team). Solely owned the <strong>AI Attribution 2.0</strong> UI overhaul for NEXT's in-house Shield AI (highlighted by CEO Simon Wolfson in half-year results) and led an agentic <strong>Blazor → React Item Tracker port</strong> (<code>v5</code> merged to <code>main</code>) with reusable review-loop skills.</dd></div>
+      <div><dt>Degree</dt><dd><strong>BSc (Hons) Computer Science at Loughborough University — First-Class Honours</strong> across Years 1 &amp; 2 (89% OS &amp; Networks 2, 86% Logic, 100% AI Methods coursework). A, A, A at Hills Road Sixth Form, Cambridge.</dd></div>
+      <div><dt>Live products &amp; OSS</dt><dd>Creator of <a href="https://do-it-plum-seven.vercel.app/?tab=today" target="_blank" rel="noopener noreferrer">Do It</a> (Next.js 16 + Supabase RLS + AES-256-GCM), <a href="https://nbnc.vercel.app" target="_blank" rel="noopener noreferrer">Nothing But Net</a> (Python OpenCV + React 19 + Kotlin), and <a href="https://github.com/Maseeek/LED-REMOTE-CONTROL" target="_blank" rel="noopener noreferrer">Lumina</a> (Async BLE GATT), plus merged OSS PRs in <a href="https://github.com/pingdotgg/t3code/pulls?q=is%3Apr+author%3AMaseeek" target="_blank" rel="noopener noreferrer">T3 Code</a>.</dd></div>
     </dl>
+  </div>
+  <div class="brief-foot">
     <div class="brief-actions">
       <a class="button act-email" href="mailto:maciekgeneja@gmail.com?subject=Engineering%20opportunity">Email Maciek</a>
       <a class="button secondary-cta act-linkedin" href="https://www.linkedin.com/in/maciekgeneja" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-      <a class="button secondary-cta act-whatsapp" href="https://wa.me/447383557416?text=Hi%20Maciek%2C%20I%20just%20read%20your%20portfolio%20brief" target="_blank" rel="noopener noreferrer">Reach out on WhatsApp</a>
+      <a class="button secondary-cta act-whatsapp" href="https://wa.me/447383557416?text=Hi%20Maciek%2C%20I%20just%20read%20your%20portfolio%20brief" target="_blank" rel="noopener noreferrer">WhatsApp</a>
       <a class="button secondary-cta act-call mobile-only-flex" href="tel:+447383557416">Call +44 7383 557416</a>
     </div>
   </div>
