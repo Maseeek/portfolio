@@ -143,6 +143,20 @@ if(themeBtn){
   });
 }
 
+/* Expandable "See more of my work at NEXT" drawer (Desktop & Mobile) */
+const neosMoreBtn=document.querySelector('[data-neos-more-btn]'),neosMoreDrawer=document.getElementById('neos-more-drawer'),neosMoreLabel=document.querySelector('[data-neos-more-label]');
+if(neosMoreBtn){
+  neosMoreBtn.addEventListener('click',()=>{
+    const stage=neosMoreBtn.closest('.neos-stage');
+    if(!stage)return;
+    const open=stage.classList.toggle('is-more-open');
+    neosMoreBtn.setAttribute('aria-expanded',String(open));
+    if(neosMoreDrawer)neosMoreDrawer.setAttribute('aria-hidden',String(!open));
+    if(neosMoreLabel)neosMoreLabel.textContent=open?'Hide additional work at NEXT':'See more of my work at NEXT';
+    setTimeout(updateBrandScrollFill,540);
+  });
+}
+
 /* Mobile progressive disclosure toggles (NEOS demo, Bento extra repos, Full 12 module marks) */
 document.querySelectorAll('[data-mob-toggle]').forEach(btn=>btn.addEventListener('click',()=>{
   const targetClass=btn.dataset.mobToggle;
@@ -150,6 +164,7 @@ document.querySelectorAll('[data-mob-toggle]').forEach(btn=>btn.addEventListener
   if(!container)return;
   const open=container.classList.toggle('mob-expanded');
   btn.textContent=open?btn.dataset.less:btn.dataset.more;
+  setTimeout(updateBrandScrollFill,300);
 }));
 
 /* Copy email / phone buttons */

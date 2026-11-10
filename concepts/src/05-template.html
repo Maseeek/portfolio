@@ -142,7 +142,7 @@
               <li class="m-extra-neos"><strong>Shared component library:</strong> Extracted reusable single/multi-select comboboxes, AI/rule chips, <code>FieldCard</code>, and <code>SummarySection</code> into <code>Neos.Common</code>.</li>
               <li class="m-extra-neos"><strong>Team presentation:</strong> Delivered an interactive talk on <a class="inline-ext" href="ai-development-presentation.html" target="_blank" rel="noopener noreferrer">Using AI in development</a> to the PIM Strategic team.</li>
             </ul>
-            <button type="button" class="mob-expand-btn mobile-only-inline" data-mob-toggle="neos-stage" data-more="Show interactive NEOS demo, Item Tracker port &amp; Agentic Skills ↓" data-less="Hide interactive NEOS demo &amp; Item Tracker details ↑">Show interactive NEOS demo, Item Tracker port &amp; Agentic Skills ↓</button>
+            <button type="button" class="mob-expand-btn mobile-only-inline" data-mob-toggle="neos-stage" data-more="Show interactive NEOS Attribution demo ↓" data-less="Hide interactive NEOS Attribution demo ↑">Show interactive NEOS Attribution demo ↓</button>
           </div>
           <div class="tags">
             <span>C# / .NET</span><span>AI Integration</span><span>Blazor WebAssembly</span><span>React &amp; TypeScript</span><span>Agentic Engineering</span><span>Playwright</span>
@@ -196,37 +196,52 @@
         </div>
       </div>
 
-      <!-- WORKSTREAM 02: NEOS ITEM TRACKER (BLAZOR -> REACT) & AGENTIC SKILLS -->
-      <div class="neos-tracker-grid m-extra-neos">
-        <article class="neos-subcard">
-          <div class="ns-head">
-            <span class="eyebrow">Workstream 02 · NEOS Item Tracker (Blazor → React Port)</span>
-            <span class="ns-pill">v5 merged to main · v6/v7 dev branches</span>
-          </div>
-          <h4>Agentic legacy-to-React migration from structured sources of truth.</h4>
-          <p>Developed an agentic approach to porting NEOS's Item Tracker from the legacy Blazor application into a React-based frontend. Structured the repository so coding agents work from three explicit sources of truth: <strong>legacy code</strong> for business behaviour and API contracts, the <strong>prototype</strong> for visual design and interactions, and <strong>architecture documentation</strong> for implementation patterns.</p>
-          <ul class="neos-points compact">
-            <li><strong>Shell demo &amp; iterative branches:</strong> Built the initial Item Tracker demo inside the navigation shell, merged <code>v5</code> into <code>main</code>, and extended <code>v6</code> and <code>v7</code> development branches with tested workflows for <strong>saved views, bulk CSV filtering, grid behaviour, quick views, item details, exports, and theming</strong>.</li>
-            <li><strong>Performance &amp; test coverage:</strong> Isolated overlay state, deferred expensive filtering passes, and added automated tests around evolving interactions and data models (keeping <code>v6</code>/<code>v7</code> clearly scoped as development-branch iterations rather than a claimed production release).</li>
-          </ul>
-        </article>
+      <!-- EXPANDABLE TRIGGER FOR NEWER NEXT WORKSTREAMS -->
+      <button type="button" class="neos-more-btn" data-neos-more-btn aria-expanded="false" aria-controls="neos-more-drawer">
+        <span class="neos-more-text">
+          <strong data-neos-more-label>See more of my work at NEXT</strong>
+          <small>NEOS Item Tracker (Blazor → React Port) · Reusable Agent Skills &amp; Hill-Climbing Review Loop</small>
+        </span>
+        <span class="neos-more-arrow" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+        </span>
+      </button>
 
-        <article class="neos-subcard">
-          <div class="ns-head">
-            <span class="eyebrow">Workstream 03 · Reusable Agent Skills &amp; Hill-Climbing Review Loop</span>
-            <span class="ns-pill">Automated evidence PRs</span>
+      <!-- WORKSTREAM 02 & 03: HIDDEN BY DEFAULT, SMOOTHLY ANIMATED ON EXPAND -->
+      <div class="neos-more-drawer" id="neos-more-drawer" aria-hidden="true">
+        <div class="neos-more-inner">
+          <div class="neos-tracker-grid">
+            <article class="neos-subcard">
+              <div class="ns-head">
+                <span class="eyebrow">Workstream 02 · NEOS Item Tracker (Blazor → React Port)</span>
+                <span class="ns-pill">v5 merged to main · v6/v7 dev branches</span>
+              </div>
+              <h4>Agentic legacy-to-React migration from structured sources of truth.</h4>
+              <p>Developed an agentic approach to porting NEOS's Item Tracker from the legacy Blazor application into a React-based frontend. Structured the repository so coding agents work from three explicit sources of truth: <strong>legacy code</strong> for business behaviour and API contracts, the <strong>prototype</strong> for visual design and interactions, and <strong>architecture documentation</strong> for implementation patterns.</p>
+              <ul class="neos-points compact">
+                <li><strong>Shell demo &amp; iterative branches:</strong> Built the initial Item Tracker demo inside the navigation shell, merged <code>v5</code> into <code>main</code>, and extended <code>v6</code> and <code>v7</code> development branches with tested workflows for <strong>saved views, bulk CSV filtering, grid behaviour, quick views, item details, exports, and theming</strong>.</li>
+                <li><strong>Performance &amp; test coverage:</strong> Isolated overlay state, deferred expensive filtering passes, and added automated tests around evolving interactions and data models (keeping <code>v6</code>/<code>v7</code> clearly scoped as development-branch iterations rather than a claimed production release).</li>
+              </ul>
+            </article>
+
+            <article class="neos-subcard">
+              <div class="ns-head">
+                <span class="eyebrow">Workstream 03 · Reusable Agent Skills &amp; Hill-Climbing Review Loop</span>
+                <span class="ns-pill">Automated evidence PRs</span>
+              </div>
+              <h4>Turning agent failure modes into repeatable engineering verification gates.</h4>
+              <p>Designed reusable agent skills and repository guidance so other developers and future NEOS modules can repeat the workflow—guiding agents through legacy behaviour tracing, prototype state comparison, performance investigation, and <strong>automated formatted PRs with meaningful evidence</strong> that cut review time.</p>
+              <ul class="neos-points compact">
+                <li><strong>Iterative hill-climbing review loop:</strong> Created a review-loop skill that runs independent agent reviews to surface defects, apply fixes, and re-verify rather than accepting the first implementation.</li>
+                <li><strong>Live interaction &amp; rendered-font gates:</strong> After an early prototype-matching pass missed search focus and typography subtleties, documented the failure and hardened the skill to require live browser interaction checks, rendered-font evidence, and honest reporting of unverified differences.</li>
+              </ul>
+              <div class="ns-links">
+                <a class="action-pill sm" href="ai-development-presentation.html" target="_blank" rel="noopener noreferrer">Open NEXT AI Engineering Deck ↗</a>
+                <button class="action-pill quiet sm" type="button" data-project="lab">Cross-Machine Lab &amp; T3 Code</button>
+              </div>
+            </article>
           </div>
-          <h4>Turning agent failure modes into repeatable engineering verification gates.</h4>
-          <p>Designed reusable agent skills and repository guidance so other developers and future NEOS modules can repeat the workflow—guiding agents through legacy behaviour tracing, prototype state comparison, performance investigation, and <strong>automated formatted PRs with meaningful evidence</strong> that cut review time.</p>
-          <ul class="neos-points compact">
-            <li><strong>Iterative hill-climbing review loop:</strong> Created a review-loop skill that runs independent agent reviews to surface defects, apply fixes, and re-verify rather than accepting the first implementation.</li>
-            <li><strong>Live interaction &amp; rendered-font gates:</strong> After an early prototype-matching pass missed search focus and typography subtleties, documented the failure and hardened the skill to require live browser interaction checks, rendered-font evidence, and honest reporting of unverified differences.</li>
-          </ul>
-          <div class="ns-links">
-            <a class="action-pill sm" href="ai-development-presentation.html" target="_blank" rel="noopener noreferrer">Open NEXT AI Engineering Deck ↗</a>
-            <button class="action-pill quiet sm" type="button" data-project="lab">Cross-Machine Lab &amp; T3 Code</button>
-          </div>
-        </article>
+        </div>
       </div>
     </div>
   </section>

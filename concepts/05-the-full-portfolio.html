@@ -737,8 +737,45 @@ html:not([data-theme="dark"]) .theme-btn:hover .ti-sun{transform:scale(.88) rota
 .neos-metrics span{font-size:11.5px;font-weight:500;color:var(--ink);text-align:right;line-height:1.25}
 .neos-metrics small{display:block;font-size:10px;font-weight:400;color:var(--muted);margin-top:2px}
 
-.neos-tracker-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-top:24px;padding-top:24px;border-top:1px solid #dce3ef}
-.neos-subcard{background:#fff;border:1px solid #dce3ef;border-radius:16px;padding:22px 24px;display:flex;flex-direction:column;justify-content:space-between;gap:10px}
+/* Expandable "See more of my work at NEXT" trigger + smooth height/stagger drawer */
+.neos-more-btn{
+  margin-top:22px;width:100%;display:flex;align-items:center;justify-content:space-between;gap:16px;
+  padding:13px 18px;border-radius:14px;background:#fff;border:1px solid #dce3ef;
+  cursor:pointer;text-align:left;
+  transition:border-color .22s ease,background .22s ease,transform .2s ease,box-shadow .22s ease;
+}
+.neos-more-btn:hover{border-color:var(--accent);background:#f5f8ff;transform:translateY(-1px);box-shadow:0 8px 20px #155ce912}
+.neos-more-text{display:flex;flex-direction:column;gap:2px;min-width:0}
+.neos-more-text strong{font-size:13.5px;font-weight:600;letter-spacing:-.02em;color:var(--ink);transition:color .2s}
+.neos-more-btn:hover .neos-more-text strong{color:var(--accent)}
+.neos-more-text small{font-size:11.5px;color:var(--muted);line-height:1.4}
+.neos-more-arrow{
+  width:32px;height:32px;border-radius:50%;background:var(--accent-soft);color:var(--accent);
+  display:grid;place-items:center;flex-shrink:0;
+  transition:transform .46s cubic-bezier(.22,1,.36,1),background .22s ease,color .22s ease;
+}
+.neos-more-arrow svg{width:15px;height:15px}
+.neos-more-btn:hover .neos-more-arrow{background:var(--accent);color:#fff}
+.neos-stage.is-more-open .neos-more-arrow{transform:rotate(180deg);background:var(--accent);color:#fff}
+
+.neos-more-drawer{
+  display:grid;grid-template-rows:0fr;opacity:0;margin-top:0;pointer-events:none;
+  transition:grid-template-rows .52s cubic-bezier(.22,1,.36,1),opacity .38s ease,margin-top .52s cubic-bezier(.22,1,.36,1);
+}
+.neos-stage.is-more-open .neos-more-drawer{
+  grid-template-rows:1fr;opacity:1;margin-top:18px;pointer-events:auto;
+}
+.neos-more-inner{overflow:hidden;min-height:0}
+.neos-tracker-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;padding-top:18px;border-top:1px solid #dce3ef}
+.neos-subcard{
+  background:#fff;border:1px solid #dce3ef;border-radius:16px;padding:22px 24px;
+  display:flex;flex-direction:column;justify-content:space-between;gap:10px;
+  opacity:0;transform:translateY(14px) scale(.985);
+  transition:opacity .42s ease,transform .48s cubic-bezier(.22,1,.36,1),border-color .22s ease;
+}
+.neos-stage.is-more-open .neos-subcard{opacity:1;transform:translateY(0) scale(1)}
+.neos-stage.is-more-open .neos-subcard:nth-child(1){transition-delay:.06s}
+.neos-stage.is-more-open .neos-subcard:nth-child(2){transition-delay:.14s}
 .ns-head{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
 .ns-head .eyebrow{font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);font-weight:600;margin:0}
 .ns-pill{font-size:10.5px;font-weight:550;padding:4px 9px;border-radius:99px;background:var(--accent-soft);color:var(--accent)}
@@ -952,6 +989,9 @@ html[data-theme="dark"] .nf-chip.blue{background:#1a2e52;color:#93c5fd}
 html[data-theme="dark"] .nf-chip.amber{background:#382611;color:#fcd34d}
 html[data-theme="dark"] .nf-chip.muted{background:#222c3c;color:#a3b3c9}
 html[data-theme="dark"] .neos-metrics>div{background:#171f2d;border-color:#263347}
+html[data-theme="dark"] .neos-more-btn{background:#171f2d;border-color:#28364a}
+html[data-theme="dark"] .neos-more-btn:hover{background:#1b2638;border-color:#3b82f6;box-shadow:0 10px 24px #00000059}
+html[data-theme="dark"] .neos-more-btn:hover .neos-more-text strong{color:#60a5fa}
 html[data-theme="dark"] .neos-tracker-grid{border-color:#243042}
 html[data-theme="dark"] .neos-subcard{background:#171f2d;border-color:#28364a}
 html[data-theme="dark"] .neos-subcard p{color:#a8b8ce}
@@ -1076,7 +1116,12 @@ html[data-theme="dark"] .mob-expand-btn{background:#131b29;border-color:#26354d;
 .neos-metrics>div{flex-direction:column;align-items:flex-start;gap:3px;padding:10px 12px}
 .neos-metrics strong{font-size:17px}
 .neos-metrics span{text-align:left;font-size:11px}
-.neos-tracker-grid{margin-top:16px;padding-top:16px;gap:12px}
+.neos-more-btn{margin-top:14px;padding:11px 14px;gap:12px}
+.neos-more-text strong{font-size:12.5px}
+.neos-more-text small{font-size:10.5px}
+.neos-more-arrow{width:28px;height:28px}
+.neos-stage.is-more-open .neos-more-drawer{margin-top:14px}
+.neos-tracker-grid{padding-top:14px;gap:12px}
 .neos-subcard{padding:15px 14px;border-radius:14px}
 .neos-subcard h4{font-size:16px}
 .neos-subcard p{font-size:12.5px;line-height:1.58}
@@ -1284,7 +1329,7 @@ html[data-theme="dark"] .mob-expand-btn{background:#131b29;border-color:#26354d;
               <li class="m-extra-neos"><strong>Shared component library:</strong> Extracted reusable single/multi-select comboboxes, AI/rule chips, <code>FieldCard</code>, and <code>SummarySection</code> into <code>Neos.Common</code>.</li>
               <li class="m-extra-neos"><strong>Team presentation:</strong> Delivered an interactive talk on <a class="inline-ext" href="ai-development-presentation.html" target="_blank" rel="noopener noreferrer">Using AI in development</a> to the PIM Strategic team.</li>
             </ul>
-            <button type="button" class="mob-expand-btn mobile-only-inline" data-mob-toggle="neos-stage" data-more="Show interactive NEOS demo, Item Tracker port &amp; Agentic Skills ↓" data-less="Hide interactive NEOS demo &amp; Item Tracker details ↑">Show interactive NEOS demo, Item Tracker port &amp; Agentic Skills ↓</button>
+            <button type="button" class="mob-expand-btn mobile-only-inline" data-mob-toggle="neos-stage" data-more="Show interactive NEOS Attribution demo ↓" data-less="Hide interactive NEOS Attribution demo ↑">Show interactive NEOS Attribution demo ↓</button>
           </div>
           <div class="tags">
             <span>C# / .NET</span><span>AI Integration</span><span>Blazor WebAssembly</span><span>React &amp; TypeScript</span><span>Agentic Engineering</span><span>Playwright</span>
@@ -1338,37 +1383,52 @@ html[data-theme="dark"] .mob-expand-btn{background:#131b29;border-color:#26354d;
         </div>
       </div>
 
-      <!-- WORKSTREAM 02: NEOS ITEM TRACKER (BLAZOR -> REACT) & AGENTIC SKILLS -->
-      <div class="neos-tracker-grid m-extra-neos">
-        <article class="neos-subcard">
-          <div class="ns-head">
-            <span class="eyebrow">Workstream 02 · NEOS Item Tracker (Blazor → React Port)</span>
-            <span class="ns-pill">v5 merged to main · v6/v7 dev branches</span>
-          </div>
-          <h4>Agentic legacy-to-React migration from structured sources of truth.</h4>
-          <p>Developed an agentic approach to porting NEOS's Item Tracker from the legacy Blazor application into a React-based frontend. Structured the repository so coding agents work from three explicit sources of truth: <strong>legacy code</strong> for business behaviour and API contracts, the <strong>prototype</strong> for visual design and interactions, and <strong>architecture documentation</strong> for implementation patterns.</p>
-          <ul class="neos-points compact">
-            <li><strong>Shell demo &amp; iterative branches:</strong> Built the initial Item Tracker demo inside the navigation shell, merged <code>v5</code> into <code>main</code>, and extended <code>v6</code> and <code>v7</code> development branches with tested workflows for <strong>saved views, bulk CSV filtering, grid behaviour, quick views, item details, exports, and theming</strong>.</li>
-            <li><strong>Performance &amp; test coverage:</strong> Isolated overlay state, deferred expensive filtering passes, and added automated tests around evolving interactions and data models (keeping <code>v6</code>/<code>v7</code> clearly scoped as development-branch iterations rather than a claimed production release).</li>
-          </ul>
-        </article>
+      <!-- EXPANDABLE TRIGGER FOR NEWER NEXT WORKSTREAMS -->
+      <button type="button" class="neos-more-btn" data-neos-more-btn aria-expanded="false" aria-controls="neos-more-drawer">
+        <span class="neos-more-text">
+          <strong data-neos-more-label>See more of my work at NEXT</strong>
+          <small>NEOS Item Tracker (Blazor → React Port) · Reusable Agent Skills &amp; Hill-Climbing Review Loop</small>
+        </span>
+        <span class="neos-more-arrow" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+        </span>
+      </button>
 
-        <article class="neos-subcard">
-          <div class="ns-head">
-            <span class="eyebrow">Workstream 03 · Reusable Agent Skills &amp; Hill-Climbing Review Loop</span>
-            <span class="ns-pill">Automated evidence PRs</span>
+      <!-- WORKSTREAM 02 & 03: HIDDEN BY DEFAULT, SMOOTHLY ANIMATED ON EXPAND -->
+      <div class="neos-more-drawer" id="neos-more-drawer" aria-hidden="true">
+        <div class="neos-more-inner">
+          <div class="neos-tracker-grid">
+            <article class="neos-subcard">
+              <div class="ns-head">
+                <span class="eyebrow">Workstream 02 · NEOS Item Tracker (Blazor → React Port)</span>
+                <span class="ns-pill">v5 merged to main · v6/v7 dev branches</span>
+              </div>
+              <h4>Agentic legacy-to-React migration from structured sources of truth.</h4>
+              <p>Developed an agentic approach to porting NEOS's Item Tracker from the legacy Blazor application into a React-based frontend. Structured the repository so coding agents work from three explicit sources of truth: <strong>legacy code</strong> for business behaviour and API contracts, the <strong>prototype</strong> for visual design and interactions, and <strong>architecture documentation</strong> for implementation patterns.</p>
+              <ul class="neos-points compact">
+                <li><strong>Shell demo &amp; iterative branches:</strong> Built the initial Item Tracker demo inside the navigation shell, merged <code>v5</code> into <code>main</code>, and extended <code>v6</code> and <code>v7</code> development branches with tested workflows for <strong>saved views, bulk CSV filtering, grid behaviour, quick views, item details, exports, and theming</strong>.</li>
+                <li><strong>Performance &amp; test coverage:</strong> Isolated overlay state, deferred expensive filtering passes, and added automated tests around evolving interactions and data models (keeping <code>v6</code>/<code>v7</code> clearly scoped as development-branch iterations rather than a claimed production release).</li>
+              </ul>
+            </article>
+
+            <article class="neos-subcard">
+              <div class="ns-head">
+                <span class="eyebrow">Workstream 03 · Reusable Agent Skills &amp; Hill-Climbing Review Loop</span>
+                <span class="ns-pill">Automated evidence PRs</span>
+              </div>
+              <h4>Turning agent failure modes into repeatable engineering verification gates.</h4>
+              <p>Designed reusable agent skills and repository guidance so other developers and future NEOS modules can repeat the workflow—guiding agents through legacy behaviour tracing, prototype state comparison, performance investigation, and <strong>automated formatted PRs with meaningful evidence</strong> that cut review time.</p>
+              <ul class="neos-points compact">
+                <li><strong>Iterative hill-climbing review loop:</strong> Created a review-loop skill that runs independent agent reviews to surface defects, apply fixes, and re-verify rather than accepting the first implementation.</li>
+                <li><strong>Live interaction &amp; rendered-font gates:</strong> After an early prototype-matching pass missed search focus and typography subtleties, documented the failure and hardened the skill to require live browser interaction checks, rendered-font evidence, and honest reporting of unverified differences.</li>
+              </ul>
+              <div class="ns-links">
+                <a class="action-pill sm" href="ai-development-presentation.html" target="_blank" rel="noopener noreferrer">Open NEXT AI Engineering Deck ↗</a>
+                <button class="action-pill quiet sm" type="button" data-project="lab">Cross-Machine Lab &amp; T3 Code</button>
+              </div>
+            </article>
           </div>
-          <h4>Turning agent failure modes into repeatable engineering verification gates.</h4>
-          <p>Designed reusable agent skills and repository guidance so other developers and future NEOS modules can repeat the workflow—guiding agents through legacy behaviour tracing, prototype state comparison, performance investigation, and <strong>automated formatted PRs with meaningful evidence</strong> that cut review time.</p>
-          <ul class="neos-points compact">
-            <li><strong>Iterative hill-climbing review loop:</strong> Created a review-loop skill that runs independent agent reviews to surface defects, apply fixes, and re-verify rather than accepting the first implementation.</li>
-            <li><strong>Live interaction &amp; rendered-font gates:</strong> After an early prototype-matching pass missed search focus and typography subtleties, documented the failure and hardened the skill to require live browser interaction checks, rendered-font evidence, and honest reporting of unverified differences.</li>
-          </ul>
-          <div class="ns-links">
-            <a class="action-pill sm" href="ai-development-presentation.html" target="_blank" rel="noopener noreferrer">Open NEXT AI Engineering Deck ↗</a>
-            <button class="action-pill quiet sm" type="button" data-project="lab">Cross-Machine Lab &amp; T3 Code</button>
-          </div>
-        </article>
+        </div>
       </div>
     </div>
   </section>
@@ -1955,6 +2015,20 @@ if(themeBtn){
   });
 }
 
+/* Expandable "See more of my work at NEXT" drawer (Desktop & Mobile) */
+const neosMoreBtn=document.querySelector('[data-neos-more-btn]'),neosMoreDrawer=document.getElementById('neos-more-drawer'),neosMoreLabel=document.querySelector('[data-neos-more-label]');
+if(neosMoreBtn){
+  neosMoreBtn.addEventListener('click',()=>{
+    const stage=neosMoreBtn.closest('.neos-stage');
+    if(!stage)return;
+    const open=stage.classList.toggle('is-more-open');
+    neosMoreBtn.setAttribute('aria-expanded',String(open));
+    if(neosMoreDrawer)neosMoreDrawer.setAttribute('aria-hidden',String(!open));
+    if(neosMoreLabel)neosMoreLabel.textContent=open?'Hide additional work at NEXT':'See more of my work at NEXT';
+    setTimeout(updateBrandScrollFill,540);
+  });
+}
+
 /* Mobile progressive disclosure toggles (NEOS demo, Bento extra repos, Full 12 module marks) */
 document.querySelectorAll('[data-mob-toggle]').forEach(btn=>btn.addEventListener('click',()=>{
   const targetClass=btn.dataset.mobToggle;
@@ -1962,6 +2036,7 @@ document.querySelectorAll('[data-mob-toggle]').forEach(btn=>btn.addEventListener
   if(!container)return;
   const open=container.classList.toggle('mob-expanded');
   btn.textContent=open?btn.dataset.less:btn.dataset.more;
+  setTimeout(updateBrandScrollFill,300);
 }));
 
 /* Copy email / phone buttons */

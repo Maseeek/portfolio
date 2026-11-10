@@ -207,8 +207,45 @@ html:not([data-theme="dark"]) .theme-btn:hover .ti-sun{transform:scale(.88) rota
 .neos-metrics span{font-size:11.5px;font-weight:500;color:var(--ink);text-align:right;line-height:1.25}
 .neos-metrics small{display:block;font-size:10px;font-weight:400;color:var(--muted);margin-top:2px}
 
-.neos-tracker-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-top:24px;padding-top:24px;border-top:1px solid #dce3ef}
-.neos-subcard{background:#fff;border:1px solid #dce3ef;border-radius:16px;padding:22px 24px;display:flex;flex-direction:column;justify-content:space-between;gap:10px}
+/* Expandable "See more of my work at NEXT" trigger + smooth height/stagger drawer */
+.neos-more-btn{
+  margin-top:22px;width:100%;display:flex;align-items:center;justify-content:space-between;gap:16px;
+  padding:13px 18px;border-radius:14px;background:#fff;border:1px solid #dce3ef;
+  cursor:pointer;text-align:left;
+  transition:border-color .22s ease,background .22s ease,transform .2s ease,box-shadow .22s ease;
+}
+.neos-more-btn:hover{border-color:var(--accent);background:#f5f8ff;transform:translateY(-1px);box-shadow:0 8px 20px #155ce912}
+.neos-more-text{display:flex;flex-direction:column;gap:2px;min-width:0}
+.neos-more-text strong{font-size:13.5px;font-weight:600;letter-spacing:-.02em;color:var(--ink);transition:color .2s}
+.neos-more-btn:hover .neos-more-text strong{color:var(--accent)}
+.neos-more-text small{font-size:11.5px;color:var(--muted);line-height:1.4}
+.neos-more-arrow{
+  width:32px;height:32px;border-radius:50%;background:var(--accent-soft);color:var(--accent);
+  display:grid;place-items:center;flex-shrink:0;
+  transition:transform .46s cubic-bezier(.22,1,.36,1),background .22s ease,color .22s ease;
+}
+.neos-more-arrow svg{width:15px;height:15px}
+.neos-more-btn:hover .neos-more-arrow{background:var(--accent);color:#fff}
+.neos-stage.is-more-open .neos-more-arrow{transform:rotate(180deg);background:var(--accent);color:#fff}
+
+.neos-more-drawer{
+  display:grid;grid-template-rows:0fr;opacity:0;margin-top:0;pointer-events:none;
+  transition:grid-template-rows .52s cubic-bezier(.22,1,.36,1),opacity .38s ease,margin-top .52s cubic-bezier(.22,1,.36,1);
+}
+.neos-stage.is-more-open .neos-more-drawer{
+  grid-template-rows:1fr;opacity:1;margin-top:18px;pointer-events:auto;
+}
+.neos-more-inner{overflow:hidden;min-height:0}
+.neos-tracker-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;padding-top:18px;border-top:1px solid #dce3ef}
+.neos-subcard{
+  background:#fff;border:1px solid #dce3ef;border-radius:16px;padding:22px 24px;
+  display:flex;flex-direction:column;justify-content:space-between;gap:10px;
+  opacity:0;transform:translateY(14px) scale(.985);
+  transition:opacity .42s ease,transform .48s cubic-bezier(.22,1,.36,1),border-color .22s ease;
+}
+.neos-stage.is-more-open .neos-subcard{opacity:1;transform:translateY(0) scale(1)}
+.neos-stage.is-more-open .neos-subcard:nth-child(1){transition-delay:.06s}
+.neos-stage.is-more-open .neos-subcard:nth-child(2){transition-delay:.14s}
 .ns-head{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
 .ns-head .eyebrow{font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);font-weight:600;margin:0}
 .ns-pill{font-size:10.5px;font-weight:550;padding:4px 9px;border-radius:99px;background:var(--accent-soft);color:var(--accent)}
@@ -422,6 +459,9 @@ html[data-theme="dark"] .nf-chip.blue{background:#1a2e52;color:#93c5fd}
 html[data-theme="dark"] .nf-chip.amber{background:#382611;color:#fcd34d}
 html[data-theme="dark"] .nf-chip.muted{background:#222c3c;color:#a3b3c9}
 html[data-theme="dark"] .neos-metrics>div{background:#171f2d;border-color:#263347}
+html[data-theme="dark"] .neos-more-btn{background:#171f2d;border-color:#28364a}
+html[data-theme="dark"] .neos-more-btn:hover{background:#1b2638;border-color:#3b82f6;box-shadow:0 10px 24px #00000059}
+html[data-theme="dark"] .neos-more-btn:hover .neos-more-text strong{color:#60a5fa}
 html[data-theme="dark"] .neos-tracker-grid{border-color:#243042}
 html[data-theme="dark"] .neos-subcard{background:#171f2d;border-color:#28364a}
 html[data-theme="dark"] .neos-subcard p{color:#a8b8ce}
@@ -546,7 +586,12 @@ html[data-theme="dark"] .mob-expand-btn{background:#131b29;border-color:#26354d;
 .neos-metrics>div{flex-direction:column;align-items:flex-start;gap:3px;padding:10px 12px}
 .neos-metrics strong{font-size:17px}
 .neos-metrics span{text-align:left;font-size:11px}
-.neos-tracker-grid{margin-top:16px;padding-top:16px;gap:12px}
+.neos-more-btn{margin-top:14px;padding:11px 14px;gap:12px}
+.neos-more-text strong{font-size:12.5px}
+.neos-more-text small{font-size:10.5px}
+.neos-more-arrow{width:28px;height:28px}
+.neos-stage.is-more-open .neos-more-drawer{margin-top:14px}
+.neos-tracker-grid{padding-top:14px;gap:12px}
 .neos-subcard{padding:15px 14px;border-radius:14px}
 .neos-subcard h4{font-size:16px}
 .neos-subcard p{font-size:12.5px;line-height:1.58}
