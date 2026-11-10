@@ -13,6 +13,23 @@ const nextConfig: NextConfig = {
   experimental: {
     optimizePackageImports: ["lucide-react", "react-icons", "framer-motion"],
   },
+  async rewrites() {
+    return {
+      beforeFiles: [
+        {
+          source: "/",
+          destination: "/05-the-full-portfolio.html",
+        },
+        {
+          source: "/index.html",
+          destination: "/05-the-full-portfolio.html",
+        },
+      ],
+      afterFiles: [],
+      fallback: [],
+    };
+  },
 };
 
 export default nextConfig;
+
