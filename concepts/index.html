@@ -165,7 +165,7 @@ body{font-family:Inter,Arial,sans-serif;background:var(--bg);color:var(--ink)}
 .site-foot{gap:13px;padding:0 3px 20px}
 .section-heading{align-items:start;gap:15px;margin-bottom:23px}
 .section-heading h2{font-size:32px}
-.section-heading p{font-size:9px;max-width:120px}
+.section-heading>p{font-size:9px;max-width:120px}
 .credibility{justify-content:flex-start;font-size:9px;gap:14px 22px;padding:24px 0}
 .dialog-body{padding:24px}
 .dialog h2{font-size:30px}
@@ -910,7 +910,7 @@ html:not([data-theme="dark"]) .theme-btn:hover .ti-sun{transform:scale(.88) rota
 .dialog-links{display:flex;flex-wrap:wrap;gap:12px 24px}
 .dialog.brief[open]{display:flex;flex-direction:column;max-height:min(88dvh,720px);overflow:hidden}
 .brief .dialog-top{flex-shrink:0;padding:15px 28px;border-bottom:1px solid var(--line)}
-.brief .dialog-body{flex:1;min-height:0;overflow-y:auto;padding:18px 28px 14px}
+.brief .dialog-body{flex:1 1 auto;min-height:0;overflow-y:auto;padding:18px 28px 14px}
 .talk-modal .dialog-body{padding-top:10px}
 .brief h2{font-size:30px;margin-bottom:4px}
 .talk-modal h2{margin-bottom:6px}
@@ -1102,6 +1102,11 @@ html[data-theme="dark"] .mob-expand-btn{background:#131b29;border-color:#26354d;
 .placement,.work,.opensource,.specs,.about-section{padding-top:42px}
 .section-heading{flex-direction:column;align-items:flex-start;gap:4px;margin-bottom:16px}
 .section-heading h2{font-size:clamp(24px,6.8vw,32px);line-height:1.1}
+.section-heading>div{max-width:100%}
+.section-heading .eyebrow{font-size:10px;letter-spacing:.1em;line-height:1.4;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:4px}
+.section-heading .sec-num{color:var(--accent);font-weight:600}
+.section-heading .sec-extra{display:none}
+.eb-extra{display:none}
 
 /* 01. NEOS Placement on mobile */
 .neos-stage{padding:18px 16px;border-radius:16px}
@@ -1377,7 +1382,7 @@ html:not(.js) #grades-row.mob-expanded .m-extra-grade{animation:m-extra-in .3s c
   <section class="placement wrap" id="placement" aria-labelledby="placement-title">
     <div class="section-heading reveal">
       <div>
-        <p class="eyebrow muted">01 · Industry experience · Next plc (FTSE 100)</p>
+        <p class="eyebrow muted"><span class="sec-num">01</span> · Industry experience<span class="sec-extra"> · Next plc (FTSE 100)</span></p>
         <h2 id="placement-title">Enterprise systems<br>&amp; applied AI in production.</h2>
       </div>
       <p class="desktop-only">Online Shopping — PIM Strategic Team.<br>Shipping across the NEOS platform at Next plc.</p>
@@ -1387,7 +1392,7 @@ html:not(.js) #grades-row.mob-expanded .m-extra-grade{animation:m-extra-in .3s c
       <div class="neos-lead">
         <div class="neos-copy">
           <div>
-            <p class="eyebrow">Workstream 01 · NEOS Platform · AI Attribution 2.0</p>
+            <p class="eyebrow">Workstream 01<span class="eb-extra"> · NEOS Platform</span> · AI Attribution 2.0</p>
             <h3>Solely owned the Attributes overhaul for in-house Shield AI.</h3>
             <p class="desktop-only">Before a product goes live on next.co.uk, it requires dynamic attributes per product type. I partnered with the business and the <strong>Shield AI API team</strong> to replace manual dropdown entry with an AI-assisted review workflow—highlighted by CEO Simon Wolfson in the half-year results.</p>
             <p class="mobile-only-block">Replaced manual product attribution on next.co.uk with an AI-assisted Shield AI review workflow—highlighted by CEO Simon Wolfson in NEXT's half-year results.</p>
@@ -1468,7 +1473,7 @@ html:not(.js) #grades-row.mob-expanded .m-extra-grade{animation:m-extra-in .3s c
           <div class="neos-tracker-grid">
             <article class="neos-subcard">
               <div class="ns-head">
-                <span class="eyebrow">Workstream 02 · NEOS Item Tracker (Blazor → React Port)</span>
+                <span class="eyebrow">Workstream 02 · NEOS Item Tracker<span class="eb-extra"> (Blazor → React Port)</span></span>
                 <span class="ns-pill">v5 merged to main · v6/v7 dev branches</span>
               </div>
               <h4>Agentic legacy-to-React migration from structured sources of truth.</h4>
@@ -1481,7 +1486,7 @@ html:not(.js) #grades-row.mob-expanded .m-extra-grade{animation:m-extra-in .3s c
 
             <article class="neos-subcard">
               <div class="ns-head">
-                <span class="eyebrow">Workstream 03 · Reusable Agent Skills &amp; Hill-Climbing Review Loop</span>
+                <span class="eyebrow">Workstream 03 · Reusable Agent Skills<span class="eb-extra"> &amp; Hill-Climbing Review Loop</span></span>
                 <span class="ns-pill">Automated evidence PRs</span>
               </div>
               <h4>Turning agent failure modes into repeatable engineering verification gates.</h4>
@@ -1505,7 +1510,7 @@ html:not(.js) #grades-row.mob-expanded .m-extra-grade{animation:m-extra-in .3s c
   <section class="work" id="work" aria-labelledby="work-title">
     <div class="section-heading wrap reveal">
       <div>
-        <p class="eyebrow muted">02 · Live applications &amp; machine learning builds</p>
+        <p class="eyebrow muted"><span class="sec-num">02</span> · Live applications<span class="sec-extra"> &amp; machine learning builds</span></p>
         <h2 id="work-title">Inspect the code.<br>Try the live apps.</h2>
       </div>
     </div>
@@ -1514,7 +1519,7 @@ html:not(.js) #grades-row.mob-expanded .m-extra-grade{animation:m-extra-in .3s c
 
       <article class="work-slide doit-slide">
         <div class="slide-copy">
-          <p class="eyebrow">01 / Active flagship · Next.js 16, TypeScript &amp; Cryptography</p>
+          <p class="eyebrow">01 / Active flagship<span class="eb-extra"> · Next.js 16, TypeScript &amp; Cryptography</span></p>
           <h3 class="slide-title">
             <span class="st-app">Do It</span>
             <span class="st-sub">Two-player habit parity.</span>
@@ -1547,7 +1552,7 @@ html:not(.js) #grades-row.mob-expanded .m-extra-grade{animation:m-extra-in .3s c
 
       <article class="work-slide nbn-slide">
         <div class="slide-copy">
-          <p class="eyebrow">02 / Live Computer Vision &amp; Full-Stack · Python, React 19 &amp; Kotlin</p>
+          <p class="eyebrow">02 / Live Computer Vision<span class="eb-extra"> &amp; Full-Stack · Python, React 19 &amp; Kotlin</span></p>
           <h3 class="slide-title">
             <span class="st-app">Nothing But Net</span>
             <span class="st-sub nowrap-line">Computer vision on the court.</span>
@@ -1669,7 +1674,7 @@ html:not(.js) #grades-row.mob-expanded .m-extra-grade{animation:m-extra-in .3s c
   <section class="opensource wrap reveal" id="opensource" aria-labelledby="oss-title">
     <div class="section-heading">
       <div>
-        <p class="eyebrow muted">03 · Open source &amp; cross-machine agentic systems</p>
+        <p class="eyebrow muted"><span class="sec-num">03</span> · Open source<span class="sec-extra"> &amp; cross-machine agentic systems</span></p>
         <h2 id="oss-title">Shipping upstream<br>&amp; cultivating agents.</h2>
       </div>
       <p class="desktop-only">Contributing upstream to T3 Code while running<br>cross-machine agent orchestration across The Lab.</p>
@@ -1721,7 +1726,7 @@ html:not(.js) #grades-row.mob-expanded .m-extra-grade{animation:m-extra-in .3s c
   <section class="specs wrap" id="foundations" aria-labelledby="specs-title">
     <div class="section-heading reveal">
       <div>
-        <p class="eyebrow muted">04 · Academic honours &amp; core stack</p>
+        <p class="eyebrow muted"><span class="sec-num">04</span> · Academic honours &amp; core stack</p>
         <h2 id="specs-title">First-Class degree.<br>Systems, ML &amp; web stack.</h2>
       </div>
       <p class="desktop-only">BSc Computer Science at Loughborough University<br>and the technologies I ship with daily.</p>
@@ -1783,7 +1788,7 @@ html:not(.js) #grades-row.mob-expanded .m-extra-grade{animation:m-extra-in .3s c
   <section class="about-section wrap" id="about" aria-labelledby="about-title">
     <div class="section-heading reveal">
       <div>
-        <p class="eyebrow muted">05 · Background &amp; outside work</p>
+        <p class="eyebrow muted"><span class="sec-num">05</span> · Background &amp; outside work</p>
         <h2 id="about-title">Beyond the code.</h2>
       </div>
       <p class="desktop-only">English &amp; Polish (native bilingual).<br>Based in Loughborough &amp; Leicester, UK.</p>
