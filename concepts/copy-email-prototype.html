@@ -1,0 +1,246 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Copy Email Prototype</title>
+<style>
+:root{
+  --bg:#fff;--ink:#17191d;--muted:#6b707a;--line:#e5e8ed;--card:#fff;
+  --accent:#155ce9;--accent-soft:#eaf1ff;
+  --good:#1f8a4c;--good-soft:#e3f6ea;
+  --ease-out:cubic-bezier(.23,1,.32,1);
+  --ease-in-out:cubic-bezier(.77,0,.175,1);
+}
+html[data-theme="dark"]{
+  --bg:#0d1118;--ink:#f8fafc;--muted:#a3b3c9;--line:#29374d;--card:#192230;
+  --accent:#3b82f6;--accent-soft:#192a4a;
+  --good:#4ade80;--good-soft:#16352a;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:Inter,ui-sans-serif,system-ui,Arial,sans-serif;background:var(--bg);color:var(--ink);transition:background .25s ease,color .25s ease}
+main{max-width:620px;margin:0 auto;padding:48px 16px 80px}
+header{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;margin-bottom:28px}
+h1{font-size:20px;margin:0 0 6px;font-weight:650;letter-spacing:-.01em}
+header p{margin:0;color:var(--muted);font-size:13px;line-height:1.5}
+.theme{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:99px;padding:7px 12px;font:inherit;font-size:12px;cursor:pointer;flex-shrink:0}
+h2{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600;margin:34px 0 10px}
+.note{font-size:12px;color:var(--muted);margin:10px 2px 0;line-height:1.5}
+
+/* ---------- card (div, so the copy button isn't nested inside a link) ---------- */
+.card{position:relative;display:flex;justify-content:space-between;align-items:center;gap:14px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px 20px;transition:border-color .2s ease}
+.card:has(.card-link:hover){border-color:var(--accent)}
+.card-text{display:flex;flex-direction:column;gap:3px;min-width:0}
+.card-text strong{font-size:15px;font-weight:600}
+.card-text small{font-size:13px;color:var(--muted);overflow-wrap:anywhere}
+.card-link::after{content:"";position:absolute;inset:0;border-radius:inherit} /* whole card stays clickable */
+.card-link{color:inherit;text-decoration:none}
+.actions{display:flex;align-items:center;gap:8px;position:relative;z-index:1;flex-shrink:0}
+.pill{font-size:12.5px;font-weight:600;color:var(--accent);background:var(--accent-soft);padding:8px 15px;border-radius:99px;text-decoration:none;transition:background .2s ease,color .2s ease}
+@media (hover:hover) and (pointer:fine){.pill:hover{background:var(--accent);color:#fff}}
+
+/* shared button basics */
+.copy{appearance:none;border:0;font:inherit;cursor:pointer;color:var(--accent);background:var(--accent-soft);
+  transition:transform .16s var(--ease-out),background-color .25s ease,color .25s ease;-webkit-tap-highlight-color:transparent}
+.copy:active{transform:scale(.94)}
+.copy:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.copy[data-state="copied"]{background:var(--good-soft);color:var(--good)}
+.copy svg{display:block;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+/* ---------- A: icon morph + ring + tooltip ---------- */
+.copy-a{position:relative;width:36px;height:36px;border-radius:99px;display:grid;place-items:center}
+.copy-a .ico{grid-area:1/1;width:16px;height:16px;transition:transform .3s var(--ease-out),opacity .2s ease,filter .2s ease}
+.copy-a .ico-check{opacity:0;transform:scale(.5);filter:blur(4px)}
+.copy-a .ico-check path{stroke-dasharray:20;stroke-dashoffset:20;transition:stroke-dashoffset .1s ease}
+.copy-a[data-state="copied"] .ico-copy{opacity:0;transform:scale(.5);filter:blur(4px)}
+.copy-a[data-state="copied"] .ico-check{opacity:1;transform:scale(1);filter:blur(0)}
+.copy-a[data-state="copied"] .ico-check path{stroke-dashoffset:0;transition:stroke-dashoffset .32s var(--ease-out) .08s}
+.copy-a .ring{position:absolute;inset:0;border-radius:inherit;border:2px solid var(--good);opacity:0;pointer-events:none}
+.copy-a .tip{position:absolute;bottom:calc(100% + 8px);left:50%;translate:-50% 0;white-space:nowrap;font-size:11.5px;font-weight:600;
+  background:var(--ink);color:var(--bg);padding:5px 9px;border-radius:7px;pointer-events:none;
+  transform-origin:50% 100%;opacity:0;transform:translateY(4px) scale(.96);transition:opacity .15s ease,transform .15s var(--ease-out)}
+.copy-a[data-state="copied"] .tip{opacity:1;transform:none;transition-duration:.22s}
+
+/* ---------- B: pill that rolls its label ---------- */
+.copy-b{display:inline-flex;align-items:center;gap:7px;height:34px;padding:0 14px 0 12px;border-radius:99px;font-size:12.5px;font-weight:600;
+  transition:transform .16s var(--ease-out),background-color .25s ease,color .25s ease,width .32s var(--ease-out);overflow:hidden}
+.copy-b .icons{display:grid;width:14px;height:14px}
+.copy-b .icons svg{grid-area:1/1;width:14px;height:14px;transition:transform .28s var(--ease-out),opacity .18s ease,filter .18s ease}
+.copy-b .ico-check{opacity:0;transform:scale(.5) rotate(-30deg);filter:blur(3px)}
+.copy-b .ico-check path{stroke-dasharray:20;stroke-dashoffset:20}
+.copy-b[data-state="copied"] .ico-copy{opacity:0;transform:scale(.5) rotate(30deg);filter:blur(3px)}
+.copy-b[data-state="copied"] .ico-check{opacity:1;transform:none;filter:none}
+.copy-b[data-state="copied"] .ico-check path{stroke-dashoffset:0;transition:stroke-dashoffset .3s var(--ease-out) .06s}
+.copy-b .labels{display:grid;height:1.2em;line-height:1.2em;overflow:hidden}
+.copy-b .labels span{grid-area:1/1;transition:transform .3s var(--ease-out),opacity .2s ease,filter .2s ease}
+.copy-b .l-done{transform:translateY(100%);opacity:0;filter:blur(3px)}
+.copy-b[data-state="copied"] .l-idle{transform:translateY(-100%);opacity:0;filter:blur(3px)}
+.copy-b[data-state="copied"] .l-done{transform:none;opacity:1;filter:none}
+
+/* ---------- C: the address itself is the button ---------- */
+.addr{appearance:none;border:0;background:none;padding:0;margin:0;font:inherit;cursor:copy;position:relative;z-index:1;text-align:left;
+  display:inline-flex;align-items:center;gap:6px;color:var(--muted);-webkit-tap-highlight-color:transparent;transition:transform .16s var(--ease-out)}
+.addr:active{transform:scale(.98)}
+.addr:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:4px}
+.addr .rows{display:grid;overflow:hidden;font-size:13px;line-height:1.35}
+.addr .rows>span{grid-area:1/1;display:inline-flex;align-items:center;gap:6px;transition:transform .32s var(--ease-out),opacity .2s ease,filter .2s ease}
+.addr .r-done{color:var(--good);font-weight:600;transform:translateY(100%);opacity:0;filter:blur(3px)}
+.addr .hint{width:13px;height:13px;opacity:0;transform:translateX(-3px);transition:opacity .15s ease,transform .2s var(--ease-out)}
+.addr .hint,.addr .r-done svg{fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.addr .r-done svg{width:13px;height:13px}
+.addr .r-done path{stroke-dasharray:20;stroke-dashoffset:20}
+@media (hover:hover) and (pointer:fine){.addr:hover{color:var(--ink)}.addr:hover .hint{opacity:1;transform:none}}
+.addr:focus-visible .hint{opacity:1;transform:none}
+.addr[data-state="copied"] .r-idle{transform:translateY(-100%);opacity:0;filter:blur(3px)}
+.addr[data-state="copied"] .r-done{transform:none;opacity:1;filter:none}
+.addr[data-state="copied"] .r-done path{stroke-dashoffset:0;transition:stroke-dashoffset .3s var(--ease-out) .1s}
+
+/* exit is quicker than enter: when state flips back, shorten transitions */
+[data-leaving] *{transition-duration:.18s!important;transition-delay:0s!important}
+
+@media (prefers-reduced-motion:reduce){
+  .copy *, .addr *{transform:none!important;filter:none!important}
+  .copy-a .ring{display:none}
+}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+@media (max-width:480px){
+  .card{padding:14px 14px;gap:10px}
+  .card-text strong{font-size:14px}
+}
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <div>
+      <h1>Copy email, three ways</h1>
+      <p>Click each one. Click again fast to check that it retargets mid-animation instead of restarting.</p>
+    </div>
+    <button class="theme" type="button" id="theme">Light</button>
+  </header>
+
+  <h2>A · Icon morph</h2>
+  <div class="card">
+    <div class="card-text">
+      <strong><a class="card-link" href="mailto:maciekgeneja@gmail.com">Direct email</a></strong>
+      <small>maciekgeneja@gmail.com</small>
+    </div>
+    <div class="actions">
+      <button class="copy copy-a" type="button" data-copy="maciekgeneja@gmail.com" aria-label="Copy email address">
+        <svg class="ico ico-copy" viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2.5"/><path d="M5 15H4.5A1.5 1.5 0 0 1 3 13.5v-9A1.5 1.5 0 0 1 4.5 3h9A1.5 1.5 0 0 1 15 4.5V5"/></svg>
+        <svg class="ico ico-check" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>
+        <span class="ring" aria-hidden="true"></span>
+        <span class="tip" aria-hidden="true">Copied</span>
+      </button>
+      <a class="pill" href="mailto:maciekgeneja@gmail.com">Email ↗</a>
+    </div>
+  </div>
+  <p class="note">Round button next to the pill. Copy icon blurs out, check draws itself in, a green ring pulses once, and a small "Copied" tooltip comes up from the button. Smallest footprint.</p>
+
+  <h2>B · Pill that rolls its label</h2>
+  <div class="card">
+    <div class="card-text">
+      <strong><a class="card-link" href="mailto:maciekgeneja@gmail.com">Direct email</a></strong>
+      <small>maciekgeneja@gmail.com</small>
+    </div>
+    <div class="actions">
+      <button class="copy copy-b" type="button" data-copy="maciekgeneja@gmail.com">
+        <span class="icons" aria-hidden="true">
+          <svg class="ico-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="12" height="12" rx="2.5"/><path d="M5 15H4.5A1.5 1.5 0 0 1 3 13.5v-9A1.5 1.5 0 0 1 4.5 3h9A1.5 1.5 0 0 1 15 4.5V5"/></svg>
+          <svg class="ico-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>
+        </span>
+        <span class="labels"><span class="l-idle">Copy</span><span class="l-done" aria-hidden="true">Copied</span></span>
+      </button>
+      <a class="pill" href="mailto:maciekgeneja@gmail.com">Email ↗</a>
+    </div>
+  </div>
+  <p class="note">Labelled pill sitting next to Email ↗. "Copy" rolls up and away, "Copied" rolls in from below, the icon spins into a check, and the pill eases to its new width. Easiest to understand at a glance.</p>
+
+  <h2>C · Click the address</h2>
+  <div class="card">
+    <div class="card-text">
+      <strong><a class="card-link" href="mailto:maciekgeneja@gmail.com">Direct email</a></strong>
+      <button class="addr" type="button" data-copy="maciekgeneja@gmail.com" aria-label="Copy email address maciekgeneja@gmail.com">
+        <span class="rows">
+          <span class="r-idle">maciekgeneja@gmail.com
+            <svg class="hint" viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2.5"/><path d="M5 15H4.5A1.5 1.5 0 0 1 3 13.5v-9A1.5 1.5 0 0 1 4.5 3h9A1.5 1.5 0 0 1 15 4.5V5"/></svg>
+          </span>
+          <span class="r-done" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Copied to clipboard</span>
+        </span>
+      </button>
+    </div>
+    <div class="actions">
+      <a class="pill" href="mailto:maciekgeneja@gmail.com">Email ↗</a>
+    </div>
+  </div>
+  <p class="note">No extra button. Hovering the address shows a copy icon; clicking it swaps the address for a green "Copied to clipboard". Cleanest look, but people have to find it.</p>
+
+  <span class="sr-only" role="status" aria-live="polite" id="live"></span>
+</main>
+
+<script>
+const reduce = matchMedia('(prefers-reduced-motion: reduce)');
+const live = document.getElementById('live');
+const ease = 'cubic-bezier(.23,1,.32,1)';
+
+async function copyText(text){
+  try{ await navigator.clipboard.writeText(text); return true; }
+  catch{
+    // fallback for file:// or denied permission
+    const t=document.createElement('textarea');t.value=text;t.style.position='fixed';t.style.opacity='0';
+    document.body.appendChild(t);t.select();
+    let ok=false;try{ok=document.execCommand('copy')}catch{}
+    t.remove();return ok;
+  }
+}
+
+// B: let the pill animate its width between label states
+function lockWidth(btn, apply){
+  if(!btn.classList.contains('copy-b')){apply();return;}
+  const from = btn.getBoundingClientRect().width;
+  apply();
+  btn.style.width='auto';
+  const to = btn.getBoundingClientRect().width;
+  btn.style.width = from+'px';
+  btn.offsetWidth; // commit start width
+  btn.style.width = to+'px';
+}
+
+document.querySelectorAll('[data-copy]').forEach(btn=>{
+  let timer;
+  btn.addEventListener('click', async ()=>{
+    const ok = await copyText(btn.dataset.copy);
+    live.textContent = ok ? 'Email address copied to clipboard' : btn.dataset.copy;
+    if(!ok) return;
+
+    clearTimeout(timer);
+    btn.removeAttribute('data-leaving');
+    lockWidth(btn, ()=>btn.dataset.state='copied');
+
+    const ring = btn.querySelector('.ring');
+    if(ring && !reduce.matches){
+      ring.animate(
+        [{opacity:.7,transform:'scale(1)'},{opacity:0,transform:'scale(1.7)'}],
+        {duration:520,easing:ease}
+      );
+    }
+
+    timer = setTimeout(()=>{
+      btn.setAttribute('data-leaving','');
+      lockWidth(btn, ()=>delete btn.dataset.state);
+      setTimeout(()=>btn.removeAttribute('data-leaving'),220);
+    }, 1800);
+  });
+});
+
+const themeBtn=document.getElementById('theme');
+themeBtn.addEventListener('click',()=>{
+  const dark=document.documentElement.dataset.theme==='dark';
+  document.documentElement.dataset.theme=dark?'light':'dark';
+  themeBtn.textContent=dark?'Dark':'Light';
+});
+</script>
+</body>
+</html>

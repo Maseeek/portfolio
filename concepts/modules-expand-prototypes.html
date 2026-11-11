@@ -1,0 +1,375 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Modules Expand Prototypes</title>
+<style>
+:root{
+  --bg:#fff;--ink:#17191d;--muted:#6b707a;--line:#e5e8ed;--accent:#155ce9;--accent-soft:#eaf1ff;
+  --body:#465366;--track:#eef1f6;--page:#eef1f5;--card:#f8fafc;
+  --btn-bg:transparent;--btn-line:#e5e8ed;--btn-ink:#155ce9;
+  --ease-out:cubic-bezier(.23,1,.32,1);--ease-io:cubic-bezier(.77,0,.175,1);--ease-drawer:cubic-bezier(.32,.72,0,1);
+  --s:1;
+}
+html[data-theme="dark"]{
+  --bg:#0d1118;--ink:#f8fafc;--muted:#a3b3c9;--line:#243042;--accent:#3b82f6;--accent-soft:#192a4a;
+  --body:#a8b8ce;--track:#222c3c;--page:#06090d;--card:#111824;
+  --btn-bg:#131b29;--btn-line:#26354d;--btn-ink:#60a5fa;color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--page);color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;-webkit-font-smoothing:antialiased}
+button{font:inherit;color:inherit}
+
+.top{max-width:1640px;margin:0 auto;padding:28px 16px 4px;display:flex;flex-wrap:wrap;gap:16px 32px;justify-content:space-between;align-items:end}
+.top h1{margin:0;font-size:clamp(22px,3vw,30px);font-weight:600;letter-spacing:-.04em}
+.top p{margin:6px 0 0;color:var(--muted);font-size:13px;max-width:560px;line-height:1.55}
+.controls{display:flex;gap:8px;flex-wrap:wrap}
+.ctl{border:1px solid var(--line);background:var(--bg);border-radius:99px;padding:8px 14px;font-size:12px;font-weight:550;cursor:pointer;transition:transform 160ms var(--ease-out),border-color .2s}
+.ctl:active{transform:scale(.97)}
+.ctl[aria-pressed="true"]{border-color:var(--accent);color:var(--accent)}
+
+.grid{max-width:1640px;margin:0 auto;padding:16px;display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:28px 20px;align-items:start}
+.proto{display:flex;flex-direction:column;gap:12px;min-width:0}
+.proto header{padding:0 4px}
+.proto h2{margin:0;font-size:15px;font-weight:600;letter-spacing:-.02em;display:flex;align-items:center;gap:8px}
+.proto h2 em{font-style:normal;font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.proto header p{margin:5px 0 0;font-size:12.5px;line-height:1.55;color:var(--muted)}
+.pick{font-size:10px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;padding:3px 8px;border-radius:99px;background:var(--accent);color:#fff}
+
+.phone{width:100%;max-width:390px;background:var(--bg);border:1px solid var(--line);border-radius:30px;padding:24px 16px 28px;position:relative}
+.phone .eyebrow{margin:0 0 14px;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.phone h3{margin:0 0 14px;font-size:16px;font-weight:600;letter-spacing:-.03em}
+.phone h3 small{margin-left:8px;font-size:11.5px;font-weight:400;letter-spacing:0;color:var(--muted)}
+.n{font-variant-numeric:tabular-nums;display:inline-block;min-width:1.1ch;text-align:right}
+.after{margin-top:18px;padding-top:16px;border-top:1px solid var(--line);font-size:12px;color:var(--muted)}
+
+/* Rows, same mobile layout as the live site */
+.c{position:relative}
+.grades{list-style:none;margin:0;padding:0;display:grid;gap:9px}
+.grades li{display:grid;grid-template-columns:1fr auto;gap:4px 10px;align-items:center;font-size:12.5px;color:var(--body);position:relative}
+.grades li small{font-size:11px;color:var(--muted)}
+.grades b{font-weight:600;color:var(--ink);font-variant-numeric:tabular-nums}
+.track{grid-column:1/-1;grid-row:2;height:4px;background:var(--track);border-radius:4px;position:relative}
+.track i{position:absolute;inset:0 auto 0 0;width:var(--g);background:var(--accent);border-radius:4px;transform-origin:left center}
+.c:not(.open) .x{display:none}
+
+/* Button */
+.more{margin-top:14px;width:100%;display:flex;align-items:center;justify-content:center;gap:7px;padding:9px 14px;border-radius:99px;border:1px solid var(--btn-line);background:var(--btn-bg);color:var(--btn-ink);font-size:12px;font-weight:550;cursor:pointer;
+  transition:transform 160ms var(--ease-out);-webkit-tap-highlight-color:transparent;touch-action:manipulation;user-select:none}
+.more:active{transform:scale(.97)}
+.more svg{width:12px;height:12px;flex:none;transition:transform calc(320ms * var(--s)) var(--ease-out)}
+.more[aria-expanded="true"] svg{transform:rotate(180deg)}
+.lbl{display:inline-block}
+
+/* P2: distribution strip */
+.p2 .cap{position:absolute;left:var(--g);top:50%;width:8px;height:8px;margin:-4px 0 0 -4px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 2.5px var(--bg)}
+.dist{margin-top:14px;overflow:hidden}
+.p2.nostrip .dist{display:none}
+.axis{position:relative;height:34px;margin:0 6px;border-bottom:1px dashed var(--line)}
+.dot{position:absolute;width:8px;height:8px;margin:-4px 0 0 -4px;border-radius:50%;background:var(--accent)}
+.dot.h{background:var(--bg);box-shadow:inset 0 0 0 1.5px var(--accent)}
+.ticks{display:flex;justify-content:space-between;margin:5px 2px 0;font-size:10px;color:var(--muted);font-variant-numeric:tabular-nums}
+.dist p{margin:6px 0 0;font-size:11.5px;color:var(--muted);text-align:center}
+.fly{position:absolute;left:0;top:0;width:8px;height:8px;margin:-4px 0 0 -4px;border-radius:50%;z-index:5;pointer-events:none}
+
+/* P3: deck */
+.p3 .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 12px 13px;position:relative;z-index:2}
+.p3 .clip{position:relative}
+.stack{position:relative;height:12px;margin:0 0 -2px}
+.stack i{position:absolute;top:0;height:7px;background:var(--card);border:1px solid var(--line);border-top:0;border-radius:0 0 11px 11px}
+.stack i:nth-child(1){left:8px;right:8px;top:-1px;z-index:1}
+.stack i:nth-child(2){left:18px;right:18px;top:4px;z-index:0;opacity:.75}
+.p3 .grades li:nth-child(-n+4){z-index:30;background:var(--card);box-shadow:0 9px 0 var(--card)}
+.stack span{position:absolute;right:22px;top:-26px;font-size:10px;font-weight:600;color:var(--muted);font-variant-numeric:tabular-nums}
+
+/* P4: re-rank */
+.p4 .grades li{grid-template-columns:20px 1fr auto}
+.p4 .track{grid-column:2/-1}
+.rk{font-size:10px;font-weight:600;color:var(--muted);font-variant-numeric:tabular-nums;opacity:0}
+.p4.open .rk{opacity:1}
+.p4 li.mover{z-index:1}
+.p4 li.mover::before{content:"";position:absolute;inset:-4px -6px;border-radius:9px;background:var(--accent-soft);opacity:0;z-index:-1}
+
+@media (max-width:420px){.phone{border-radius:24px}}
+</style>
+</head>
+<body>
+<div class="top">
+  <div>
+    <h1>“Show all 12 modules”: 4 motion takes</h1>
+    <p>Tap the button inside each phone. Same data, tokens and mobile row layout as the live <code>#grades-row</code>. Use slow-mo to check the timing frame by frame.</p>
+  </div>
+  <div class="controls">
+    <button class="ctl" id="playAll">Toggle all</button>
+    <button class="ctl" id="slow" aria-pressed="false">Slow-mo 4×</button>
+    <button class="ctl" id="theme">Dark / light</button>
+  </div>
+</div>
+
+<div class="grid" id="grid"></div>
+
+<script>
+const TOP=[
+  ['Operating Systems, Networks &amp; the Internet 2',89],
+  ['Logic for Computer Science',86],
+  ['Mathematics for Computer Science',77],
+  ['AI Methods <small>(100% coursework)</small>',74,'ai'],
+];
+const EXTRA=[
+  ['Formal Methods',76],['Formal Languages &amp; Theory of Computation',76],['Computer Graphics',76],
+  ['Embedded Systems Programming',75],['Introduction to Algorithms',75],['Web Programming',74],
+  ['Software Engineering 1',73],['Operating Systems, Networks &amp; the Internet 1',71],
+];
+const ALL=[...TOP.map(r=>({r,x:false})),...EXTRA.map(r=>({r,x:true}))];
+
+let S=1;
+const D=ms=>ms*S;
+const RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const EO='cubic-bezier(.23,1,.32,1)',EIO='cubic-bezier(.77,0,.175,1)',DRAWER='cubic-bezier(.32,.72,0,1)';
+const CHEV='<svg viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2.5 4.5 6 8l3.5-3.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+const MORE='Show all 12 First-Class modules',LESS='Show top 4 modules';
+
+function row({r,x},opts={}){
+  const [name,g,id]=r;
+  return `<li class="${x?'x':''}" ${id?`data-id="${id}"`:''} style="--g:${g}%">${opts.rank?'<span class="rk"></span>':''}<span>${name}</span><span class="track"><i></i>${opts.cap?'<em class="cap"></em>':''}</span><b>${g}%</b></li>`;
+}
+function btn(){return `<button type="button" class="more" aria-expanded="false"><span class="lbl">${MORE}</span>${CHEV}</button>`}
+function phone(inner,head='<small>12 First-Class modules (≥70%)</small>'){
+  return `<div class="phone"><p class="eyebrow">04 · Academic honours</p><h3>Top module marks${head}</h3>${inner}<div class="after">Core stack · AI/ML, enterprise &amp; full-stack</div></div>`;
+}
+function setLabel(b,text){
+  const l=b.querySelector('.lbl');
+  if(RM){l.textContent=text;return}
+  l.animate([{opacity:1,filter:'blur(0px)'},{opacity:0,filter:'blur(3px)'}],{duration:D(90),easing:'ease-out'}).onfinish=()=>{
+    l.textContent=text;
+    l.animate([{opacity:0,filter:'blur(3px)'},{opacity:1,filter:'blur(0px)'}],{duration:D(170),easing:EO});
+  };
+}
+function heightAnim(el,from,to,duration,easing){
+  el.style.overflow='hidden';
+  const a=el.animate([{height:from+'px'},{height:to+'px'}],{duration,easing});
+  a.finished.then(()=>{el.style.overflow=''}).catch(()=>{});
+  return a.finished;
+}
+/* measure clip height for the collapsed layout without showing it */
+function collapsedHeight(c,clip,extraCls){
+  c.classList.remove('open');if(extraCls)c.classList.remove(extraCls);
+  const h=clip.offsetHeight;
+  c.classList.add('open');if(extraCls)c.classList.add(extraCls);
+  return h;
+}
+function cleanup(els){els.forEach(e=>e.getAnimations().forEach(a=>a.cancel()))}
+function reducedToggle(c,b,open){
+  c.classList.toggle('open',open);
+  c.querySelectorAll('.x').forEach(li=>open&&li.animate([{opacity:0},{opacity:1}],{duration:200}));
+}
+
+const PROTOS=[];
+
+/* ---------- P1 · Cascade + counter ---------- */
+PROTOS.push({
+  key:'p1',title:'Cascade',tag:'Baseline, refined',
+  desc:'The tidy version of what’s live now. The list grows on the iOS drawer curve, rows arrive 40ms apart with a 2px blur, each bar fills after its row lands, and the header counter ticks 4 → 12. Collapsing is quicker and has no stagger.',
+  html:()=>phone(`<div class="c p1"><div class="clip"><ul class="grades">${ALL.map(o=>row(o)).join('')}</ul></div>${btn()}</div>`,
+    '<small><span class="n">4</span> of 12 shown · all ≥70%</small>'),
+  init(root){
+    const c=root.querySelector('.c'),b=c.querySelector('.more'),clip=c.querySelector('.clip'),xs=[...c.querySelectorAll('.x')],n=root.querySelector('.n');
+    let open=false,busy=false;
+    b.addEventListener('click',()=>{
+      if(busy)return;busy=true;open=!open;b.setAttribute('aria-expanded',open);setLabel(b,open?LESS:MORE);
+      if(RM){reducedToggle(c,b,open);n.textContent=open?12:4;busy=false;return}
+      if(open){
+        const from=clip.offsetHeight;c.classList.add('open');const to=clip.offsetHeight;
+        heightAnim(clip,from,to,D(300+xs.length*40),DRAWER);
+        xs.forEach((li,i)=>{
+          const delay=D(i*40);
+          li.animate([{opacity:0,transform:'translateY(8px)',filter:'blur(2px)'},{opacity:1,transform:'none',filter:'blur(0px)'}],{duration:D(340),delay,easing:EO,fill:'backwards'});
+          li.querySelector('.track i').animate([{transform:'scaleX(0)'},{transform:'scaleX(1)'}],{duration:D(620),delay:delay+D(140),easing:EO,fill:'backwards'});
+          setTimeout(()=>{n.textContent=5+i},delay+D(140));
+        });
+        setTimeout(()=>{busy=false},D(140+xs.length*40));
+      }else{
+        const from=clip.offsetHeight,to=collapsedHeight(c,clip);
+        xs.forEach(li=>li.animate([{opacity:1},{opacity:0}],{duration:D(140),easing:'ease-out',fill:'forwards'}));
+        n.textContent=4;
+        heightAnim(clip,from,to,D(240),EO).then(()=>{c.classList.remove('open');cleanup(xs);busy=false});
+      }
+    });
+  }
+});
+
+/* ---------- P2 · Distribution → rows ---------- */
+PROTOS.push({
+  key:'p2',title:'Distribution unfolds',tag:'Most distinctive',pick:true,
+  desc:'When collapsed, a small beeswarm under the top 4 plots all 12 marks on a 70–90 axis: filled dots are the rows you can see, hollow ones are hidden. On tap, each hollow dot flies to the end of its own row’s track and the bar draws in behind it. The preview tells you what’s hidden before you tap, and the motion shows where each hidden module ended up.',
+  html:()=>{
+    const ties={};
+    const dots=ALL.map(o=>{const g=o.r[1];const k=ties[g]=(ties[g]||0)+1;return {o,g,k}});
+    const counts={};dots.forEach(d=>counts[d.g]=(counts[d.g]||0)+1);
+    const dotHtml=dots.map((d,i)=>{
+      const n=counts[d.g],y=50+((d.k-1)-(n-1)/2)*30;
+      return `<span class="dot ${d.o.x?'h':''}" data-i="${i}" style="left:${(d.g-70)/20*100}%;top:${y}%"></span>`;
+    }).join('');
+    return phone(`<div class="c p2"><div class="clip"><ul class="grades">${ALL.map(o=>row(o,{cap:true})).join('')}</ul></div>
+      <div class="dist" aria-hidden="true"><div class="axis">${dotHtml}</div><div class="ticks"><span>70%</span><span>80%</span><span>90%</span></div><p>+8 more at First-Class · average 77%</p></div>${btn()}</div>`);
+  },
+  init(root){
+    const c=root.querySelector('.c'),b=c.querySelector('.more'),clip=c.querySelector('.clip'),dist=c.querySelector('.dist');
+    const xs=[...c.querySelectorAll('.x')],dots=[...c.querySelectorAll('.dot')];
+    const xDots=dots.filter(d=>d.classList.contains('h'));
+    let open=false,busy=false;
+    const center=(el,base)=>{const r=el.getBoundingClientRect();return {x:r.left+r.width/2-base.left,y:r.top+r.height/2-base.top}};
+    b.addEventListener('click',()=>{
+      if(busy)return;busy=true;open=!open;b.setAttribute('aria-expanded',open);setLabel(b,open?LESS:MORE);
+      if(RM){reducedToggle(c,b,open);c.classList.toggle('nostrip',open);busy=false;return}
+      const cs=getComputedStyle(c),acc=cs.getPropertyValue('--accent').trim(),bg=cs.getPropertyValue('--bg').trim();
+      if(open){
+        const base=c.getBoundingClientRect();
+        const starts=xDots.map(d=>center(d,base));
+        const from=clip.offsetHeight;c.classList.add('open');const to=clip.offsetHeight;
+        const caps=xs.map(li=>li.querySelector('.cap'));
+        const ends=caps.map(cp=>center(cp,base));
+        heightAnim(clip,from,to,D(460),DRAWER);
+        // strip folds away
+        const sh=dist.offsetHeight;
+        dist.animate([{height:sh+'px',opacity:1},{height:'0px',opacity:0,marginTop:'0px'}],{duration:D(420),delay:D(80),easing:DRAWER,fill:'forwards'});
+        xDots.forEach(d=>d.style.visibility='hidden');
+        const FLY=560,STAG=45;
+        xs.forEach((li,i)=>{
+          const s=starts[i],e=ends[i],dx=e.x-s.x,dy=e.y-s.y,delay=D(i*STAG),land=delay+D(FLY);
+          const f=document.createElement('span');f.className='fly';f.style.left=s.x+'px';f.style.top=s.y+'px';c.appendChild(f);
+          f.animate([
+            {transform:'translate(0,0) scale(1)',background:bg,boxShadow:`inset 0 0 0 1.5px ${acc}`},
+            {transform:`translate(${dx*.5}px,${dy*.5}px) scale(1.7)`,background:acc,boxShadow:`inset 0 0 0 1.5px ${acc}`,offset:.45},
+            {transform:`translate(${dx}px,${dy}px) scale(1)`,background:acc,boxShadow:`inset 0 0 0 1.5px ${acc}`}
+          ],{duration:D(FLY),delay,easing:EIO,fill:'both'}).finished.then(()=>f.remove());
+          caps[i].animate([{opacity:0},{opacity:0}],{duration:land,fill:'backwards'});
+          caps[i].animate([{transform:'scale(1.8)'},{transform:'scale(1)'}],{duration:D(320),delay:land,easing:EO});
+          li.animate([{opacity:0,transform:'translateY(4px)'},{opacity:1,transform:'none'}],{duration:D(300),delay:delay+D(180),easing:EO,fill:'backwards'});
+          li.querySelector('.track i').animate([{transform:'scaleX(0)'},{transform:'scaleX(1)'}],{duration:D(420),delay:land-D(60),easing:EO,fill:'backwards'});
+        });
+        setTimeout(()=>{c.classList.add('nostrip');cleanup([dist]);busy=false},D((xs.length-1)*STAG+FLY+60));
+      }else{
+        const from=clip.offsetHeight,to=collapsedHeight(c,clip);
+        xs.forEach(li=>li.animate([{opacity:1},{opacity:0}],{duration:D(140),easing:'ease-out',fill:'forwards'}));
+        heightAnim(clip,from,to,D(260),EO).then(()=>{c.classList.remove('open');cleanup(xs)});
+        xDots.forEach(d=>d.style.visibility='');
+        c.classList.remove('nostrip');
+        const sh=dist.offsetHeight;
+        dist.animate([{height:'0px',opacity:0,marginTop:'0px'},{height:sh+'px',opacity:1}],{duration:D(260),easing:EO});
+        xDots.forEach((d,i)=>d.animate([{opacity:0,transform:'scale(.5)'},{opacity:1,transform:'scale(1)'}],{duration:D(220),delay:D(100+i*18),easing:EO,fill:'backwards'}));
+        setTimeout(()=>{busy=false},D(300));
+      }
+    });
+  }
+});
+
+/* ---------- P3 · Deck deals out ---------- */
+PROTOS.push({
+  key:'p3',title:'Deck deals out',tag:'Strong metaphor, cheap',
+  desc:'The top 4 sit on a card, and two card edges peek out underneath. On tap the card grows and the 8 rows slide out from under the bottom edge into their slots like a deck being dealt, while the edges tuck back in. The rows only move with transforms, so it stays smooth on low-end phones.',
+  html:()=>phone(`<div class="c p3"><div class="card"><div class="clip"><ul class="grades">${ALL.map(o=>row(o)).join('')}</ul></div></div>
+    <div class="stack" aria-hidden="true"><i></i><i></i></div>${btn()}</div>`),
+  init(root){
+    const c=root.querySelector('.c'),b=c.querySelector('.more'),clip=c.querySelector('.clip'),stack=c.querySelector('.stack'),edges=[...stack.querySelectorAll('i,span')];
+    const lis=[...c.querySelectorAll('.grades li')],xs=lis.filter(l=>l.classList.contains('x')),anchor=lis[3];
+    let open=false,busy=false;
+    b.addEventListener('click',()=>{
+      if(busy)return;busy=true;open=!open;b.setAttribute('aria-expanded',open);setLabel(b,open?LESS:MORE);
+      if(RM){reducedToggle(c,b,open);stack.style.opacity=open?0:1;busy=false;return}
+      if(open){
+        const from=clip.offsetHeight;c.classList.add('open');const to=clip.offsetHeight;
+        heightAnim(clip,from,to,D(520),DRAWER);
+        xs.forEach((li,i)=>{
+          const dy=anchor.offsetTop-li.offsetTop;
+          li.style.zIndex=20-i;
+          li.animate([{transform:`translateY(${dy}px) scale(.94)`,opacity:0},{opacity:1,offset:.35},{transform:'none',opacity:1}],{duration:D(560),delay:D(i*30),easing:DRAWER,fill:'backwards'});
+          li.querySelector('.track i').animate([{transform:'scaleX(0)'},{transform:'scaleX(1)'}],{duration:D(520),delay:D(260+i*30),easing:EO,fill:'backwards'});
+        });
+        edges.forEach((e,i)=>e.animate([{transform:'none',opacity:1},{transform:'translateY(-8px)',opacity:0}],{duration:D(220),delay:D(i*30),easing:EO,fill:'forwards'}));
+        setTimeout(()=>{busy=false},D(560+xs.length*30));
+      }else{
+        const from=clip.offsetHeight,to=collapsedHeight(c,clip);
+        xs.forEach((li,i)=>{
+          const dy=anchor.offsetTop-li.offsetTop;
+          li.animate([{transform:'none',opacity:1},{transform:`translateY(${dy}px) scale(.96)`,opacity:0}],{duration:D(260),easing:EO,fill:'forwards'});
+        });
+        heightAnim(clip,from,to,D(260),EO).then(()=>{
+          c.classList.remove('open');cleanup(xs);
+          edges.forEach((e,i)=>{cleanup([e]);e.animate([{transform:'translateY(-8px)',opacity:0},{transform:'none',opacity:1}],{duration:D(240),delay:D(i*40),easing:EO,fill:'backwards'})});
+          busy=false;
+        });
+      }
+    });
+  }
+});
+
+/* ---------- P4 · Re-rank ---------- */
+PROTOS.push({
+  key:'p4',title:'Re-rank',tag:'Tells the truth about order',
+  desc:'The collapsed top 4 isn’t strictly ranked: AI Methods (74%) is there for relevance, ahead of three 76% modules. Expanding shows the honest ranking. Rank numbers fade in, AI Methods glides down to #9 with a soft highlight, and the 8 new rows fill in around it. Collapsing moves it back up.',
+  html:()=>phone(`<div class="c p4"><div class="clip"><ul class="grades">${ALL.map(o=>row(o,{rank:true})).join('')}</ul></div>${btn()}</div>`),
+  init(root){
+    const c=root.querySelector('.c'),b=c.querySelector('.more'),clip=c.querySelector('.clip'),ul=c.querySelector('ul');
+    const orig=[...ul.children],sorted=[...orig].sort((a,b)=>parseInt(b.style.getPropertyValue('--g'))-parseInt(a.style.getPropertyValue('--g'))||(a.dataset.id?1:0)-(b.dataset.id?1:0));
+    // keep AI Methods after the other 74% (Web Programming)
+    sorted.forEach((li,i)=>li.querySelector('.rk').textContent=String(i+1).padStart(2,'0'));
+    const ai=ul.querySelector('[data-id="ai"]');ai.classList.add('mover');
+    const xs=orig.filter(l=>l.classList.contains('x'));
+    let open=false,busy=false;
+    const flip=(li,first,dur)=>{const last=li.getBoundingClientRect().top;
+      li.animate([{transform:`translateY(${first-last}px)`},{transform:'none'}],{duration:dur,easing:EIO});
+    };
+    const glow=dur=>ai.animate([{opacity:0},{opacity:1,offset:.25},{opacity:1,offset:.7},{opacity:0}],{duration:dur,easing:'ease',pseudoElement:'::before'});
+    b.addEventListener('click',()=>{
+      if(busy)return;busy=true;open=!open;b.setAttribute('aria-expanded',open);setLabel(b,open?LESS:MORE);
+      if(RM){ul.append(...(open?sorted:orig));reducedToggle(c,b,open);busy=false;return}
+      if(open){
+        const first=ai.getBoundingClientRect().top,from=clip.offsetHeight;
+        ul.append(...sorted);c.classList.add('open');
+        const to=clip.offsetHeight;
+        heightAnim(clip,from,to,D(560),DRAWER);
+        flip(ai,first,D(620));glow(D(900));
+        sorted.filter(l=>l!==ai).forEach((li,i)=>{
+          li.querySelector('.rk').animate([{opacity:0,transform:'translateX(-4px)'},{opacity:1,transform:'none'}],{duration:D(260),delay:D(120+i*30),easing:EO,fill:'backwards'});
+        });
+        ai.querySelector('.rk').animate([{opacity:0},{opacity:1}],{duration:D(260),delay:D(520),easing:EO,fill:'backwards'});
+        xs.forEach((li,i)=>{
+          li.animate([{opacity:0,transform:'translateY(6px)'},{opacity:1,transform:'none'}],{duration:D(320),delay:D(140+i*35),easing:EO,fill:'backwards'});
+          li.querySelector('.track i').animate([{transform:'scaleX(0)'},{transform:'scaleX(1)'}],{duration:D(560),delay:D(260+i*35),easing:EO,fill:'backwards'});
+        });
+        setTimeout(()=>{busy=false},D(700));
+      }else{
+        const fade=[...xs.map(l=>l.animate([{opacity:1},{opacity:0}],{duration:D(150),easing:'ease-out',fill:'forwards'}))];
+        fade[0].finished.then(()=>{
+          const first=ai.getBoundingClientRect().top,from=clip.offsetHeight;
+          ul.append(...orig);c.classList.remove('open');
+          const to=clip.offsetHeight;
+          heightAnim(clip,from,to,D(320),EO);
+          flip(ai,first,D(380));glow(D(520));
+          cleanup(xs);
+          setTimeout(()=>{busy=false},D(380));
+        });
+      }
+    });
+  }
+});
+
+/* ---------- mount ---------- */
+const grid=document.getElementById('grid');
+PROTOS.forEach(p=>{
+  const el=document.createElement('section');el.className='proto';
+  el.innerHTML=`<header><h2>${p.title} <em>${p.tag}</em>${p.pick?'<span class="pick">My pick</span>':''}</h2><p>${p.desc}</p></header>${p.html()}`;
+  grid.appendChild(el);p.init(el);
+});
+
+/* ---------- controls ---------- */
+const html=document.documentElement;
+html.dataset.theme=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';
+document.getElementById('theme').onclick=()=>{html.dataset.theme=html.dataset.theme==='dark'?'light':'dark'};
+document.getElementById('slow').onclick=e=>{S=S===1?4:1;html.style.setProperty('--s',S);e.currentTarget.setAttribute('aria-pressed',S!==1)};
+document.getElementById('playAll').onclick=()=>document.querySelectorAll('.more').forEach(b=>b.click());
+</script>
+</body>
+</html>

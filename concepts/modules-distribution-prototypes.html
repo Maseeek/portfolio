@@ -1,0 +1,287 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Modules Distribution Prototypes</title>
+<style>
+:root{
+  --bg:#fff;--ink:#17191d;--muted:#6b707a;--line:#e5e8ed;--accent:#155ce9;--accent-soft:#eaf1ff;
+  --body:#465366;--track:#eef1f6;--page:#eef1f5;--card:#f8fafc;--grid:#eef1f5;
+  --btn-bg:transparent;--btn-line:#e5e8ed;--btn-ink:#155ce9;
+  --ease-out:cubic-bezier(.23,1,.32,1);--s:1;
+}
+html[data-theme="dark"]{
+  --bg:#0d1118;--ink:#f8fafc;--muted:#a3b3c9;--line:#243042;--accent:#3b82f6;--accent-soft:#192a4a;
+  --body:#a8b8ce;--track:#222c3c;--page:#06090d;--card:#111824;--grid:#1a2331;
+  --btn-bg:#131b29;--btn-line:#26354d;--btn-ink:#60a5fa;color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--page);color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;-webkit-font-smoothing:antialiased}
+button{font:inherit;color:inherit}
+
+.top{max-width:1260px;margin:0 auto;padding:28px 16px 4px;display:flex;flex-wrap:wrap;gap:16px 32px;justify-content:space-between;align-items:end}
+.top h1{margin:0;font-size:clamp(22px,3vw,30px);font-weight:600;letter-spacing:-.04em}
+.top p{margin:6px 0 0;color:var(--muted);font-size:13px;max-width:600px;line-height:1.55}
+.controls{display:flex;gap:8px;flex-wrap:wrap}
+.ctl{border:1px solid var(--line);background:var(--bg);border-radius:99px;padding:8px 14px;font-size:12px;font-weight:550;cursor:pointer;transition:transform 160ms var(--ease-out),border-color .2s}
+.ctl:active{transform:scale(.97)}
+.ctl[aria-pressed="true"]{border-color:var(--accent);color:var(--accent)}
+
+.grid{max-width:1260px;margin:0 auto;padding:16px;display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:28px 20px;align-items:start}
+.proto{display:flex;flex-direction:column;gap:12px;min-width:0}
+.proto header{padding:0 4px}
+.proto h2{margin:0;font-size:15px;font-weight:600;letter-spacing:-.02em;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.proto h2 em{font-style:normal;font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.proto header p{margin:5px 0 0;font-size:12.5px;line-height:1.55;color:var(--muted)}
+.pick{font-size:10px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;padding:3px 8px;border-radius:99px;background:var(--accent);color:#fff}
+
+.phone{width:100%;max-width:390px;background:var(--bg);border:1px solid var(--line);border-radius:30px;padding:24px 16px 28px;position:relative}
+.phone .eyebrow{margin:0 0 14px;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.phone h3{margin:0 0 14px;font-size:16px;font-weight:600;letter-spacing:-.03em}
+.phone h3 small{margin-left:8px;font-size:11.5px;font-weight:400;letter-spacing:0;color:var(--muted)}
+.n{font-variant-numeric:tabular-nums;display:inline-block;min-width:1.1ch;text-align:right}
+.after{margin-top:18px;padding-top:16px;border-top:1px solid var(--line);font-size:12px;color:var(--muted)}
+
+.c{position:relative}
+.grades{list-style:none;margin:0;padding:0;display:grid;gap:9px}
+.grades li{display:grid;grid-template-columns:1fr auto;gap:4px 10px;align-items:center;font-size:12.5px;color:var(--body);position:relative}
+.grades li small{font-size:11px;color:var(--muted)}
+.grades b{font-weight:600;color:var(--ink);font-variant-numeric:tabular-nums}
+.track{grid-column:1/-1;grid-row:2;height:4px;background:var(--track);border-radius:4px;position:relative}
+.track i{position:absolute;inset:0 auto 0 0;width:var(--g);background:var(--accent);border-radius:4px;transform-origin:left center}
+.cap{position:absolute;left:var(--g);top:50%;width:8px;height:8px;margin:-4px 0 0 -4px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 2.5px var(--bg)}
+.c:not(.open) .x{display:none}
+
+.more{margin-top:14px;width:100%;display:flex;align-items:center;justify-content:center;gap:7px;padding:9px 14px;border-radius:99px;border:1px solid var(--btn-line);background:var(--btn-bg);color:var(--btn-ink);font-size:12px;font-weight:550;cursor:pointer;
+  transition:transform 160ms var(--ease-out);-webkit-tap-highlight-color:transparent;touch-action:manipulation;user-select:none}
+.more:active{transform:scale(.97)}
+.more svg{width:12px;height:12px;flex:none;transition:transform calc(320ms * var(--s)) var(--ease-out)}
+.more[aria-expanded="true"] svg{transform:rotate(180deg)}
+.lbl{display:inline-block}
+
+/* Shared plot chrome */
+.plot{margin-top:16px;overflow:hidden}
+.c.noplot .plot{display:none}
+.plot-box{border:1px solid var(--line);border-radius:12px;padding:11px 12px 10px;background:var(--card)}
+.plot-head{display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin-bottom:10px}
+.plot-head strong{font-size:11.5px;font-weight:600;letter-spacing:-.01em;color:var(--ink)}
+.legend{display:flex;gap:10px;font-size:10.5px;color:var(--muted);white-space:nowrap}
+.legend span{display:inline-flex;align-items:center;gap:4px}
+.sw{width:7px;height:7px;border-radius:50%;background:var(--accent);display:inline-block}
+.sw.h{background:var(--bg);box-shadow:inset 0 0 0 1.5px var(--accent)}
+.sw.sq{border-radius:2px}
+.plot-foot{margin:9px 0 0;font-size:11px;color:var(--muted);line-height:1.45}
+.plot-foot b{color:var(--ink);font-weight:600}
+.u{background:var(--accent)}
+.u.h{background:var(--bg);box-shadow:inset 0 0 0 1.5px var(--accent)}
+.fly{position:absolute;z-index:5;pointer-events:none}
+
+/* A: dot plot */
+.dp{position:relative;height:50px;margin:0 6px;border-bottom:1px solid var(--line)}
+.dp .gl{position:absolute;top:0;bottom:0;width:1px;background:var(--grid)}
+.dp .u{position:absolute;width:9px;height:9px;margin-left:-4.5px;border-radius:50%}
+.dp .avg{position:absolute;top:-2px;bottom:0;border-left:1px dashed var(--muted);opacity:.7}
+.dp .avg span{position:absolute;top:-1px;left:4px;font-size:9.5px;color:var(--muted);white-space:nowrap}
+.xl{position:relative;height:14px;margin:4px 6px 0;font-size:9.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+.xl span{position:absolute;transform:translateX(-50%)}
+
+/* B: unit histogram */
+.hg{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;align-items:end;height:84px;border-bottom:1px solid var(--line);padding:0 2px}
+.bin{display:flex;flex-direction:column-reverse;gap:3px;align-items:stretch;position:relative}
+.bin .u{height:8px;border-radius:3px}
+.bin .ct{font-size:10px;font-weight:600;color:var(--ink);text-align:center;font-variant-numeric:tabular-nums;margin-bottom:2px}
+.bin .ct.zero{color:var(--muted);font-weight:400}
+.bl{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:0 2px;margin-top:5px;font-size:9.5px;color:var(--muted);text-align:center;font-variant-numeric:tabular-nums}
+
+/* C: classification bands */
+.cb{position:relative;height:58px;margin:0 2px;border-bottom:1px solid var(--line)}
+.band{position:absolute;top:0;bottom:0;border-left:1px solid var(--line)}
+.band span{position:absolute;top:3px;left:5px;font-size:9.5px;color:var(--muted);font-weight:500}
+.band.first{background:var(--accent-soft);border-left:1px dashed var(--accent)}
+.band.first span{color:var(--accent);font-weight:600}
+.cb .u{position:absolute;width:7px;height:7px;margin-left:-3.5px;border-radius:50%}
+</style>
+</head>
+<body>
+<div class="top">
+  <div>
+    <h1>Distribution unfolds: 3 clearer starting views</h1>
+    <p>Each one keeps Cascade’s parts: the “4 of 12 shown” counter, the drawer-curve growth, and the blur-in rows. They differ in how the collapsed plot explains itself. Hollow shapes are the hidden modules, and each one flies into its own row.</p>
+  </div>
+  <div class="controls">
+    <button class="ctl" id="playAll">Toggle all</button>
+    <button class="ctl" id="slow" aria-pressed="false">Slow-mo 4×</button>
+    <button class="ctl" id="theme">Dark / light</button>
+  </div>
+</div>
+
+<div class="grid" id="grid"></div>
+
+<script>
+const ROWS=[
+  ['Operating Systems, Networks &amp; the Internet 2',89],
+  ['Logic for Computer Science',86],
+  ['Mathematics for Computer Science',77],
+  ['AI Methods <small>(100% coursework)</small>',74],
+  ['Formal Methods',76],['Formal Languages &amp; Theory of Computation',76],['Computer Graphics',76],
+  ['Embedded Systems Programming',75],['Introduction to Algorithms',75],['Web Programming',74],
+  ['Software Engineering 1',73],['Operating Systems, Networks &amp; the Internet 1',71],
+].map(([name,g],i)=>({name,g,i,x:i>=4}));
+const AVG=ROWS.reduce((s,r)=>s+r.g,0)/ROWS.length; // 76.8
+
+let S=1;
+const D=ms=>ms*S;
+const RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const EO='cubic-bezier(.23,1,.32,1)',EIO='cubic-bezier(.77,0,.175,1)',DRAWER='cubic-bezier(.32,.72,0,1)';
+const CHEV='<svg viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2.5 4.5 6 8l3.5-3.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+const MORE='Show all 12 First-Class modules',LESS='Show top 4 modules';
+
+const unit=(r,style)=>`<i class="u ${r.x?'h':''}" data-i="${r.i}" style="${style}"></i>`;
+/* group by mark, shown modules first so they sit on the baseline */
+function stacks(){const m={};[...ROWS].sort((a,b)=>a.x-b.x).forEach(r=>(m[r.g]=m[r.g]||[]).push(r));return m}
+const legend=(sq)=>`<span class="legend"><span><i class="sw ${sq?'sq':''}"></i>shown</span><span><i class="sw h ${sq?'sq':''}"></i>hidden</span></span>`;
+
+/* ---------- three collapsed views ---------- */
+const PLOTS=[
+{
+  title:'Dot plot',tag:'Axis + gridlines + average',pick:true,
+  desc:'One dot per module, stacked above its mark on a labelled 70–90% axis, with faint gridlines and a dashed average line. A titled card with a legend makes it read as a chart before you tap.',
+  sq:false,
+  html(){
+    const pct=g=>(g-70)/20*100;
+    let h='';
+    [70,75,80,85,90].forEach(t=>h+=`<span class="gl" style="left:${pct(t)}%"></span>`);
+    h+=`<span class="avg" style="left:${pct(AVG)}%"><span>avg ${Math.round(AVG)}%</span></span>`;
+    Object.entries(stacks()).forEach(([g,rs])=>rs.forEach((r,k)=>h+=unit(r,`left:${pct(g)}%;bottom:${3+k*11}px`)));
+    const xl=[70,75,80,85,90].map(t=>`<span style="left:${pct(t)}%">${t}%</span>`).join('');
+    return `<div class="plot-head"><strong>Mark distribution · 12 modules</strong>${legend()}</div>
+      <div class="dp">${h}</div><div class="xl">${xl}</div>
+      <p class="plot-foot">All 12 at First-Class (≥70%). <b>8 hidden</b> cluster at 71–76%.</p>`;
+  }
+},
+{
+  title:'Unit histogram',tag:'Most obviously a chart',
+  desc:'Four 5-point bins, and each block is one module, so the bars literally count modules. You get count labels on top and bin labels underneath. Hidden blocks shrink into dots as they fly to their rows.',
+  sq:true,
+  html(){
+    const bins=[[70,74],[75,79],[80,84],[85,89]];
+    const cols=bins.map(([a,b])=>{
+      const rs=ROWS.filter(r=>r.g>=a&&r.g<=b).sort((p,q)=>p.x-q.x||q.g-p.g);
+      return `<div class="bin">${rs.map(r=>unit(r,'')).join('')}<span class="ct ${rs.length?'':'zero'}">${rs.length}</span></div>`;
+    }).join('');
+    const bl=bins.map(([a,b])=>`<span>${a}–${b}%</span>`).join('');
+    return `<div class="plot-head"><strong>Modules per mark band</strong>${legend(true)}</div>
+      <div class="hg">${cols}</div><div class="bl">${bl}</div>
+      <p class="plot-foot">Each block is one module. <b>8 hidden</b>, mostly in 75–79%.</p>`;
+  }
+},
+{
+  title:'Classification bands',tag:'Recruiter context',
+  desc:'The axis runs 50–100% with UK degree bands (2:2, 2:1, First) shaded behind it, so the point lands straight away: every dot sits inside the First band. It’s denser, so the dots are smaller.',
+  sq:false,
+  html(){
+    const pct=g=>(g-50)/50*100;
+    let h=`<div class="band" style="left:0;width:${pct(60)}%"><span>2:2</span></div>
+      <div class="band" style="left:${pct(60)}%;width:${pct(70)-pct(60)}%"><span>2:1</span></div>
+      <div class="band first" style="left:${pct(70)}%;right:0"><span>First</span></div>`;
+    Object.entries(stacks()).forEach(([g,rs])=>rs.forEach((r,k)=>h+=unit(r,`left:${pct(g)}%;bottom:${3+k*9}px`)));
+    const xl=[50,60,70,80,90,100].map(t=>`<span style="left:${pct(t)}%">${t}</span>`).join('');
+    return `<div class="plot-head"><strong>Where the marks land</strong>${legend()}</div>
+      <div class="cb">${h}</div><div class="xl" style="margin:4px 2px 0">${xl}</div>
+      <p class="plot-foot"><b>12 of 12</b> modules in the First-Class band · avg ${Math.round(AVG)}%</p>`;
+  }
+},
+];
+
+function row(r){return `<li class="${r.x?'x':''}" style="--g:${r.g}%"><span>${r.name}</span><span class="track"><i></i><em class="cap"></em></span><b>${r.g}%</b></li>`}
+function setLabel(b,text){
+  const l=b.querySelector('.lbl');
+  if(RM){l.textContent=text;return}
+  l.animate([{opacity:1,filter:'blur(0px)'},{opacity:0,filter:'blur(3px)'}],{duration:D(90),easing:'ease-out'}).onfinish=()=>{
+    l.textContent=text;
+    l.animate([{opacity:0,filter:'blur(3px)'},{opacity:1,filter:'blur(0px)'}],{duration:D(170),easing:EO});
+  };
+}
+function heightAnim(el,from,to,duration,easing){
+  el.style.overflow='hidden';
+  const a=el.animate([{height:from+'px'},{height:to+'px'}],{duration,easing});
+  a.finished.then(()=>{el.style.overflow=''}).catch(()=>{});
+  return a.finished;
+}
+const cleanup=els=>els.forEach(e=>e.getAnimations().forEach(a=>a.cancel()));
+
+function init(root){
+  const c=root.querySelector('.c'),b=c.querySelector('.more'),clip=c.querySelector('.clip'),plot=c.querySelector('.plot'),n=root.querySelector('.n');
+  const lis=[...c.querySelectorAll('.grades li')],xs=lis.filter(l=>l.classList.contains('x'));
+  const hidden=[...plot.querySelectorAll('.u.h')].sort((a,b)=>a.dataset.i-b.dataset.i);
+  let open=false,busy=false;
+  b.addEventListener('click',()=>{
+    if(busy)return;busy=true;open=!open;b.setAttribute('aria-expanded',open);setLabel(b,open?LESS:MORE);
+    if(RM){c.classList.toggle('open',open);c.classList.toggle('noplot',open);n.textContent=open?12:4;busy=false;return}
+    const cs=getComputedStyle(c),acc=cs.getPropertyValue('--accent').trim();
+    if(open){
+      const base=c.getBoundingClientRect();
+      const starts=hidden.map(u=>{const r=u.getBoundingClientRect(),st=getComputedStyle(u);
+        return {x:r.left-base.left,y:r.top-base.top,w:r.width,h:r.height,bg:st.backgroundColor,sh:st.boxShadow,br:st.borderRadius}});
+      const from=clip.offsetHeight;c.classList.add('open');const to=clip.offsetHeight;
+      heightAnim(clip,from,to,D(460),DRAWER);
+      const ph=plot.offsetHeight;
+      plot.animate([{height:ph+'px',opacity:1},{height:'0px',opacity:0,marginTop:'0px'}],{duration:D(420),delay:D(80),easing:DRAWER,fill:'forwards'});
+      hidden.forEach(u=>u.style.visibility='hidden');
+      const FLY=580,STAG=45;
+      hidden.forEach((u,k)=>{
+        const li=lis[+u.dataset.i],cap=li.querySelector('.cap'),s=starts[k];
+        const cr=cap.getBoundingClientRect(),ex=cr.left+cr.width/2-base.left,ey=cr.top+cr.height/2-base.top;
+        const dx=ex-(s.x+s.w/2),dy=ey-(s.y+s.h/2),sx=8/s.w,sy=8/s.h,delay=D(k*STAG),land=delay+D(FLY);
+        const mx=(1+sx)/2*1.45,my=(1+sy)/2*1.45;
+        const f=document.createElement('span');f.className='fly';
+        Object.assign(f.style,{left:s.x+'px',top:s.y+'px',width:s.w+'px',height:s.h+'px'});c.appendChild(f);
+        f.animate([
+          {transform:'none',background:s.bg,boxShadow:s.sh,borderRadius:s.br},
+          {transform:`translate(${dx*.5}px,${dy*.5}px) scale(${mx},${my})`,background:acc,boxShadow:'none',borderRadius:'50%',offset:.45},
+          {transform:`translate(${dx}px,${dy}px) scale(${sx},${sy})`,background:acc,boxShadow:'none',borderRadius:'50%'}
+        ],{duration:D(FLY),delay,easing:EIO,fill:'both'}).finished.then(()=>f.remove());
+        cap.animate([{opacity:0},{opacity:0}],{duration:land,fill:'backwards'});
+        cap.animate([{transform:'scale(1.8)'},{transform:'scale(1)'}],{duration:D(320),delay:land,easing:EO});
+        li.animate([{opacity:0,transform:'translateY(6px)',filter:'blur(2px)'},{opacity:1,transform:'none',filter:'blur(0px)'}],{duration:D(320),delay:delay+D(160),easing:EO,fill:'backwards'});
+        li.querySelector('.track i').animate([{transform:'scaleX(0)'},{transform:'scaleX(1)'}],{duration:D(440),delay:land-D(60),easing:EO,fill:'backwards'});
+        setTimeout(()=>{n.textContent=5+k},land);
+      });
+      setTimeout(()=>{c.classList.add('noplot');cleanup([plot]);busy=false},D((hidden.length-1)*STAG+FLY+60));
+    }else{
+      const from=clip.offsetHeight;
+      c.classList.remove('open');const to=clip.offsetHeight;c.classList.add('open');
+      xs.forEach(li=>li.animate([{opacity:1},{opacity:0}],{duration:D(140),easing:'ease-out',fill:'forwards'}));
+      n.textContent=4;
+      heightAnim(clip,from,to,D(260),EO).then(()=>{c.classList.remove('open');cleanup(xs)});
+      hidden.forEach(u=>u.style.visibility='');
+      c.classList.remove('noplot');
+      const ph=plot.offsetHeight;
+      plot.animate([{height:'0px',opacity:0,marginTop:'0px'},{height:ph+'px',opacity:1}],{duration:D(280),easing:EO});
+      hidden.forEach((u,k)=>u.animate([{opacity:0,transform:'scale(.5)'},{opacity:1,transform:'none'}],{duration:D(220),delay:D(120+k*20),easing:EO,fill:'backwards'}));
+      setTimeout(()=>{busy=false},D(320));
+    }
+  });
+}
+
+const grid=document.getElementById('grid');
+PLOTS.forEach(p=>{
+  const el=document.createElement('section');el.className='proto';
+  el.innerHTML=`<header><h2>${p.title} <em>${p.tag}</em>${p.pick?'<span class="pick">My pick</span>':''}</h2><p>${p.desc}</p></header>
+  <div class="phone"><p class="eyebrow">04 · Academic honours</p><h3>Top module marks<small><span class="n">4</span> of 12 shown</small></h3>
+    <div class="c"><div class="clip"><ul class="grades">${ROWS.map(row).join('')}</ul></div>
+    <div class="plot" aria-hidden="true"><div class="plot-box">${p.html()}</div></div>
+    <button type="button" class="more" aria-expanded="false"><span class="lbl">${MORE}</span>${CHEV}</button></div>
+    <div class="after">Core stack · AI/ML, enterprise &amp; full-stack</div></div>`;
+  grid.appendChild(el);init(el);
+});
+
+const html=document.documentElement;
+html.dataset.theme=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';
+document.getElementById('theme').onclick=()=>{html.dataset.theme=html.dataset.theme==='dark'?'light':'dark'};
+document.getElementById('slow').onclick=e=>{S=S===1?4:1;html.style.setProperty('--s',S);e.currentTarget.setAttribute('aria-pressed',S!==1)};
+document.getElementById('playAll').onclick=()=>document.querySelectorAll('.more').forEach(b=>b.click());
+</script>
+</body>
+</html>

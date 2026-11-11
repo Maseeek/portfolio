@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Modules Cascade Prototypes</title>
+<style>
+:root{
+  --bg:#fff;--ink:#17191d;--muted:#6b707a;--line:#e5e8ed;--accent:#155ce9;--accent-soft:#eaf1ff;
+  --body:#465366;--track:#eef1f6;--page:#eef1f5;
+  --btn-bg:transparent;--btn-line:#e5e8ed;--btn-ink:#155ce9;
+  --ease-out:cubic-bezier(.23,1,.32,1);--s:1;
+}
+html[data-theme="dark"]{
+  --bg:#0d1118;--ink:#f8fafc;--muted:#a3b3c9;--line:#243042;--accent:#3b82f6;--accent-soft:#192a4a;
+  --body:#a8b8ce;--track:#222c3c;--page:#06090d;
+  --btn-bg:#131b29;--btn-line:#26354d;--btn-ink:#60a5fa;color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--page);color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;-webkit-font-smoothing:antialiased}
+button{font:inherit;color:inherit}
+
+.top{max-width:1640px;margin:0 auto;padding:28px 16px 4px;display:flex;flex-wrap:wrap;gap:16px 32px;justify-content:space-between;align-items:end}
+.top h1{margin:0;font-size:clamp(22px,3vw,30px);font-weight:600;letter-spacing:-.04em}
+.top p{margin:6px 0 0;color:var(--muted);font-size:13px;max-width:600px;line-height:1.55}
+.controls{display:flex;gap:8px;flex-wrap:wrap}
+.ctl{border:1px solid var(--line);background:var(--bg);border-radius:99px;padding:8px 14px;font-size:12px;font-weight:550;cursor:pointer;transition:transform 160ms var(--ease-out),border-color .2s}
+.ctl:active{transform:scale(.97)}
+.ctl[aria-pressed="true"]{border-color:var(--accent);color:var(--accent)}
+
+.grid{max-width:1640px;margin:0 auto;padding:16px;display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:28px 20px;align-items:start}
+.proto{display:flex;flex-direction:column;gap:12px;min-width:0}
+.proto header{padding:0 4px}
+.proto h2{margin:0;font-size:15px;font-weight:600;letter-spacing:-.02em;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.proto h2 em{font-style:normal;font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.proto header p{margin:5px 0 0;font-size:12.5px;line-height:1.55;color:var(--muted)}
+.pick{font-size:10px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;padding:3px 8px;border-radius:99px;background:var(--accent);color:#fff}
+
+.phone{width:100%;max-width:390px;background:var(--bg);border:1px solid var(--line);border-radius:30px;padding:24px 16px 28px;position:relative}
+.phone .eyebrow{margin:0 0 14px;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.phone h3{margin:0 0 14px;font-size:16px;font-weight:600;letter-spacing:-.03em}
+.phone h3 small{margin-left:8px;font-size:11.5px;font-weight:400;letter-spacing:0;color:var(--muted)}
+.n{font-variant-numeric:tabular-nums;display:inline-block;min-width:1.4ch;text-align:right}
+.after{margin-top:18px;padding-top:16px;border-top:1px solid var(--line);font-size:12px;color:var(--muted)}
+
+.c{position:relative}
+.clip{position:relative}
+.grades{list-style:none;margin:0;padding:0;display:grid;gap:9px}
+.grades li{display:grid;grid-template-columns:1fr auto;gap:4px 10px;align-items:center;font-size:12.5px;color:var(--body);position:relative}
+.grades li small{font-size:11px;color:var(--muted)}
+.grades b{font-weight:600;color:var(--ink);font-variant-numeric:tabular-nums;min-width:3.2ch;text-align:right}
+.track{grid-column:1/-1;grid-row:2;height:4px;background:var(--track);border-radius:4px;position:relative}
+.track i{position:absolute;inset:0 auto 0 0;width:var(--g);background:var(--accent);border-radius:4px;transform-origin:left center}
+.c:not(.open) .x{display:none}
+
+.cap{position:absolute;left:var(--g);top:50%;width:8px;height:8px;margin:-4px 0 0 -4px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 2.5px var(--bg)}
+
+/* fold-down */
+.fold .grades{perspective:700px}
+.fold .grades li{transform-origin:50% 0;backface-visibility:hidden}
+
+/* wipe */
+.scan{position:absolute;left:-4px;right:-4px;height:2px;border-radius:2px;background:var(--accent);box-shadow:0 0 12px 1px var(--accent);opacity:0;pointer-events:none;top:0;z-index:3}
+
+.more{margin-top:14px;width:100%;display:flex;align-items:center;justify-content:center;gap:7px;padding:9px 14px;border-radius:99px;border:1px solid var(--btn-line);background:var(--btn-bg);color:var(--btn-ink);font-size:12px;font-weight:550;cursor:pointer;
+  transition:transform 160ms var(--ease-out);-webkit-tap-highlight-color:transparent;touch-action:manipulation;user-select:none}
+.more:active{transform:scale(.97)}
+.more svg{width:12px;height:12px;flex:none;transition:transform calc(320ms * var(--s)) var(--ease-out)}
+.more[aria-expanded="true"] svg{transform:rotate(180deg)}
+.lbl{display:inline-block}
+</style>
+</head>
+<body>
+<div class="top">
+  <div>
+    <h1>Cascade: 4 variations</h1>
+    <p>All four share the same base: the list grows on the drawer curve, a “4 of 12 shown” counter, a blur-swap on the button label, and a quick collapse with no stagger that scrolls the button back into view. Only the way the 8 rows arrive differs.</p>
+  </div>
+  <div class="controls">
+    <button class="ctl" id="playAll">Toggle all</button>
+    <button class="ctl" id="slow" aria-pressed="false">Slow-mo 4×</button>
+    <button class="ctl" id="theme">Dark / light</button>
+  </div>
+</div>
+
+<div class="grid" id="grid"></div>
+
+<script>
+const ROWS=[
+  ['Operating Systems, Networks &amp; the Internet 2',89],
+  ['Logic for Computer Science',86],
+  ['Mathematics for Computer Science',77],
+  ['AI Methods <small>(100% coursework)</small>',74],
+  ['Formal Methods',76],['Formal Languages &amp; Theory of Computation',76],['Computer Graphics',76],
+  ['Embedded Systems Programming',75],['Introduction to Algorithms',75],['Web Programming',74],
+  ['Software Engineering 1',73],['Operating Systems, Networks &amp; the Internet 1',71],
+].map(([name,g],i)=>({name,g,i,x:i>=4}));
+
+let S=1;
+const D=ms=>ms*S;
+const RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const EO='cubic-bezier(.23,1,.32,1)',DRAWER='cubic-bezier(.32,.72,0,1)',STD='cubic-bezier(.45,0,.25,1)';
+const CHEV='<svg viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2.5 4.5 6 8l3.5-3.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+const MORE='Show all 12 First-Class modules',LESS='Show top 4 modules';
+const fill=(li,delay,dur=620)=>li.querySelector('.track i').animate([{transform:'scaleX(0)'},{transform:'scaleX(1)'}],{duration:D(dur),delay,easing:EO,fill:'backwards'});
+const tick=(n,v,at)=>setTimeout(()=>{n.textContent=v},at);
+
+const VARIANTS=[
+{
+  title:'Cascade + landing dot',tag:'Closest to the plan',pick:true,cls:'withcap',cap:true,
+  desc:'The Cascade you liked, plus the one thing borrowed from the distribution idea: once each bar finishes filling, a small dot pops onto its end. Each row gets a clear “done” beat, and the dots line up into a soft ragged edge down the list.',
+  enter(xs,n){
+    xs.forEach((li,i)=>{
+      const d=D(i*40);
+      li.animate([{opacity:0,transform:'translateY(8px)',filter:'blur(2px)'},{opacity:1,transform:'none',filter:'blur(0px)'}],{duration:D(340),delay:d,easing:EO,fill:'backwards'});
+      fill(li,d+D(140),520);
+      li.querySelector('.cap').animate([{opacity:0,transform:'scale(.3)'},{opacity:1,transform:'scale(1.35)',offset:.55},{opacity:1,transform:'scale(1)'}],{duration:D(340),delay:d+D(140+360),easing:EO,fill:'backwards'});
+      tick(n,5+i,d+D(140));
+    });
+    return 140+xs.length*40;
+  }
+},
+{
+  title:'Fold-down',tag:'Most physical',cls:'fold',
+  desc:'Each row folds down from the one above it on a hinge along its top edge, like an accordion opening. It uses 3D rotateX with perspective set on the list, so it stays transform-only. A small blur hides the edge-on frames at the start of the fold.',
+  enter(xs,n){
+    xs.forEach((li,i)=>{
+      const d=D(i*45);
+      li.animate([{opacity:0,transform:'rotateX(-80deg)',filter:'blur(1.5px)'},{opacity:1,offset:.5},{opacity:1,transform:'rotateX(0deg)',filter:'blur(0px)'}],{duration:D(460),delay:d,easing:EO,fill:'backwards'});
+      fill(li,d+D(200),560);
+      tick(n,5+i,d+D(200));
+    });
+    return 200+xs.length*45;
+  }
+},
+{
+  title:'Count-up',tag:'Scoreboard',cls:'count',
+  desc:'Rows arrive fast (25ms apart). Then each bar fills while its percentage counts up from 0 on the same ease-out curve, so the number and the bar finish together. It suits the data, since the marks are the point.',
+  enter(xs,n){
+    xs.forEach((li,i)=>{
+      const d=D(i*25);
+      li.animate([{opacity:0,transform:'translateY(6px)'},{opacity:1,transform:'none'}],{duration:D(240),delay:d,easing:EO,fill:'backwards'});
+      const start=d+D(120+i*30),dur=D(700),b=li.querySelector('b'),g=+li.style.getPropertyValue('--g').replace('%','');
+      fill(li,start,700);
+      b.textContent='0%';
+      setTimeout(()=>{
+        const t0=performance.now();
+        const step=now=>{const t=Math.min(1,(now-t0)/dur),e=1-Math.pow(1-t,4);b.textContent=Math.round(g*e)+'%';if(t<1)requestAnimationFrame(step)};
+        requestAnimationFrame(step);
+      },start);
+      tick(n,5+i,start);
+    });
+    return 120+xs.length*55+700;
+  }
+},
+{
+  title:'Scan-line wipe',tag:'Most distinctive',cls:'wipe',
+  desc:'A thin glowing accent line leads the list down as it grows. Each row snaps in as the line passes it, and its bar fills right then, so the reveal reads as one continuous sweep instead of 8 separate entrances. The line fades out at the bottom.',
+  enter(xs,n,{clip,from,to}){
+    const DUR=D(620),scan=clip.querySelector('.scan');
+    scan.animate([{transform:`translateY(${from-2}px)`,opacity:0},{opacity:1,offset:.08},{opacity:1,offset:.85},{transform:`translateY(${to-2}px)`,opacity:0}],{duration:DUR,easing:STD});
+    xs.forEach((li,i)=>{
+      // when the line (on the STD curve) reaches this row's middle: invert progress roughly via bisection
+      const target=(li.offsetTop+li.offsetHeight*.5-from)/(to-from);
+      const at=DUR*invert(target);
+      li.animate([{opacity:0,filter:'blur(2px)'},{opacity:1,filter:'blur(0px)'}],{duration:D(180),delay:at-D(40),easing:'ease-out',fill:'backwards'});
+      fill(li,at,520);
+      tick(n,5+i,at);
+    });
+    return 620;
+  },
+  height:{dur:620,ease:STD},
+},
+];
+
+/* bezier(.45,0,.25,1) progress → time, by bisection */
+function bez(t){const p1=[.45,0],p2=[.25,1];const u=1-t;return [3*u*u*t*p1[0]+3*u*t*t*p2[0]+t*t*t,3*u*u*t*p1[1]+3*u*t*t*p2[1]+t*t*t]}
+function invert(y){y=Math.max(0,Math.min(1,y));let lo=0,hi=1;for(let k=0;k<24;k++){const m=(lo+hi)/2;bez(m)[1]<y?lo=m:hi=m}return bez((lo+hi)/2)[0]}
+
+function row(r,cap){return `<li class="${r.x?'x':''}" style="--g:${r.g}%"><span>${r.name}</span><span class="track"><i></i>${cap?'<em class="cap"></em>':''}</span><b>${r.g}%</b></li>`}
+function setLabel(b,text){
+  const l=b.querySelector('.lbl');
+  if(RM){l.textContent=text;return}
+  l.animate([{opacity:1,filter:'blur(0px)'},{opacity:0,filter:'blur(3px)'}],{duration:D(90),easing:'ease-out'}).onfinish=()=>{
+    l.textContent=text;
+    l.animate([{opacity:0,filter:'blur(3px)'},{opacity:1,filter:'blur(0px)'}],{duration:D(170),easing:EO});
+  };
+}
+function heightAnim(el,from,to,duration,easing){
+  el.style.overflow='hidden';
+  const a=el.animate([{height:from+'px'},{height:to+'px'}],{duration,easing});
+  a.finished.then(()=>{el.style.overflow=''}).catch(()=>{});
+  return a.finished;
+}
+const cleanup=els=>els.forEach(e=>e.getAnimations({subtree:true}).forEach(a=>a.cancel()));
+
+function init(root,v){
+  const c=root.querySelector('.c'),b=c.querySelector('.more'),clip=c.querySelector('.clip'),n=root.querySelector('.n');
+  const xs=[...c.querySelectorAll('.x')];
+  let open=false,busy=false;
+  b.addEventListener('click',()=>{
+    if(busy)return;busy=true;open=!open;b.setAttribute('aria-expanded',open);setLabel(b,open?LESS:MORE);
+    if(RM){c.classList.toggle('open',open);n.textContent=open?12:4;if(open)xs.forEach(li=>li.animate([{opacity:0},{opacity:1}],{duration:200}));busy=false;return}
+    if(open){
+      const from=clip.offsetHeight;c.classList.add('open');const to=clip.offsetHeight;
+      const h=v.height||{dur:300+xs.length*40,ease:DRAWER};
+      heightAnim(clip,from,to,D(h.dur),h.ease);
+      const total=v.enter(xs,n,{clip,from,to});
+      setTimeout(()=>{busy=false},D(total));
+    }else{
+      const from=clip.offsetHeight;c.classList.remove('open');const to=clip.offsetHeight;c.classList.add('open');
+      cleanup(xs);xs.forEach(li=>{const bb=li.querySelector('b');bb.textContent=li.style.getPropertyValue('--g')});
+      xs.forEach(li=>li.animate([{opacity:1},{opacity:0}],{duration:D(140),easing:'ease-out',fill:'forwards'}));
+      n.textContent=4;
+      heightAnim(clip,from,to,D(240),EO).then(()=>{
+        c.classList.remove('open');cleanup(xs);busy=false;
+        const r=b.getBoundingClientRect();
+        if(r.top<0||r.bottom>innerHeight)b.scrollIntoView({block:'center',behavior:'smooth'});
+      });
+    }
+  });
+}
+
+const grid=document.getElementById('grid');
+VARIANTS.forEach(v=>{
+  const el=document.createElement('section');el.className='proto';
+  el.innerHTML=`<header><h2>${v.title} <em>${v.tag}</em>${v.pick?'<span class="pick">My pick</span>':''}</h2><p>${v.desc}</p></header>
+  <div class="phone"><p class="eyebrow">04 · Academic honours</p><h3>Top module marks<small><span class="n">4</span> of 12 shown · all ≥70%</small></h3>
+    <div class="c ${v.cls}"><div class="clip">${v.cls==='wipe'?'<span class="scan" aria-hidden="true"></span>':''}<ul class="grades">${ROWS.map(r=>row(r,v.cap)).join('')}</ul></div>
+    <button type="button" class="more" aria-expanded="false"><span class="lbl">${MORE}</span>${CHEV}</button></div>
+    <div class="after">Core stack · AI/ML, enterprise &amp; full-stack</div></div>`;
+  grid.appendChild(el);init(el,v);
+});
+
+const html=document.documentElement;
+html.dataset.theme=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';
+document.getElementById('theme').onclick=()=>{html.dataset.theme=html.dataset.theme==='dark'?'light':'dark'};
+document.getElementById('slow').onclick=e=>{S=S===1?4:1;html.style.setProperty('--s',S);e.currentTarget.setAttribute('aria-pressed',S!==1)};
+document.getElementById('playAll').onclick=()=>document.querySelectorAll('.more').forEach(b=>b.click());
+</script>
+</body>
+</html>

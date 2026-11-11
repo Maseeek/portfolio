@@ -529,7 +529,7 @@ body{font-family:Inter,Arial,sans-serif;background:var(--bg);color:var(--ink)}
 
 
 /* ---- Round five: High-Pressure Burst M + 2-Line Hero with Blue Accent + Editorial Let's Talk Modal + Dark Mode Hover Fix ---- */
-:root{--accent-soft:#eaf1ff;--good:#377250;--m-fill-progress:0}
+:root{--accent-soft:#eaf1ff;--good:#377250}
 html{scroll-padding-top:84px}
 
 /* Desktop vs Mobile Adaptive Visibility & Contact Ordering */
@@ -546,95 +546,23 @@ html{scroll-padding-top:84px}
   .opt-email,.act-email{order:-1}
 }
 
-/* Sticky, translucent header + Helium-Safe Horizontal Wave Scroll-Fill M + Toned-Down Pressure + Click Burst/Drain */
+/* Sticky, translucent header + Liquid M (scroll-filled meniscus, overscroll surface tension, click burst) */
 .site-head{position:sticky;top:0;z-index:60;background:#ffffffd9;-webkit-backdrop-filter:saturate(180%) blur(18px);backdrop-filter:saturate(180%) blur(18px);transition:background .25s}
 .site-head .nav{height:72px}
-.brand{display:inline-flex;align-items:center;gap:10px;font-size:14px;font-weight:600;letter-spacing:-.04em;position:relative;background:transparent!important}
-.brand-m{width:28px;height:28px;overflow:visible;background:transparent!important;transition:transform .28s cubic-bezier(.22,1,.36,1)}
-.brand-m.lg{width:46px;height:46px}
+.brand{display:inline-flex;align-items:center;gap:10px;font-size:14px;font-weight:600;letter-spacing:-.04em;position:relative;background:transparent!important;-webkit-tap-highlight-color:transparent}
+.brand-m{width:28px;height:28px;overflow:visible;background:transparent!important}
 .brand-m path{fill:none!important}
-.brand-m .m-base{stroke-opacity:.32;transition:stroke-opacity .25s}
-.brand-m .m-fill{transition:stroke-width .26s cubic-bezier(.22,1,.36,1)}
-.brand-m .m-pressure-halo{stroke-opacity:0;stroke-width:2.6;transition:stroke-width .28s cubic-bezier(.22,1,.36,1),stroke-opacity .26s}
-/* Calibrated horizontal wave fill:
-   M stroke spans x=2.7 (left outer edge) to x=27.3 (right outer edge).
-   Wave right edge sits around x=29.5.
-   At --m-fill-progress: 0, translateX(-27.2px) places the wave edge right at x=2.3px,
-   so it starts visibly filling the left leg on the VERY FIRST PIXEL of scroll (no 1/3 dead zone!).
-   At --m-fill-progress: 1, translateX(0px) completely covers x=27.3px right as you reach the bottom. */
-.brand-m .m-fluid-wave{
-  fill:#fff!important;
-  transform:translateX(calc(-27.2px + (var(--m-fill-progress, 0) * 27.2px)));
-  transition:transform .12s linear;
-}
-.bl-stage .m-fluid-wave{
-  transform:translateX(0px);
-}
-/* Subtle surface-tension beads at the top peaks (hidden until full + hovered/pressurized) */
-.m-tension-beads circle{
-  opacity:0;transform:scale(0);transform-box:fill-box;transform-origin:center;
-  transition:opacity .24s ease,transform .28s cubic-bezier(.22,1.4,.36,1);
-}
-
-/* Resting brimming fullness as soon as scroll reaches the bottom (even before hover on desktop) */
-.brand[data-m-full="true"]:not(.is-bursting) .m-fill{
-  stroke-width:3.45;
-}
-.brand[data-m-full="true"]:not(.is-bursting) .m-pressure-halo{
-  stroke-width:5.6;
-  stroke-opacity:.14;
-}
-.brand[data-m-full="true"]:not(.is-bursting) .m-tension-beads circle{
-  opacity:.65;
-  transform:scale(.85);
-}
-
-/* Midpoint "Almost Bursting" Fullness: engorged 4.15px fluid swell, 7.0px pressure halo, bulging meniscus beads, and elastic tremor */
-.brand[data-m-full="true"]:not(.is-bursting):is(:hover,.is-pressurized) .brand-m{
-  animation:m-micro-strain .15s ease-in-out infinite alternate;
-  filter:drop-shadow(0 0 4.5px rgba(59,130,246,.42));
-}
-.brand[data-m-full="true"]:not(.is-bursting):is(:hover,.is-pressurized) .m-fill{
-  stroke-width:4.15;
-}
-.brand[data-m-full="true"]:not(.is-bursting):is(:hover,.is-pressurized) .m-pressure-halo{
-  stroke-width:7;
-  stroke-opacity:.26;
-}
-.brand[data-m-full="true"]:not(.is-bursting):is(:hover,.is-pressurized) .m-tension-beads circle{
-  opacity:.96;
-  transform:scale(1.28);
-}
-@keyframes m-micro-strain{
-  0%{transform:scale(1.095,1.035) translate(-.5px,.35px) rotate(-1.1deg)}
-  50%{transform:scale(1.035,1.105) translate(.5px,-.4px) rotate(1.1deg)}
-  100%{transform:scale(1.085,1.055) translate(-.35px,-.3px) rotate(-.65deg)}
-}
-
-/* Burst & Reverse Horizontal Wave Drain on Click / Tap */
-.brand.is-bursting .m-fluid-wave{
-  transform:translateX(-27.2px)!important;
-  transition:transform .66s cubic-bezier(.32,0,.15,1)!important;
-}
-.m-burst-ring,.m-burst-ring-2{opacity:0;transform-origin:15px 15px;transform:scale(.5);pointer-events:none}
-.brand.is-bursting .m-burst-ring{
-  animation:m-ring-pop .54s cubic-bezier(.16,1,.3,1) forwards;
-}
-.brand.is-bursting .m-burst-ring-2{
-  animation:m-ring-pop .66s cubic-bezier(.16,1,.3,1) .05s forwards;
-}
-@keyframes m-ring-pop{
-  0%{opacity:.75;transform:scale(.55);stroke-width:1.8}
-  100%{opacity:0;transform:scale(1.75);stroke-width:.2}
-}
-.m-burst-drops circle{opacity:0;transform-box:fill-box;transform-origin:center;pointer-events:none}
-.brand.is-bursting .m-burst-drops circle{
-  animation:m-drop-pop .58s cubic-bezier(.16,1,.3,1) forwards;
-}
-@keyframes m-drop-pop{
-  0%{opacity:.9;transform:translate(0,0) scale(1)}
-  100%{opacity:0;transform:translate(var(--dx),var(--dy)) scale(.15)}
-}
+.brand-m .m-base{stroke-opacity:.32}
+/* The liquid front is a clip path that JS redraws each frame (spring-driven level + slosh).
+   The M stroke spans x=2.7 to x=27.3; the front is calibrated so the first pixel of scroll wets the left leg
+   and the last pixel closes the right one. */
+.brand-m .m-fluid-wave{fill:#fff!important}
+/* Canvas fluid layer for tension + burst. It lives inside the brand link so it tracks the mark,
+   and overflows the header so spray and drops can fall onto the page. */
+.m-fx{position:absolute;left:0;top:0;display:none;pointer-events:none;z-index:1}
+.brand.m-fx-on .m-fx{display:block}
+/* While the canvas draws the liquid body, the SVG keeps only the empty vessel */
+.brand.m-fx-own .m-liquid{visibility:hidden}
 
 .nav-links a{transition:color .2s}
 .nav-links a:not(.nav-contact):hover,.nav-links a[aria-current="true"]{color:var(--accent)}
@@ -1434,34 +1362,16 @@ html[data-theme="dark"] .badge-pill{background:#192a4a;color:#60a5fa}
 
 <header class="site-head">
   <nav class="nav wrap" aria-label="Main navigation">
-    <a class="brand" href="#main" data-brand-scroll data-burst-variant="v1" title="Scroll to top · Maciek Geneja">
+    <a class="brand" href="#main" data-brand-scroll title="Scroll to top · Maciek Geneja">
       <svg class="brand-m" viewBox="0 0 30 30" fill="none" aria-hidden="true">
         <defs>
           <clipPath id="m-fluid-clip" clipPathUnits="userSpaceOnUse">
-            <path class="m-fluid-wave" d="M0 0 H28 C31 7, 25 14, 29 21 C31 25, 28 28, 30 30 H0 Z"/>
+            <path class="m-fluid-wave" d="M-9-6H1.8V36H-9Z"/>
           </clipPath>
         </defs>
-        <path class="m-burst-ring" d="M15 4a11 11 0 1 0 0 22 11 11 0 1 0 0-22Z" stroke="var(--accent)" fill="none"/>
-        <path class="m-burst-ring-2" d="M15 5a10 10 0 1 0 0 20 10 10 0 1 0 0-20Z" stroke="var(--accent)" fill="none"/>
         <path class="m-base" d="M4 24V7l11 12L26 7v17" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-        <g class="m-clip-group" clip-path="url(#m-fluid-clip)">
-          <path class="m-pressure-halo" d="M4 24V7l11 12L26 7v17" stroke="var(--accent)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        <g class="m-liquid" clip-path="url(#m-fluid-clip)">
           <path class="m-fill" d="M4 24V7l11 12L26 7v17" stroke="var(--accent)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-        </g>
-        <!-- Subtle surface-tension water beads at the top peaks (and center valley) -->
-        <g class="m-tension-beads" fill="var(--accent)">
-          <circle class="bead-top" cx="4" cy="6.4" r="1.05"/>
-          <circle class="bead-mid" cx="15" cy="19.2" r="0.95"/>
-          <circle class="bead-top" cx="26" cy="6.4" r="1.05"/>
-        </g>
-        <!-- Radial burst droplets on click -->
-        <g class="m-burst-drops" fill="var(--accent)">
-          <circle cx="4" cy="7" r="1.35" style="--dx:-9px;--dy:-9px"/>
-          <circle cx="15" cy="19" r="1.2" style="--dx:0px;--dy:10px"/>
-          <circle cx="26" cy="7" r="1.35" style="--dx:9px;--dy:-9px"/>
-          <circle cx="4" cy="24" r="1.15" style="--dx:-8px;--dy:7px"/>
-          <circle cx="26" cy="24" r="1.15" style="--dx:8px;--dy:7px"/>
-          <circle cx="15" cy="10" r="1.15" style="--dx:0px;--dy:-10px"/>
         </g>
       </svg>
       <span>Maciek Geneja</span>
@@ -2200,43 +2110,386 @@ morphDialog(projectDialog,'[data-project]');
   });
 });
 
-/* Scroll-linked Option 01 fluid meniscus fill + Pressurized Hover / Mobile Auto-Full + Click Burst/Drain */
+/* Liquid M: the brand mark as a vessel of water.
+   - Scrolling fills it left to right behind a spring-driven meniscus that sloshes with scroll speed, then settles.
+   - At the bottom, scrolling further (wheel, touch pull, keys) builds pressure: the liquid swells past its outline and trembles.
+   - Click: the skin tears outward from the click point, sheds mist, and the freed filament necks into drops and falls.
+   The SVG draws the calm state. A canvas inside the brand link takes over for tension and the burst. Units are viewBox units (30 x 30). */
 const brandLink=document.querySelector('[data-brand-scroll]');
-let isBursting=false;
-function updateBrandScrollFill(){
-  if(isBursting)return;
-  const maxScroll=Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
-  const progress=Math.max(0, Math.min(1, window.scrollY / maxScroll));
-  document.documentElement.style.setProperty('--m-fill-progress', progress.toFixed(4));
-  if(brandLink){
-    const isFull = progress >= 0.92;
-    brandLink.setAttribute('data-m-full', String(isFull));
-    /* On touch/mobile devices (no hover), automatically show the subtle pressurized state when full at bottom */
-    if(window.matchMedia('(hover: none), (pointer: coarse)').matches){
-      brandLink.classList.toggle('is-pressurized', isFull);
+let mFluidSync=null;
+function updateBrandScrollFill(){if(mFluidSync)mFluidSync()}
+(function(){
+  const svg=brandLink&&brandLink.querySelector('.brand-m');
+  const wave=svg&&svg.querySelector('.m-fluid-wave'),fillPath=svg&&svg.querySelector('.m-fill');
+  if(!svg||!wave||!fillPath)return;
+  const RM=matchMedia('(prefers-reduced-motion: reduce)'),COARSE=matchMedia('(hover: none), (pointer: coarse)');
+  const clamp=(v,a,b)=>v<a?a:v>b?b:v,sstep=(a,b,v)=>{v=clamp((v-a)/(b-a),0,1);return v*v*(3-2*v)},rnd=Math.random,PI2=Math.PI*2;
+
+  /* Geometry: the M stroke as a chain of nodes, about 0.8 units apart */
+  const PTS=[[4,24],[4,7],[15,19],[26,7],[26,24]],R0=1.3,VS=[0],BW=[1.25,.7,1,.7,1.25];
+  const xs=[],ys=[],ss=[];let LEN=0;
+  for(let k=0;k<4;k++){
+    const a=PTS[k],b=PTS[k+1],len=Math.hypot(b[0]-a[0],b[1]-a[1]),n=Math.round(len/.8);
+    for(let j=k?1:0;j<=n;j++){const u=j/n;xs.push(a[0]+(b[0]-a[0])*u);ys.push(a[1]+(b[1]-a[1])*u);ss.push(LEN+len*u)}
+    LEN+=len;VS.push(LEN);
+  }
+  const N=xs.length,F=()=>new Float32Array(N),VI=ss.findIndex(v=>Math.abs(v-VS[2])<.01);
+  const X0=Float32Array.from(xs),Y0=Float32Array.from(ys),S=Float32Array.from(ss);
+  const TX=F(),TY=F(),NX=F(),NY=F(),BEAD=F(),LR=F(),QX=F(),QY=F(),QR=F(),DX=F(),DY=F(),DR=F();
+  for(let i=0;i<N;i++){
+    const a=Math.max(0,i-1),b=Math.min(N-1,i+1);let tx=X0[b]-X0[a],ty=Y0[b]-Y0[a];const l=Math.hypot(tx,ty)||1;
+    TX[i]=tx/l;TY[i]=ty/l;NX[i]=-ty/l;NY[i]=tx/l;
+    let bd=0;for(let v=0;v<5;v++){const q=(S[i]-VS[v])/2.3;bd+=BW[v]*Math.exp(-q*q)}BEAD[i]=bd;
+    if(i<N-1)LR[i]=Math.hypot(X0[i+1]-X0[i],Y0[i+1]-Y0[i]);
+  }
+
+  /* State */
+  const AREST=.85,FXA=2.7,FXB=27.3;
+  let prog=0,atBot=false,lvl=0,lvlV=0,slosh=0,phase=rnd()*6,amp=AREST,amp2=0,bulge=0,lastD='';
+  let drained=false,drainT=0,scrollT=0,lastY=window.scrollY,lastYT=0;
+  let P=0,PV=0,push=0,lastPush=0,hover=false,nextWeep=0;
+  let raf=0,last=0,T=0;
+  let cv=null,ctx=null,fxOn=false,own=false,sc=1,dpr=1,ox=0,oy=0,ink='#155ce9',tint='#9dbcf7';
+  let B=null;const drops=[];
+
+  /* The liquid front: x position of the meniscus at height y. Calibrated so the first pixel of scroll wets the left leg
+     and the last pixel closes the right one, whatever the slosh amplitude. */
+  function frontAt(y){
+    const q=(y-15)/15,a=amp+amp2;
+    return FXA-a+(FXB-FXA+2*a)*lvl+bulge*(1-q*q)+amp*Math.sin(y*.36+phase)+amp2*Math.sin(y*.83-phase*1.7+1.1);
+  }
+  /* Where the front crosses a diagonal, the liquid ends in a rounded meniscus tip instead of a flat cut: a short capsule along
+     the stroke, pushed just far enough ahead that the cut's leading corner sits on its round end. It grows in from the corners. */
+  const caps=[];
+  function findCaps(){
+    caps.length=0;if(lvl>=.9995)return;
+    let fa=frontAt(Y0[0])-X0[0];
+    for(let i=0;i<N-1;i++){
+      const fb=frontAt(Y0[i+1])-X0[i+1];
+      if(fa*fb<0&&S[i]>=VS[1]-.01&&S[i+1]<=VS[3]+.01){
+        const u=fa/(fa-fb),s=S[i]+(S[i+1]-S[i])*u,g=sstep(0,3,s-VS[1])*sstep(0,3,VS[3]-s);
+        if(g>.03){
+          const cx=X0[i]+(X0[i+1]-X0[i])*u,cy=Y0[i]+(Y0[i+1]-Y0[i])*u,dir=fa>0?1:-1;
+          const tx=(X0[i+1]-X0[i])/LR[i]*dir,ty=(Y0[i+1]-Y0[i])/LR[i]*dir;
+          let fx=(frontAt(cy+.4)-frontAt(cy-.4))/.8,fy=1;const fl=Math.hypot(fx,fy);fx/=fl;fy/=fl;
+          const lead=clamp(R0*Math.abs(tx*fx+ty*fy)/Math.max(.3,Math.abs(tx*fy-ty*fx)),0,2.2)*g,r=R0*g,back=3.2*g;
+          caps.push(cx-tx*back,cy-ty*back,cx+tx*lead,cy+ty*lead,-ty*r,tx*r,r);
+        }
+      }
+      fa=fb;
     }
   }
-}
-window.addEventListener('scroll', updateBrandScrollFill, {passive:true});
-window.addEventListener('resize', updateBrandScrollFill, {passive:true});
-updateBrandScrollFill();
+  function paintWave(){
+    findCaps();
+    let d='M-9-6';for(let y=-6;y<=36;y+=1.5)d+='L'+frontAt(y).toFixed(2)+' '+y;d+='L-9 36Z';
+    for(let c=0;c<caps.length;c+=7){
+      const ax=caps[c],ay=caps[c+1],bx=caps[c+2],by=caps[c+3],nx=caps[c+4],ny=caps[c+5],r=caps[c+6],f=v=>v.toFixed(2);
+      d+='M'+f(ax-nx)+' '+f(ay-ny)+'L'+f(bx-nx)+' '+f(by-ny)+'L'+f(bx+nx)+' '+f(by+ny)+'L'+f(ax+nx)+' '+f(ay+ny)+'Z';
+      d+='M'+f(bx-r)+' '+f(by)+'a'+f(r)+' '+f(r)+' 0 1 1 '+f(2*r)+' 0a'+f(r)+' '+f(r)+' 0 1 1 '+f(-2*r)+' 0Z';
+    }
+    if(d!==lastD){wave.setAttribute('d',d);lastD=d}
+  }
 
-if(brandLink){
-  brandLink.addEventListener('click', e=>{
-    e.preventDefault();
-    isBursting=true;
-    brandLink.classList.remove('is-pressurized');
-    brandLink.classList.add('is-bursting');
-    brandLink.setAttribute('data-m-full', 'false');
-    document.documentElement.style.setProperty('--m-fill-progress', '0');
-    window.scrollTo({top:0, behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'});
-    setTimeout(()=>{
-      brandLink.classList.remove('is-bursting');
-      isBursting=false;
-      updateBrandScrollFill();
-    }, 720);
+  /* Swollen, trembling shape of node i under pressure P */
+  function shape(i){
+    const s=S[i],P2=P*P,P3=P2*P;
+    const sw=P*(.5+.2*Math.sin(s*.4-T*2.1)+.1*Math.sin(s*.85+T*3.1+1.3)+BEAD[i]*(.36+.1*Math.sin(T*4.3+s*.11)));
+    const d=P2*(.11*Math.sin(s*.7-T*26)+.05*Math.sin(s*1.15+T*39));
+    QX[i]=X0[i]+NX[i]*d+P3*.2*Math.sin(T*61);QY[i]=Y0[i]+NY[i]*d+P3*.2*Math.sin(T*53+1);QR[i]=R0*(1+sw);
+  }
+
+  /* Canvas layer */
+  function readInk(){
+    const c=getComputedStyle(fillPath).stroke,m=c&&c.match(/[\d.]+/g);
+    if(m&&m.length>=3){ink=c;tint='rgb('+m.slice(0,3).map(v=>Math.round(+v+(255-v)*.5)).join(',')+')'}
+  }
+  function measure(){
+    const sr=svg.getBoundingClientRect(),br=brandLink.getBoundingClientRect();
+    const vw=document.documentElement.clientWidth,vh=window.innerHeight;
+    sc=sr.width/30||1;dpr=Math.min(3,window.devicePixelRatio||1);
+    const pl=clamp(Math.floor(sr.left),8,170),pt=clamp(Math.floor(sr.top),4,64);
+    const pr=clamp(Math.floor(vw-sr.right),8,300),pb=clamp(Math.floor(vh-sr.bottom),8,440);
+    const left=Math.round(sr.left-br.left-pl),top=Math.round(sr.top-br.top-pt);
+    const w=Math.ceil(pl+sr.width+pr),h=Math.ceil(pt+sr.height+pb);
+    cv.style.left=left+'px';cv.style.top=top+'px';cv.style.width=w+'px';cv.style.height=h+'px';
+    const bw=Math.round(w*dpr),bh=Math.round(h*dpr);
+    if(cv.width!==bw||cv.height!==bh){cv.width=bw;cv.height=bh}
+    ox=sr.left-br.left-left;oy=sr.top-br.top-top;
+  }
+  function fx(on){
+    if(on===fxOn)return;fxOn=on;
+    if(on){
+      if(!cv){cv=document.createElement('canvas');cv.className='m-fx';cv.setAttribute('aria-hidden','true');brandLink.appendChild(cv);ctx=cv.getContext('2d')}
+      brandLink.classList.add('m-fx-on');measure();readInk();
+    }else{brandLink.classList.remove('m-fx-on');setOwn(false);drops.length=0}
+  }
+  /* own = the canvas is drawing the liquid body, so the SVG liquid hides */
+  function setOwn(v){if(v!==own){own=v;brandLink.classList.toggle('m-fx-own',v)}}
+
+  /* Free droplets: mist, satellites, drips. hold > 0 means it first swells in place before letting go. */
+  function addDrop(x,y,vx,vy,r,k,g,life,light,hold){drops.push({x,y,vx,vy,r,k,g,life,light,hold:hold||0,age:0})}
+  function stepDrops(dt){
+    for(let i=drops.length-1;i>=0;i--){
+      const d=drops[i];
+      if(d.hold>0){d.hold-=dt;if(d.hold>0)continue;d.age=0}
+      d.age+=dt;if(d.age>=d.life){drops[i]=drops[drops.length-1];drops.pop();continue}
+      const f=Math.exp(-d.k*dt);d.vx*=f;d.vy=d.vy*f+d.g*dt;d.x+=d.vx*dt;d.y+=d.vy*dt;
+    }
+  }
+  function drawDrops(){
+    ctx.lineCap='round';
+    for(let i=0;i<drops.length;i++){
+      const d=drops[i];let r=d.r,a=1,x=d.x,y=d.y;
+      if(d.hold>0){const u=1-clamp(d.hold/d.h0,0,1);r*=u*u*(3-2*u);y+=u*u*.5}
+      else a=Math.min(1,d.age/.03)*(1-sstep(.5,1,d.age/d.life));
+      if(a<.01||r<.02)continue;
+      ctx.globalAlpha=a*(d.light?.85:1);
+      const sx=d.vx*.009,sy=d.vy*.009;
+      if(d.hold<=0&&sx*sx+sy*sy>r*r*.25){ctx.strokeStyle=d.light?tint:ink;ctx.lineWidth=r*2;ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(x-sx,y-sy);ctx.stroke()}
+      else{ctx.fillStyle=d.light?tint:ink;ctx.beginPath();ctx.arc(x,y,r,0,PI2);ctx.fill()}
+    }
+    ctx.globalAlpha=1;
+  }
+  function drip(ax,ay,r,hold){const d={x:ax,y:ay,vx:(rnd()-.5)*4,vy:6,r,k:1.6,g:520,life:.5+rnd()*.15,light:false,hold,h0:hold,age:0};drops.push(d)}
+
+  /* Burst */
+  const ANT=.085,G=560,KC=900,CC=16,KD=.7,KB=190,KV=9;
+  function noise(c,s){const p=B.ph;return .6*Math.sin(s*.21+p[c*2])+.4*Math.sin(s*.47+p[c*2+1])}
+  function startBurst(e){
+    if(!fxOn)fx(true);else measure();
+    const full=lvl>=.999,al=new Uint8Array(N);let cnt=0;
+    for(let i=0;i<N;i++){shape(i);if(full||X0[i]<frontAt(Y0[i])){al[i]=1;cnt++}}
+    if(cnt<4){if(P<.004)fx(false);return false}
+    /* rupture starts at the liquid nearest the click; keyboard activation tears from the centre V */
+    let tx=15,ty=19;
+    if(e&&e.detail>0&&(e.clientX||e.clientY)){const r=svg.getBoundingClientRect();tx=(e.clientX-r.left)/sc;ty=(e.clientY-r.top)/sc}
+    let i0=0,best=1e9;for(let i=0;i<N;i++){if(!al[i])continue;const d=(X0[i]-tx)**2+(Y0[i]-ty)**2;if(d<best){best=d;i0=i}}
+    B={t:0,st:0,started:false,p0:P,pow:.62+.38*clamp(P,0,1),i0,s0:S[i0],left:cnt,dripped:false,
+      x:F(),y:F(),vx:F(),vy:F(),rf:F(),ev:F().fill(1),rt:F(),life:F(),brk:F(),al,had:al.slice(),rel:new Uint8Array(N),lk:new Uint8Array(N),
+      ph:Array.from({length:8},()=>rnd()*PI2)};
+    const VF=LEN/.2;
+    for(let i=0;i<N;i++){
+      B.rt[i]=Math.abs(S[i]-B.s0)/VF+.01*(1+noise(0,S[i]*3));
+      B.life[i]=.66+.36*(.5+.5*noise(2,S[i]))+rnd()*.05;
+      if(i<N-1){B.lk[i]=al[i]&&al[i+1]?1:0;B.brk[i]=1.9+1.3*(.5+.5*noise(3,S[i]))}
+    }
+    for(let k=0;k<10;k++)B.brk[(rnd()*(N-1))|0]=1.16+rnd()*.26;
+    setOwn(true);wake();return true;
+  }
+  function rupture(){
+    const b=B;b.started=true;
+    drained=true;drainT=performance.now();lvl=0;lvlV=0;slosh=0;push=0;armDrainWatch();
+    window.scrollTo({top:0,behavior:'smooth'});
+    if(svg.animate)svg.animate([{transform:'scale(1)'},{transform:'scale(.9)',offset:.16},{transform:'scale(1.045)',offset:.46},{transform:'scale(.99)',offset:.72},{transform:'scale(1)'}],{duration:640,easing:'cubic-bezier(.22,1,.36,1)'});
+    try{if(COARSE.matches&&navigator.vibrate)navigator.vibrate(8)}catch(_){}
+    /* a jet from the puncture, away from the centre of the mark */
+    const i=b.i0,dx=QX[i]-15,dy=QY[i]-15.5,dl=Math.hypot(dx,dy)||1,base=Math.atan2(dy/dl,dx/dl);
+    for(let k=0;k<34;k++){
+      const a=base+(rnd()-.5)*1.5,v=(150+470*rnd())*b.pow,r=.14+.75*rnd()*rnd();
+      addDrop(QX[i],QY[i],Math.cos(a)*v,Math.sin(a)*v,r,5.5+5*rnd()-r*2.2,G*(.3+.7*r),.5+.55*rnd(),rnd()<.4);
+    }
+  }
+  function release(i){
+    const b=B;b.rel[i]=1;b.x[i]=QX[i];b.y[i]=QY[i];b.rf[i]=QR[i]/R0;
+    const dx=b.x[i]-15,dy=b.y[i]-15.5,dl=Math.hypot(dx,dy)||1,rx=dx/dl,ry=dy/dl,s=S[i];
+    const n1=noise(0,s),n2=noise(1,s),sg=s<b.s0?-1:1,aw=Math.exp(-Math.abs(s-b.s0)/14)*20;
+    const sp=(30+34*(.5+.5*n1))*b.pow,nn=11*n2*b.pow;
+    b.vx[i]=rx*sp+NX[i]*nn+TX[i]*sg*aw;b.vy[i]=ry*sp+NY[i]*nn+TY[i]*sg*aw-24*b.pow;
+    /* the retreating skin flings a fine spray off both faces of the stroke */
+    for(let k=0;k<4;k++){
+      const side=rnd()<.5?-1:1,a=Math.atan2(NY[i]*side,NX[i]*side)+(rnd()-.5)*1.7,u=rnd(),v=(45+390*u*u)*b.pow,r=.12+.66*rnd()*rnd()*rnd();
+      addDrop(b.x[i]+NX[i]*side*R0,b.y[i]+NY[i]*side*R0,Math.cos(a)*v+rx*26,Math.sin(a)*v+ry*26,r,7+6*rnd()-r*3,G*(.25+.75*r),.5+.6*rnd(),rnd()<.38);
+    }
+    /* and now and then a heavier satellite drop on a ballistic arc */
+    if(rnd()<.15){const a=Math.atan2(ry,rx)+(rnd()-.5)*1.1,v=(80+120*rnd())*b.pow;addDrop(b.x[i],b.y[i],Math.cos(a)*v,Math.sin(a)*v-30,.72+.5*rnd(),1.2,G,.8+.35*rnd(),false)}
+  }
+  function stepBurst(dt){
+    const b=B;b.st+=dt;
+    for(let i=0;i<N;i++)if(b.al[i]&&!b.rel[i]){if(b.rt[i]<=b.st)release(i)}
+    const n=Math.max(1,Math.ceil(dt/.0045)),h=dt/n,dr=Math.exp(-KD*h);
+    for(let q=0;q<n;q++){
+      for(let i=0;i<N-1;i++){
+        if(!b.lk[i]||!b.rel[i]||!b.rel[i+1])continue;
+        const dx=b.x[i+1]-b.x[i],dy=b.y[i+1]-b.y[i],l=Math.hypot(dx,dy)||1e-6,st=l/LR[i];
+        if(st>b.brk[i]){b.lk[i]=0;continue}
+        const ux=dx/l,uy=dy/l,age=b.st-Math.max(b.rt[i],b.rt[i+1]);
+        /* cohesion pulls the filament together, weaker the thinner it is stretched, so necks run away and pinch off */
+        const rest=LR[i]*(1-.56*sstep(.04,.5,age));
+        const f=(KC*(l-rest)/(1+1.5*Math.max(0,st-1))+CC*((b.vx[i+1]-b.vx[i])*ux+(b.vy[i+1]-b.vy[i])*uy))*h;
+        b.vx[i]+=ux*f;b.vy[i]+=uy*f;b.vx[i+1]-=ux*f;b.vy[i+1]-=uy*f;
+      }
+      /* surface tension also straightens the filament (pulls each node toward its neighbours' midpoint), and viscosity shares velocity along it */
+      for(let i=1;i<N-1;i++){
+        if(!b.lk[i-1]||!b.lk[i]||!b.rel[i-1]||!b.rel[i]||!b.rel[i+1])continue;
+        const ax=((b.x[i-1]+b.x[i+1])*.5-b.x[i])*KB*h+((b.vx[i-1]+b.vx[i+1])*.5-b.vx[i])*KV*h;
+        const ay=((b.y[i-1]+b.y[i+1])*.5-b.y[i])*KB*h+((b.vy[i-1]+b.vy[i+1])*.5-b.vy[i])*KV*h;
+        b.vx[i]+=ax;b.vy[i]+=ay;b.vx[i-1]-=ax*.5;b.vy[i-1]-=ay*.5;b.vx[i+1]-=ax*.5;b.vy[i+1]-=ay*.5;
+      }
+      for(let i=0;i<N;i++){if(!b.al[i]||!b.rel[i])continue;b.vx[i]*=dr;b.vy[i]=b.vy[i]*dr+G*h;b.x[i]+=b.vx[i]*h;b.y[i]+=b.vy[i]*h}
+    }
+    /* width follows stretch (thin where pulled, beading where gathered); each bit of water evaporates at the end of its life */
+    const floor=(cv.height/dpr-oy)/sc+4,kr=1-Math.exp(-dt*18);let left=0,unrel=0;
+    for(let i=0;i<N;i++){
+      if(!b.al[i])continue;
+      if(!b.rel[i]){left++;unrel++;continue}
+      let st=0,c=0;
+      if(i>0&&b.lk[i-1]&&b.rel[i-1]){st+=Math.hypot(b.x[i]-b.x[i-1],b.y[i]-b.y[i-1])/LR[i-1];c++}
+      if(i<N-1&&b.lk[i]&&b.rel[i+1]){st+=Math.hypot(b.x[i+1]-b.x[i],b.y[i+1]-b.y[i])/LR[i];c++}
+      const tg=c?clamp(1/Math.sqrt(st/c),.42,1.9):1.15;
+      b.rf[i]+=(tg-b.rf[i])*kr;
+      const age=b.st-b.rt[i];b.ev[i]=1-sstep(b.life[i]-.34,b.life[i],age);
+      if(b.ev[i]<.03||b.y[i]>floor){b.al[i]=0;if(i>0)b.lk[i-1]=0;if(i<N-1)b.lk[i]=0}else left++;
+    }
+    b.left=left;
+    if(!unrel&&own){setOwn(false);P=0;PV=0}
+    /* one last drip from the emptied outline */
+    if(!b.dripped&&b.st>.34){b.dripped=true;const an=[[4,25.2,0],[15,20.2,VI],[26,25.2,N-1]].filter(a=>b.had[a[2]]);const a=an[(rnd()*an.length)|0];if(a)drip(a[0],a[1],.8,.26);if(an.length>1&&rnd()<.6){const c=an[(rnd()*an.length)|0];if(c!==a)drip(c[0],c[1],.6,.4)}}
+  }
+
+  function arc(x,y,r){ctx.moveTo(x+r,y);ctx.arc(x,y,r,0,PI2)}
+  function draw(){
+    const k=dpr*sc;
+    ctx.setTransform(1,0,0,1,0,0);
+    if(B||drops.length)ctx.clearRect(0,0,cv.width,cv.height);else ctx.clearRect((ox-20*sc)*dpr,(oy-20*sc)*dpr,70*k,70*k);
+    ctx.setTransform(k,0,0,k,ox*dpr,oy*dpr);
+    const b=B,held=!b||!b.started;
+    for(let i=0;i<N;i++)if(!b||(b.al[i]&&!b.rel[i]))shape(i);
+    drawDrops();
+    let clip=false;
+    if(!b&&lvl<.999){clip=true;ctx.save();ctx.beginPath();ctx.moveTo(-9,-6);for(let y=-6;y<=36;y+=1.5)ctx.lineTo(frontAt(y),y);ctx.lineTo(-9,36);ctx.closePath();for(let c=0;c<caps.length;c+=7){const ax=caps[c],ay=caps[c+1],bx=caps[c+2],by=caps[c+3],nx=caps[c+4],ny=caps[c+5];ctx.moveTo(ax-nx,ay-ny);ctx.lineTo(bx-nx,by-ny);ctx.lineTo(bx+nx,by+ny);ctx.lineTo(ax+nx,ay+ny);ctx.closePath();arc(bx,by,caps[c+6])}ctx.clip()}
+    ctx.beginPath();
+    for(let i=0;i<N;i++){
+      if(b&&!b.al[i]){DR[i]=0;continue}
+      if(b&&b.rel[i]){DX[i]=b.x[i];DY[i]=b.y[i];DR[i]=R0*b.rf[i]*b.ev[i]}else{DX[i]=QX[i];DY[i]=QY[i];DR[i]=QR[i]}
+      arc(DX[i],DY[i],DR[i]);
+    }
+    for(let i=0;i<N-1;i++){
+      if(!DR[i]||!DR[i+1]||(b&&!b.lk[i]))continue;
+      const dx=DX[i+1]-DX[i],dy=DY[i+1]-DY[i],l=Math.hypot(dx,dy),m=clamp(Math.ceil(l/.4)-1,1,16);
+      const nk=b?.62*sstep(1.12,b.brk[i],l/LR[i]):0;
+      for(let j=1;j<=m;j++){const u=j/(m+1);arc(DX[i]+dx*u,DY[i]+dy*u,(DR[i]+(DR[i+1]-DR[i])*u)*(1-nk*Math.sin(Math.PI*u)))}
+    }
+    ctx.fillStyle=ink;ctx.fill();
+    /* taut-skin highlight: only shows as pressure builds */
+    if(held&&P>.05){
+      ctx.beginPath();let pen=false;
+      for(let i=0;i<N;i++){if(b&&!b.al[i]){pen=false;continue}const r=QR[i],x=QX[i]-r*.32,y=QY[i]-r*.32;if(pen)ctx.lineTo(x,y);else{ctx.moveTo(x,y);pen=true}}
+      ctx.globalAlpha=Math.min(.32,P*.28);ctx.strokeStyle='#fff';ctx.lineWidth=.42;ctx.lineCap=ctx.lineJoin='round';ctx.stroke();ctx.globalAlpha=1;
+    }
+    if(clip)ctx.restore();
+  }
+
+  /* One loop drives the level spring, the pressure spring, the burst and both renderers. It sleeps when everything is at rest. */
+  function wake(){if(!raf){last=performance.now();raf=requestAnimationFrame(tick)}}
+  function tick(now){
+    raf=0;const dt=clamp((now-last)/1000,.001,.05);last=now;T+=dt;
+    const rm=RM.matches;let busy=false;
+    const tgt=drained?0:prog;
+    if(rm){lvl=tgt;lvlV=0;slosh=0}
+    else{
+      const n=Math.ceil(dt/.008),h=dt/n;
+      for(let i=0;i<n;i++){lvlV+=((tgt-lvl)*324-28*lvlV)*h;lvl+=lvlV*h}
+      const sp=Math.min(1,Math.abs(lvlV)/.2);
+      slosh+=(sp-slosh)*(1-Math.exp(-dt*(sp>slosh?16:2.3)));
+      phase+=dt*(1.5+10*slosh);
+      if(Math.abs(tgt-lvl)>2e-4||Math.abs(lvlV)>2e-3||slosh>.012)busy=true;else{lvl=tgt;lvlV=0;slosh=0}
+    }
+    amp=AREST+1.1*slosh;amp2=.35*slosh;bulge=clamp(lvlV*6,-1.2,1.2);
+    paintWave();
+
+    if(B){
+      busy=true;B.t+=dt;
+      if(B.t<ANT){const u=B.t/ANT;P=B.p0+(1.22-B.p0)*u*u;PV=0}
+      else{
+        if(!B.started){P=1.22;rupture()}
+        const bt=B.t-ANT;
+        /* a breath of slow motion right after the tear, so the freed shape can be read before it falls */
+        const w=dt*(1-.42*sstep(.04,.13,bt)*(1-sstep(.24,.5,bt)));
+        stepBurst(w);stepDrops(w);
+      }
+      if(B.started&&!B.left&&!drops.length){B=null}
+    }else{
+      const live=atBot&&!drained&&!rm;
+      if(!live)push=0;else if(now-lastPush>900){push*=Math.exp(-dt/1.1);if(push<.01)push=0}
+      const base=live?(COARSE.matches?.3:hover?.5:.18):0,pt=base+(1-base)*push;
+      const n=Math.ceil(dt/.008),h=dt/n;
+      for(let i=0;i<n;i++){PV+=((pt-P)*256-16*PV)*h;P+=PV*h}
+      if(P<0){P=0;if(PV<0)PV=0}
+      /* keeps moving while pushed or hovered; a settled brim just holds its last frame */
+      if(push>0||(live&&hover)||Math.abs(pt-P)>.002||Math.abs(PV)>.01)busy=true;else{P=pt;PV=0}
+      /* right at the edge it starts to weep */
+      if(P>.86&&T>nextWeep){nextWeep=T+.5+rnd()*.8;const an=[[4,25.4],[26,25.4],[15,20.4]][(rnd()*3)|0];drip(an[0],an[1],.42+rnd()*.26,.3)}
+      if(drops.length){stepDrops(dt);busy=true}
+    }
+    const want=!rm&&(!!B||P>.003||drops.length>0);
+    if(want){fx(true);if(!B)setOwn(true);draw()}else fx(false);
+    if(busy)raf=requestAnimationFrame(tick);
+  }
+
+  /* After a burst the mark stays empty until the page is back at the top (or the visitor takes over the scroll) */
+  let drainTimer=0;
+  function undrain(){if(drained){drained=false;sync()}}
+  function armDrainWatch(){
+    clearInterval(drainTimer);
+    drainTimer=setInterval(()=>{
+      const now=performance.now();
+      if(!drained||window.scrollY<=1||(now-drainT>320&&now-scrollT>280)){clearInterval(drainTimer);undrain()}
+    },140);
+  }
+
+  function sync(){
+    const max=Math.max(1,document.documentElement.scrollHeight-window.innerHeight),y=window.scrollY,now=performance.now();
+    const was=atBot;
+    prog=clamp(y/max,0,1);atBot=max-y<=2&&max>40;if(atBot)prog=1;
+    /* water hammer: arriving at the bottom with speed sends a pressure wave through the mark */
+    if(atBot&&!was&&!drained&&!B&&now-lastYT<120){const v=(y-lastY)/Math.max(8,now-lastYT)*1000;if(v>300)addPush(Math.min(.5,v/7000))}
+    if(y!==lastY)scrollT=now;
+    lastY=y;lastYT=now;
+    if(drained&&y<=1)drained=false;
+    wake();
+  }
+  mFluidSync=sync;
+  function addPush(f){push+=(1-push)*clamp(f,0,1);lastPush=performance.now();wake()}
+
+  window.addEventListener('scroll',sync,{passive:true});
+  window.addEventListener('resize',()=>{if(fxOn)measure();sync()},{passive:true});
+  /* Overscroll at the bottom: each extra bit of scroll pushes the pressure a fraction closer to the limit, never past it */
+  window.addEventListener('wheel',e=>{
+    if(drained&&(!B||B.st>.2))undrain();
+    if(e.deltaY<=0||e.ctrlKey||!atBot||B||RM.matches)return;
+    if(e.target&&e.target.closest&&e.target.closest('dialog'))return;
+    addPush(1-Math.exp(-e.deltaY*(e.deltaMode===1?33:e.deltaMode===2?window.innerHeight:1)/320));
+  },{passive:true});
+  let tY=null,tBase=0;
+  window.addEventListener('touchstart',e=>{if(drained&&(!B||B.st>.2))undrain();tY=e.touches.length===1?e.touches[0].clientY:null;tBase=push},{passive:true});
+  window.addEventListener('touchmove',e=>{
+    if(tY===null||B||RM.matches||!e.touches.length)return;
+    const y=e.touches[0].clientY;
+    if(!atBot){tY=y;tBase=push;return}
+    const pull=tY-y;
+    if(pull>0){const np=1-(1-tBase)*Math.exp(-pull/130);if(np>push)push=np;lastPush=performance.now();wake()}
+  },{passive:true});
+  window.addEventListener('touchend',()=>{tY=null},{passive:true});
+  window.addEventListener('keydown',e=>{
+    const k=e.key,down=k==='ArrowDown'||k==='PageDown'||k==='End'||(k===' '&&!e.shiftKey);
+    if(!down&&k!=='ArrowUp'&&k!=='PageUp'&&k!=='Home')return;
+    if(drained&&(!B||B.st>.2))undrain();
+    const t=e.target;
+    if(!down||!atBot||B||RM.matches||e.defaultPrevented||(t&&t.closest&&t.closest('input,textarea,select,button,a,dialog,[contenteditable]')))return;
+    addPush(k==='ArrowDown'?.2:.34);
   });
-}
+  brandLink.addEventListener('pointerenter',e=>{if(e.pointerType==='mouse'){hover=true;wake()}});
+  brandLink.addEventListener('pointerleave',()=>{hover=false;wake()});
+  new MutationObserver(()=>{if(fxOn)requestAnimationFrame(readInk)}).observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});
+
+  brandLink.addEventListener('click',e=>{
+    e.preventDefault();
+    if(RM.matches){window.scrollTo({top:0,behavior:'instant'});return}
+    if(B)return;
+    if(!startBurst(e))window.scrollTo({top:0,behavior:'smooth'});
+  });
+  sync();
+})();
 
 /* Do It & Nothing But Net multi-view switchers + Dark/Light app UI synced with site theme + Mobile-aware screenshots */
 const mobQuery=window.matchMedia?window.matchMedia('(max-width: 760px)'):null;
