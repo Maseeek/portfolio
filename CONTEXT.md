@@ -32,6 +32,10 @@ _Avoid_: Data entry, prompt writer
 
 ### Technical Projects
 
+**Keep Safe**:
+A remote browser auth-handoff ecosystem enabling AI coding agents (Claude Code, Codex, Antigravity, T3 Code) to pause on login walls, stream an isolated or loopback-attached Chromium browser via CDP over WebSockets to a stateless mobile PWA, and resume cleanly after owner handback. Enforces separate agent, owner, and revocable 7-day SHA-256 device keys, private-IP SSRF proxy checks, cross-frame password-field clearing, and MCP tool integration (`request_login`, `wait_for_login`).
+_Avoid_: Password manager, proxy VPN
+
 **Do It**:
 A multi-tenant two-player head-to-head habit parity application built on Next.js 16 (App Router) and Supabase PostgreSQL. Calibrates daily habits to a 240 Daily Par ceiling, enforces slot-level Row-Level Security (`player_a_id` / `player_b_id`), and encrypts wearable OAuth refresh tokens (Apple Health, Google Health, Strava, Hevy) using server-only AES-256-GCM.
 _Avoid_: Simple habit checklist
