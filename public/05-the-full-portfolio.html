@@ -592,16 +592,20 @@ html{scroll-padding-top:84px}
   transition:border-color .25s,color .25s,background .25s,transform .2s;
 }
 .theme-btn:hover{border-color:var(--accent);color:var(--ink);transform:translateY(-1px)}
-.theme-icons{display:inline-flex;align-items:center;gap:5px;position:relative}
-.theme-icons svg{width:14px;height:14px;transition:transform .5s cubic-bezier(.22,1,.36,1),color .3s,opacity .3s}
-html[data-theme="dark"] .ti-moon{color:#60a5fa;opacity:1;transform:rotate(0deg) scale(1)}
-html[data-theme="dark"] .ti-sun{color:#fbbf24;opacity:.42;transform:scale(.8) rotate(-45deg)}
-html[data-theme="dark"] .theme-btn:hover .ti-moon{transform:rotate(-20deg) scale(.88);opacity:.7}
-html[data-theme="dark"] .theme-btn:hover .ti-sun{opacity:1;transform:scale(1.1) rotate(30deg)}
-html:not([data-theme="dark"]) .ti-moon{color:#64748b;opacity:.4;transform:scale(.8) rotate(20deg)}
-html:not([data-theme="dark"]) .ti-sun{color:#f59e0b;opacity:1;transform:scale(1.06) rotate(90deg)}
-html:not([data-theme="dark"]) .theme-btn:hover .ti-moon{opacity:1;color:var(--accent);transform:scale(1.06) rotate(0deg)}
-html:not([data-theme="dark"]) .theme-btn:hover .ti-sun{transform:scale(.88) rotate(45deg);opacity:.7}
+/* Theme icon "Umbra" (themeIcon in the script writes every state inline; these defaults cover first paint and no-JS) */
+.theme-btn{width:34px;padding:0}
+.theme-ico{display:block;width:18px;height:18px;overflow:visible;color:#60a5fa}
+.theme-ico [class]{transform-box:view-box;transform-origin:12px 12px}
+html:not([data-theme="dark"]) .theme-ico{color:#f59e0b;filter:drop-shadow(0 0 3px rgba(245,158,11,.4))}
+.tm-corona{stroke:#bfdbfe;opacity:0}
+.tm-sun{transform:scale(.53)}
+.tm-shine{opacity:.2}
+.tm-craters{opacity:0}
+.tm-add{transform:scaleX(0)}
+.tm-sub{transform:scaleX(.62)}
+html[data-theme="dark"] .tm-sun,html[data-theme="dark"] .tm-ray{opacity:0}
+html:not([data-theme="dark"]) .tm-moon{opacity:0}
+html:not([data-theme="dark"]) .tm-cut{transform:translate(-14px,14px)}
 
 /* Hero Section: Two clean lines ("Enterprise systems," / "applied AI & full-stack.") with blue accent */
 .hero{padding:54px 0 44px;border-bottom:1px solid var(--line)}
@@ -996,7 +1000,7 @@ html[data-theme="dark"] .talk-row:hover .tr-kicker,html[data-theme="dark"] .talk
 .nav-links{gap:10px}
 .nav-actions{gap:10px}
 .nav-links>a{display:none}
-.theme-btn{height:36px;padding:0 11px}
+.theme-btn{height:36px;width:36px;padding:0}
 .nav-links .nav-contact{padding:9px 14px;font-size:12px}
 
 /* Progressive disclosure button on mobile */
@@ -1305,6 +1309,11 @@ html[data-theme="dark"] .cg-row+.cg-row::before{background:#29374d}
 
 /* Theme switch: crossfade the whole page instead of every colour flipping at once */
 ::view-transition-old(root),::view-transition-new(root){animation-duration:.25s;animation-timing-function:ease}
+/* ...while the theme button gets its own layer, so its icon keeps animating live above the crossfade */
+html.theme-vt .theme-btn{view-transition-name:theme-btn}
+html.theme-vt::view-transition-group(theme-btn){animation:none}
+html.theme-vt::view-transition-old(theme-btn){display:none}
+html.theme-vt::view-transition-new(theme-btn){animation:none}
 
 /* Phones: modals become bottom sheets (JS slides them up and handles swipe-to-close) */
 @media(max-width:760px){
@@ -1387,10 +1396,7 @@ html[data-theme="dark"] .badge-pill{background:#192a4a;color:#60a5fa}
         <a href="https://x.com/maseeek" target="_blank" rel="noopener noreferrer" aria-label="X (@maseeek)" data-tip="X · @maseeek"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z"/></svg></a>
       </div>
       <button class="theme-btn" type="button" data-theme-toggle aria-label="Toggle light and dark theme" title="Toggle theme">
-        <span class="theme-icons" aria-hidden="true">
-          <svg class="ti-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
-          <svg class="ti-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2.2M12 19.8V22M4.93 4.93l1.56 1.56M17.51 17.51l1.56 1.56M2 12h2.2M19.8 12H22M4.93 19.07l1.56-1.56M17.51 6.49l1.56-1.56"/></svg>
-        </span>
+        <svg class="theme-ico" viewBox="0 0 24 24" aria-hidden="true"><defs><mask id="tm-phase" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24"><rect width="24" height="24" fill="#000"/><g class="tm-flip"><path d="M12 3.5A8.5 8.5 0 0 0 12 20.5Z" fill="#fff"/><ellipse class="tm-add" cx="12" cy="12" rx="8.5" ry="8.5" fill="#fff"/><ellipse class="tm-sub" cx="12" cy="12" rx="8.5" ry="8.5" fill="#000"/></g></mask><mask id="tm-shadow" maskUnits="userSpaceOnUse" x="-24" y="-24" width="72" height="72"><rect x="-24" y="-24" width="72" height="72" fill="#fff"/><circle class="tm-cut" cx="12" cy="12" r="8.5" fill="#000"/></mask></defs><circle class="tm-corona" cx="12" cy="12" r="5.6" fill="none" stroke-width="1"/><g stroke="#f59e0b" stroke-width="2" stroke-linecap="round"><g transform="rotate(0 12 12)"><line class="tm-ray" x1="12" y1="1.6" x2="12" y2="3.9"/></g><g transform="rotate(45 12 12)"><line class="tm-ray" x1="12" y1="1.6" x2="12" y2="3.9"/></g><g transform="rotate(90 12 12)"><line class="tm-ray" x1="12" y1="1.6" x2="12" y2="3.9"/></g><g transform="rotate(135 12 12)"><line class="tm-ray" x1="12" y1="1.6" x2="12" y2="3.9"/></g><g transform="rotate(180 12 12)"><line class="tm-ray" x1="12" y1="1.6" x2="12" y2="3.9"/></g><g transform="rotate(225 12 12)"><line class="tm-ray" x1="12" y1="1.6" x2="12" y2="3.9"/></g><g transform="rotate(270 12 12)"><line class="tm-ray" x1="12" y1="1.6" x2="12" y2="3.9"/></g><g transform="rotate(315 12 12)"><line class="tm-ray" x1="12" y1="1.6" x2="12" y2="3.9"/></g></g><g mask="url(#tm-shadow)"><circle class="tm-sun" cx="12" cy="12" r="8.5" fill="#f59e0b"/></g><g class="tm-moon"><circle class="tm-shine" cx="12" cy="12" r="8.5" fill="#8aa0c0"/><g mask="url(#tm-phase)"><circle cx="12" cy="12" r="8.5" fill="currentColor"/><g class="tm-cflip"><g class="tm-craters" fill="#0d1118"><circle cx="6.7" cy="9.6" r="1.15"/><circle cx="7.6" cy="14.7" r=".8"/><circle cx="5.2" cy="12.9" r=".55"/></g></g></g></g></svg>
       </button>
       <button class="nav-contact" type="button" data-open-talk>Let's talk</button>
       </div>
@@ -2582,6 +2588,84 @@ if(mobQuery&&mobQuery.addEventListener){
 const rootEl=document.documentElement,themeBtn=document.querySelector('[data-theme-toggle]'),themeLabel=document.querySelector('[data-theme-label]');
 const sysColorQuery=window.matchMedia?window.matchMedia('(prefers-color-scheme: dark)'):null;
 let manualThemeOverride=false;
+/* Theme icon "Umbra".
+   To dark: an eclipse. The shadow crosses the sun from the lower left (the nearest rays go first), a corona flashes
+   at totality, and the hidden sun becomes the moon, which grows and catches light on its edge.
+   To light: the moon waxes full and warms through dawn colours (blue, violet, pink, amber) into the sun.
+   The moon is tonight's real phase from Meeus' low-precision formula (Astronomical Algorithms ch. 48, about 1%),
+   drawn for the northern hemisphere: waxing moons are lit on the right. The lit part is half a disc plus or minus
+   an ellipse of width cos(phase angle), which is exactly how a lit sphere projects.
+   Motion is WAAPI on transform, opacity, colour and the glow; each run writes its end state inline, then drops its animations. */
+const themeIcon=(()=>{
+  const svg=themeBtn&&themeBtn.querySelector('.theme-ico');
+  if(!svg||!svg.animate)return {busy:false,mount(){},play(){return Promise.resolve()}};
+  const $=s=>svg.querySelector(s),$$=s=>[...svg.querySelectorAll(s)];
+  const E_OUT='cubic-bezier(.23,1,.32,1)',E_IO='cubic-bezier(.77,0,.175,1)',PARK='translate(-14px,14px)';
+  const GLOW_ON='drop-shadow(0 0 3px rgba(245,158,11,.4))',GLOW_OFF='drop-shadow(0 0 3px rgba(245,158,11,0))';
+  // OKLCH hue path from the site blue (254.6deg) up through violet and pink to the site amber (70.1deg + 360), sampled so any interpolation follows it
+  const DAWN=Array.from({length:9},(_,i)=>{const t=i/8;return `oklch(${(.714+.055*t).toFixed(3)} ${(.143+.022*t).toFixed(3)} ${(254.6+175.5*t).toFixed(1)})`;});
+  // cubic-bezier(.77,0,.175,1) as a function, so the terminator's sampled keyframes follow the same curve as everything else
+  const easeIO=(()=>{const cx=3*.77,bx=3*(.175-.77)-cx,ax=1-cx-bx,by=3,ay=-2,X=t=>((ax*t+bx)*t+cx)*t,dX=t=>(3*ax*t+2*bx)*t+cx,Y=t=>(ay*t+by)*t*t;
+    return x=>{if(x<=0)return 0;if(x>=1)return 1;let t=x;for(let i=0;i<8;i++){const d=X(t)-x;if(Math.abs(d)<1e-5)break;const s=dX(t);if(Math.abs(s)<1e-6)break;t-=d/s;}return Y(Math.min(1,Math.max(0,t)));};})();
+  const A=(el,frames,o)=>el.animate(frames,Object.assign({fill:'both',easing:'linear'},o));
+  const T=(el,tf,op)=>{if(tf!=null)el.style.transform=tf;if(op!=null)el.style.opacity=op;};
+  function tonight(t=Date.now()){
+    const r=Math.PI/180,c=(t/864e5+2440587.5-2451545)/36525;
+    const D=297.8501921+445267.1114034*c,M=357.5291092+35999.0502909*c,Mp=134.9633964+477198.8675055*c;
+    const i=180-D%360-6.289*Math.sin(Mp*r)+2.1*Math.sin(M*r)-1.274*Math.sin((2*D-Mp)*r)-.658*Math.sin(2*D*r)-.214*Math.sin(2*Mp*r)-.11*Math.sin(D*r);
+    const f=(1+Math.cos(i*r))/2,waxing=((D%360)+360)%360<180;
+    const name=f<.03?'new moon':f>.97?'full moon':Math.abs(f-.5)<.03?(waxing?'first quarter':'last quarter'):`${waxing?'waxing':'waning'} ${f<.5?'crescent':'gibbous'}`;
+    // terminator k = cos(phase angle) = 2f - 1; earthshine is real and brightest near new moon, so the dark side shows more as the crescent thins
+    return {k:2*f-1,flip:waxing,shine:.2+.14*(1-f),f,name};
+  }
+  let moon=tonight(),busy=false;
+  const kAnim=(from,to,delay,duration)=>{const add=[],sub=[];
+    for(let i=0;i<=28;i++){const k=from+(to-from)*easeIO(i/28);add.push({transform:`scaleX(${Math.max(k,0).toFixed(4)})`});sub.push({transform:`scaleX(${Math.max(-k,0).toFixed(4)})`});}
+    return [A($('.tm-add'),add,{delay,duration}),A($('.tm-sub'),sub,{delay,duration})];};
+  function mount(mode){
+    moon=tonight();
+    const sun=mode!=='dark',fl=moon.flip?'scaleX(-1)':'none';
+    T($('.tm-sun'),'scale(.53)',sun?1:0);T($('.tm-cut'),sun?PARK:'none');T($('.tm-moon'),sun?PARK:'none',sun?0:1);
+    T($('.tm-flip'),fl);T($('.tm-cflip'),fl);
+    T($('.tm-add'),`scaleX(${sun?1:Math.max(moon.k,0)})`);T($('.tm-sub'),`scaleX(${sun?0:Math.max(-moon.k,0)})`);
+    T($('.tm-shine'),null,sun?0:moon.shine);T($('.tm-craters'),null,sun?0:.28);
+    $$('.tm-ray').forEach(r=>T(r,sun?'none':'scale(.5)',sun?1:0));
+    T($('.tm-corona'),'scale(.85)',0);
+    themeBtn.title=sun?'Switch to dark theme':`Switch to light theme · Tonight's moon: ${moon.name}, ${Math.round(moon.f*100)}% lit`;
+  }
+  async function play(next){
+    busy=true;moon=tonight();
+    const sun=$('.tm-sun'),mn=$('.tm-moon'),cut=$('.tm-cut'),rays=$$('.tm-ray');let a;
+    if(next==='dark'){
+      a=[
+        A(cut,[{transform:PARK},{transform:'translate(0px,0px)'}],{duration:400,easing:E_IO}),
+        ...rays.map((r,i)=>{const d=Math.min(Math.abs(i-5),8-Math.abs(i-5)); // nearest the incoming shadow first
+          return A(r,[{transform:'none',opacity:1},{transform:'scale(.5)',opacity:0}],{duration:200,delay:90+d*50,easing:E_OUT});}),
+        A($('.tm-corona'),[{transform:'scale(.85)',opacity:0},{transform:'scale(1)',opacity:.9,offset:.25},{transform:'scale(1.45)',opacity:0}],{duration:520,delay:340,easing:E_OUT}),
+        A(mn,[{transform:'scale(.53)',opacity:0},{transform:'scale(.53)',opacity:0,offset:.45},{transform:'scale(.53)',opacity:1,offset:.58,easing:E_OUT},{transform:'none',opacity:1}],{duration:880}),
+        A($('.tm-shine'),[{opacity:moon.shine},{opacity:moon.shine}],{duration:880}),
+        ...kAnim(-1,moon.k,500,420),
+        A($('.tm-craters'),[{opacity:0},{opacity:.28}],{duration:260,delay:660,easing:'ease'}),
+        A(svg,[{filter:GLOW_ON},{filter:GLOW_OFF}],{duration:220,delay:250,easing:'ease'}),
+      ];
+    }else{
+      a=[
+        ...kAnim(moon.k,1,0,500),
+        A($('.tm-craters'),[{opacity:.28},{opacity:0}],{duration:250,easing:'ease'}),
+        A($('.tm-shine'),[{opacity:moon.shine},{opacity:0}],{duration:220,delay:250,easing:'ease'}),
+        A(svg,DAWN.map(color=>({color})),{duration:580,delay:140,easing:'ease'}),
+        A(mn,[{transform:'none',opacity:1,easing:E_IO},{transform:'scale(.53)',opacity:1,offset:.999},{transform:'scale(.53)',opacity:0}],{duration:340,delay:380}),
+        A(sun,[{opacity:0},{opacity:0,offset:.999},{opacity:1}],{duration:720}), // the gold moon and the sun are the same disc at this moment
+        A(cut,[{transform:PARK},{transform:PARK}],{duration:720}),
+        ...rays.map((r,i)=>A(r,[{transform:'scale(.5)',opacity:0},{transform:'scale(1.12)',opacity:1,offset:.6},{transform:'none',opacity:1}],{duration:300,delay:470+i*24,easing:E_OUT})),
+        A(svg,[{filter:GLOW_OFF},{filter:GLOW_ON}],{duration:300,delay:450,easing:'ease'}),
+      ];
+    }
+    await Promise.all(a.map(x=>x.finished.catch(()=>{})));
+    mount(next);a.forEach(x=>x.cancel());busy=false;
+  }
+  return {mount,play,get busy(){return busy}};
+})();
 function applySiteTheme(theme){
   rootEl.setAttribute('data-theme',theme);
   if(themeLabel)themeLabel.textContent=theme==='dark'?'Light':'Dark';
@@ -2589,6 +2673,7 @@ function applySiteTheme(theme){
   nbnMode=theme==='dark'?'dark':'light';
   renderDoitStage();
   renderNbnStage();
+  if(!themeSwitching)themeIcon.mount(theme); // animated switches mount when their choreography ends
 }
 /* Initialize from system preference on page load */
 applySiteTheme(sysColorQuery&&!sysColorQuery.matches?'light':'dark');
@@ -2599,17 +2684,20 @@ if(sysColorQuery&&sysColorQuery.addEventListener){
 }
 if(themeBtn){
   themeBtn.addEventListener('click',()=>{
+    if(themeIcon.busy)return; // a rare action: let the ~900ms icon finish rather than cut it off
     manualThemeOverride=true;
     const next=rootEl.getAttribute('data-theme')==='dark'?'light':'dark';
     if(document.startViewTransition&&!document.hidden&&!matchMedia('(prefers-reduced-motion: reduce)').matches){
       themeSwitching=true;
+      rootEl.classList.add('theme-vt');
       const vt=document.startViewTransition(()=>{
         applySiteTheme(next);
         // Let the swapped app screenshots decode before the new snapshot is taken (capped so the switch never stalls).
         const decodes=[doitImg,nbnImg].filter(i=>i&&i.decode&&i.getClientRects().length).map(i=>i.decode().catch(()=>{}));
         return Promise.race([Promise.all(decodes),new Promise(r=>setTimeout(r,150))]);
       });
-      vt.ready.catch(()=>{});vt.finished.finally(()=>{themeSwitching=false});
+      vt.ready.then(()=>themeIcon.play(next),()=>themeIcon.mount(next));
+      vt.finished.finally(()=>{themeSwitching=false;rootEl.classList.remove('theme-vt');});
     }else applySiteTheme(next);
   });
 }

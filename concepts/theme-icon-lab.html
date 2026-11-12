@@ -1,0 +1,370 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Theme Icon Lab</title>
+<meta name="description" content="Five sun and moon morphs explored for the portfolio's light/dark toggle.">
+<style>
+:root{
+  --page:#eef1f5;--panel:#fff;--ink:#17191d;--muted:#6b707a;--line:#e5e8ed;
+  --ease-out:cubic-bezier(.23,1,.32,1);
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){:root{--page:#07090d;--panel:#11161f;--ink:#f8fafc;--muted:#a3b3c9;--line:#243042;color-scheme:dark}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--page);color:var(--ink);font:15px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Inter,sans-serif;-webkit-font-smoothing:antialiased}
+main{max-width:1120px;margin:0 auto;padding:56px 24px 72px}
+header{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:20px;margin-bottom:28px}
+h1{margin:0 0 6px;font-size:28px;line-height:1.15;letter-spacing:-.02em;font-weight:650}
+header p{margin:0;max-width:56ch;color:var(--muted)}
+.controls{display:flex;align-items:center;gap:10px}
+.pill{height:34px;padding:0 14px;border-radius:99px;border:1px solid var(--line);background:var(--panel);color:var(--ink);font:inherit;font-size:13px;cursor:pointer;transition:border-color .2s ease,transform .16s var(--ease-out)}
+.pill:active{transform:scale(.97)}
+.seg{display:flex;padding:3px;border-radius:99px;border:1px solid var(--line);background:var(--panel)}
+.seg button{height:26px;padding:0 11px;border:0;border-radius:99px;background:transparent;color:var(--muted);font:inherit;font-size:13px;cursor:pointer;transition:color .15s ease,background-color .15s ease}
+.seg button[aria-pressed="true"]{background:var(--line);color:var(--ink)}
+@media (hover:hover) and (pointer:fine){.pill:hover{border-color:var(--muted)}.seg button:hover{color:var(--ink)}}
+:focus-visible{outline:2px solid #3b82f6;outline-offset:2px}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px}
+/* Each card is a tiny page with its own theme; the 250ms colour change stands in for the site's crossfade. */
+.card{--bg:#fff;--c-ink:#17191d;--c-muted:#6b707a;--c-line:#e5e8ed;--c-chip:#eaf1ff;--c-chip-ink:#155ce9;
+  display:flex;flex-direction:column;border-radius:18px;border:1px solid var(--c-line);background:var(--bg);color:var(--c-ink);overflow:hidden;
+  transition:background-color .25s ease,border-color .25s ease,color .25s ease}
+.card[data-mode="dark"]{--bg:#0d1118;--c-ink:#f8fafc;--c-muted:#a3b3c9;--c-line:#243042;--c-chip:#192a4a;--c-chip-ink:#93c5fd}
+.card-head{display:flex;align-items:baseline;gap:10px;padding:18px 20px 0}
+.card-head .n{font:12px ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--c-muted);transition:color .25s ease}
+.card-head h2{margin:0;font-size:16px;font-weight:620;letter-spacing:-.01em}
+.chip{margin-left:auto;padding:2px 8px;border-radius:99px;background:var(--c-chip);color:var(--c-chip-ink);font-size:11.5px;font-weight:550;transition:background-color .25s ease,color .25s ease}
+.stage{display:grid;place-items:center;height:210px;margin:0;border:0;background:transparent;cursor:pointer;color:inherit}
+.stage .theme-btn{zoom:5;transition:transform .16s var(--ease-out);border:0;background:transparent;display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;padding:0}
+.card p{margin:0;padding:0 20px;color:var(--c-muted);font-size:13.5px;line-height:1.55;transition:color .25s ease}
+.card-foot{display:flex;align-items:center;gap:10px;margin-top:auto;padding:16px 20px 18px}
+.card-foot .lbl{font-size:12px;color:var(--c-muted);transition:color .25s ease}
+.card-foot .dur{margin-left:auto;font:12px ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--c-muted)}
+.real{display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;padding:0;border-radius:99px;border:1px solid var(--c-line);background:transparent;color:var(--c-muted);cursor:pointer;transition:border-color .25s ease,transform .16s var(--ease-out)}
+.real:active,.stage:active .theme-btn{transform:scale(.94)}
+@media (hover:hover) and (pointer:fine){.real:hover{border-color:#3b82f6}}
+footer{margin-top:28px;color:var(--muted);font-size:13px}
+footer code{font:12.5px ui-monospace,SFMono-Regular,Menlo,monospace}
+@media (max-width:560px){main{padding:36px 16px 56px}.grid{grid-template-columns:1fr}}
+
+/* ---------- icon styles, verbatim from the prototype ---------- */
+.ico{display:block;width:18px;height:18px;overflow:visible;transition:color 420ms ease}
+/* classed elements only: on an SVG <g transform="…">, CSS transform-origin would also shift the attribute */
+.ico [class]{transform-box:view-box;transform-origin:12px 12px}
+.theme-btn[data-mode="light"] .ico{color:#f59e0b}
+.theme-btn[data-mode="dark"] .ico{color:#60a5fa}
+.theme-btn[data-mode="light"] .ico.glow{filter:drop-shadow(0 0 3px #f59e0b66)}
+
+/* ---------- 1 · ECLIPSE (round 2, unchanged) ---------- */
+.ecl{display:block;width:16px;height:16px;overflow:visible;transition:color 400ms ease,rotate 520ms cubic-bezier(.77,0,.175,1)}
+.ecl .ecl-core,.ecl .ecl-cut,.ecl .ecl-ray{transform-box:view-box;transform-origin:12px 12px}
+.ecl-core,.ecl-cut{transition:transform 420ms cubic-bezier(.77,0,.175,1)}
+.ecl-ray{transition:transform 300ms cubic-bezier(.23,1,.32,1),opacity 200ms ease}
+.theme-btn[data-mode="light"] .ecl{color:#f59e0b;rotate:0deg;filter:drop-shadow(0 0 3px #f59e0b66)}
+.theme-btn[data-mode="light"] .ecl-core{transform:scale(.53);transition-delay:60ms}
+.theme-btn[data-mode="light"] .ecl-cut{transform:translate(8px,-8px)}
+.theme-btn[data-mode="light"] .ecl-ray{transform:none;opacity:1;transition-delay:calc(200ms + var(--i) * 35ms)}
+.theme-btn[data-mode="dark"] .ecl{color:#60a5fa;rotate:-20deg}
+.theme-btn[data-mode="dark"] .ecl-core{transform:none}
+.theme-btn[data-mode="dark"] .ecl-cut{transform:none;transition-delay:110ms}
+.theme-btn[data-mode="dark"] .ecl-ray{transform:scale(.45) rotate(-35deg);opacity:0;transition-duration:180ms,140ms;transition-delay:calc(var(--i) * 10ms)}
+
+/* ---------- 2 · TOTALITY · 3 · PHASES · 4 · LIQUID: colour + glow are choreographed in JS (tint) ---------- */
+.tot,.ph,.lq{transition:none}
+.tot-corona{stroke:#bfdbfe}
+.tot-bead{transform-origin:15.2px 8.8px!important}
+
+/* ---------- 5 · MATRIX: a 7×7 grid of dots; unlit dots stay faintly visible ---------- */
+.mx{width:20px;height:20px}
+.mx circle{fill:currentColor;opacity:.13;transform-box:fill-box;transform-origin:center;transform:scale(.62);
+  transition:transform 260ms cubic-bezier(.23,1,.32,1) var(--d,0ms),opacity 200ms ease var(--d,0ms),color 220ms ease var(--d,0ms)}
+.theme-btn[data-mode="light"] .mx circle{color:#f59e0b}
+.theme-btn[data-mode="dark"] .mx circle{color:#60a5fa}
+.theme-btn[data-mode="light"] .mx circle[data-s],
+.theme-btn[data-mode="dark"] .mx circle[data-m]{opacity:1;transform:none}
+.theme-btn[data-mode] .mx{transition:none;color:inherit}
+
+.no-tx,.no-tx *{transition:none!important}
+@media (prefers-reduced-motion:reduce){.card,.card *{transition-duration:0s!important}}
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <div>
+      <h1>Theme icon lab</h1>
+      <p>Five sun ⇄ moon morphs built for the portfolio's light/dark toggle (Nov 2026). Click a card, or its real-size button, to switch that card's theme.</p>
+    </div>
+    <div class="controls">
+      <button class="pill" type="button" data-all>Play all</button>
+      <div class="seg" role="group" aria-label="Speed"><button type="button" data-rate="1" aria-pressed="true">1×</button><button type="button" data-rate="0.25" aria-pressed="false">¼×</button></div>
+    </div>
+  </header>
+  <section class="grid" aria-label="Icon variants"></section>
+  <footer>On the real page the background uses the site's 250ms View Transition crossfade, and the icon animates live above it on its own transition layer (<code>view-transition-name</code> on the button). This file is self-contained, so it keeps working after the prototype harness is deleted.</footer>
+</main>
+<script>
+(() => {
+let RATE = 1;
+const reduce = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+// One set of variant objects per button: every helper is scoped to `btn`.
+function variantsFor(btn) {
+  const E_OUT = 'cubic-bezier(.23,1,.32,1)', E_IO = 'cubic-bezier(.77,0,.175,1)';
+  const $ = s => btn.querySelector(s), $$ = s => [...btn.querySelectorAll(s)];
+  const A = (el, frames, opts) => el.animate(frames, { fill: 'both', easing: 'linear', ...opts });
+  const T = (el, transform, opacity) => { if (!el) return; if (transform != null) el.style.transform = transform; if (opacity != null) el.style.opacity = opacity; };
+  // Wait for every animation, write the end state as plain styles, then drop the animations (no jump, no stacking).
+  async function settle(anims, mountFn, next) { await Promise.all(anims.map(a => a.finished.catch(() => {}))); mountFn(next); anims.forEach(a => a.cancel()); }
+  // Colour + glow as one animation. Blue↔amber in sRGB passes through a muddy grey, so a long change goes via a
+  // pale mid (moonlight / white heat); a short one is timed for a moment when the icon is mostly hidden.
+  const BLUE = '#60a5fa', AMBER = '#f59e0b', GLOW_ON = 'drop-shadow(0 0 3px rgba(245,158,11,.4))', GLOW_OFF = 'drop-shadow(0 0 3px rgba(245,158,11,0))';
+  function tint(el, next, delay, duration, mid) {
+    const l = next === 'light', a = { color: l ? BLUE : AMBER, filter: l ? GLOW_OFF : GLOW_ON }, b = { color: l ? AMBER : BLUE, filter: l ? GLOW_ON : GLOW_OFF };
+    return A(el, mid ? [a, { color: mid, offset: .5 }, b] : [a, b], { duration, delay, easing: 'ease' });
+  }
+  const clamp = x => Math.min(1, Math.max(0, x));
+  const raysSVG = (cls, y1 = 1.6, y2 = 3.9) => Array.from({ length: 8 }, (_, i) => `<g transform="rotate(${i * 45} 12 12)"><line class="${cls}" style="--i:${i}" x1="12" y1="${y1}" x2="12" y2="${y2}"/></g>`).join('');
+
+  /* =====================================================================
+     1 · ECLIPSE — round 2 (pure CSS transitions on data-mode)
+     ===================================================================== */
+  const eclipse = {
+    html: `<svg class="ecl" viewBox="0 0 24 24" aria-hidden="true"><defs><mask id="ecl-m" maskUnits="userSpaceOnUse" x="-6" y="-6" width="36" height="36"><rect x="-6" y="-6" width="36" height="36" fill="#fff"/><circle class="ecl-cut" cx="17" cy="7" r="7.5" fill="#000"/></mask></defs><g stroke="currentColor" stroke-width="2" stroke-linecap="round">${raysSVG('ecl-ray')}</g><circle class="ecl-core" cx="12" cy="12" r="8.5" fill="currentColor" mask="url(#ecl-m)"/></svg>`,
+    mount() {}, play() { return Promise.resolve(); },
+  };
+
+  /* =====================================================================
+     2 · TOTALITY — both directions pass through a total eclipse.
+     To dark: the shadow enters from the lower left; rays nearest it go first; at totality a corona
+     flashes, then the disc swells into the crescent moon (the shadow comes to rest upper right).
+     To light: the crescent's shadow slides back over the shrinking disc (totality), a "diamond ring"
+     bead flashes upper right where light breaks through, the shadow leaves the way it came and the
+     rays fan out clockwise from that point. Colour changes while the disc is fully covered.
+     ===================================================================== */
+  const totality = {
+    html: `<svg class="ico tot glow" viewBox="0 0 24 24" aria-hidden="true"><defs><mask id="tot-m" maskUnits="userSpaceOnUse" x="-16" y="-16" width="56" height="56"><rect x="-16" y="-16" width="56" height="56" fill="#fff"/><circle class="tot-cut" cx="12" cy="12" r="7.5" fill="#000"/></mask></defs>
+      <circle class="tot-corona" cx="12" cy="12" r="5.6" fill="none" stroke-width="1"/>
+      <g stroke="currentColor" stroke-width="2" stroke-linecap="round">${raysSVG('tot-ray')}</g>
+      <circle class="tot-core" cx="12" cy="12" r="8.5" fill="currentColor" mask="url(#tot-m)"/>
+      <g class="tot-bead"><circle cx="15.2" cy="8.8" r="1.5" fill="#fde68a"/><path d="M15.2 5.7v6.2M12.1 8.8h6.2" stroke="#fde68a" stroke-width=".8" stroke-linecap="round"/></g></svg>`,
+    mount(mode) {
+      const sun = mode === 'light';
+      T($('.tot-core'), sun ? 'scale(.53)' : 'scale(1)');
+      T($('.tot-cut'), sun ? 'translate(-12px,12px)' : 'translate(5px,-5px)');
+      $$('.tot-ray').forEach(r => T(r, sun ? 'none' : 'scale(.5)', sun ? 1 : 0));
+      T($('.tot-corona'), 'scale(.85)', 0); T($('.tot-bead'), 'scale(.4)', 0);
+    },
+    play(next) {
+      const svg = $('.tot'), core = $('.tot-core'), cut = $('.tot-cut'), rays = $$('.tot-ray'), corona = $('.tot-corona'), anims = [];
+      if (next === 'dark') {
+        anims.push(A(cut, [{ transform: 'translate(-12px,12px)', easing: E_IO }, { transform: 'translate(0px,0px)', offset: .42 }, { transform: 'translate(0px,0px)', offset: .5, easing: E_OUT }, { transform: 'translate(5px,-5px)' }], { duration: 900 }));
+        anims.push(A(core, [{ transform: 'scale(.53)' }, { transform: 'scale(.53)', offset: .46, easing: E_OUT }, { transform: 'scale(1)' }], { duration: 900 }));
+        rays.forEach((r, i) => { const d = Math.min(Math.abs(i - 5), 8 - Math.abs(i - 5)); // distance from the lower-left ray, where the shadow enters
+          anims.push(A(r, [{ transform: 'none', opacity: 1 }, { transform: 'scale(.5)', opacity: 0 }], { duration: 200, delay: 110 + d * 55, easing: E_OUT })); });
+        anims.push(A(corona, [{ transform: 'scale(.85)', opacity: 0 }, { transform: 'scale(1)', opacity: .9, offset: .25 }, { transform: 'scale(1.45)', opacity: 0 }], { duration: 520, delay: 330, easing: E_OUT }));
+        anims.push(tint(svg, next, 370, 110));
+      } else {
+        anims.push(A(cut, [{ transform: 'translate(5px,-5px)', easing: E_IO }, { transform: 'translate(0px,0px)', offset: .36 }, { transform: 'translate(0px,0px)', offset: .44, easing: E_OUT }, { transform: 'translate(-12px,12px)' }], { duration: 820 }));
+        anims.push(A(core, [{ transform: 'scale(1)', easing: E_IO }, { transform: 'scale(.53)', offset: .36 }, { transform: 'scale(.53)' }], { duration: 820 }));
+        anims.push(A(corona, [{ transform: 'scale(.85)', opacity: 0, stroke: '#fde68a' }, { transform: 'scale(1)', opacity: .8, offset: .3 }, { transform: 'scale(1.4)', opacity: 0, stroke: '#fde68a' }], { duration: 420, delay: 210, easing: E_OUT }));
+        anims.push(tint(svg, next, 300, 90));
+        anims.push(A($('.tot-bead'), [{ transform: 'scale(.4) rotate(0deg)', opacity: 0 }, { transform: 'scale(1.15) rotate(30deg)', opacity: 1, offset: .35 }, { transform: 'scale(.8) rotate(60deg)', opacity: 0 }], { duration: 480, delay: 220, easing: E_OUT }));
+        rays.forEach((r, i) => { const o = (i - 1 + 8) % 8; // clockwise from the upper-right ray, where light breaks through
+          anims.push(A(r, [{ transform: 'scale(.5)', opacity: 0 }, { transform: 'scale(1.12)', opacity: 1, offset: .6 }, { transform: 'none', opacity: 1 }], { duration: 320, delay: 400 + o * 28, easing: E_OUT })); });
+      }
+      return settle(anims, this.mount, next);
+    },
+  };
+
+  /* =====================================================================
+     3 · PHASES — a real lunar terminator sweeping across a sphere.
+     lit = left half-disc ∪ ellipse(k) when k>0, − ellipse(|k|) when k<0.
+     k: 1 = full, 0 = half, −.62 = crescent. The dark side stays faintly visible (earthshine).
+     ===================================================================== */
+  const K_MOON = -.62;
+  function kFrames(from, to, easeFn, n = 28) {
+    const add = [], sub = [];
+    for (let i = 0; i <= n; i++) { const k = from + (to - from) * easeFn(i / n); add.push({ transform: `scaleX(${Math.max(k, 0).toFixed(4)})` }); sub.push({ transform: `scaleX(${Math.max(-k, 0).toFixed(4)})` }); }
+    return { add, sub };
+  }
+  function bezier(x1, y1, x2, y2) {
+    const cx = 3 * x1, bx = 3 * (x2 - x1) - cx, ax = 1 - cx - bx, cy = 3 * y1, by = 3 * (y2 - y1) - cy, ay = 1 - cy - by;
+    const X = t => ((ax * t + bx) * t + cx) * t, Y = t => ((ay * t + by) * t + cy) * t, dX = t => (3 * ax * t + 2 * bx) * t + cx;
+    return x => { if (x <= 0) return 0; if (x >= 1) return 1; let t = x; for (let i = 0; i < 8; i++) { const d = X(t) - x; if (Math.abs(d) < 1e-5) break; const s = dX(t); if (Math.abs(s) < 1e-6) break; t -= d / s; } return Y(Math.min(1, Math.max(0, t))); };
+  }
+  const easeIO = bezier(.77, 0, .175, 1);
+  const phases = {
+    html: `<svg class="ico ph glow" viewBox="0 0 24 24" aria-hidden="true"><defs><mask id="ph-m" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24"><rect width="24" height="24" fill="#000"/><path d="M12 3.5A8.5 8.5 0 0 0 12 20.5Z" fill="#fff"/><ellipse class="ph-add" cx="12" cy="12" rx="8.5" ry="8.5" fill="#fff"/><ellipse class="ph-sub" cx="12" cy="12" rx="8.5" ry="8.5" fill="#000"/></mask></defs>
+      <g stroke="currentColor" stroke-width="2" stroke-linecap="round">${raysSVG('ph-ray')}</g>
+      <g class="ph-body"><circle class="ph-shine" cx="12" cy="12" r="8.5" fill="currentColor"/>
+        <g mask="url(#ph-m)"><circle cx="12" cy="12" r="8.5" fill="currentColor"/><g class="ph-craters" fill="#0d1118"><circle cx="6.7" cy="9.6" r="1.15"/><circle cx="7.6" cy="14.7" r=".8"/><circle cx="5.2" cy="12.9" r=".55"/></g></g></g></svg>`,
+    mount(mode) {
+      const sun = mode === 'light';
+      T($('.ph-body'), sun ? 'scale(.53)' : 'none');
+      T($('.ph-add'), `scaleX(${sun ? 1 : 0})`); T($('.ph-sub'), `scaleX(${sun ? 0 : -K_MOON})`);
+      T($('.ph-shine'), null, sun ? 0 : .16); T($('.ph-craters'), null, sun ? 0 : .28);
+      $$('.ph-ray').forEach(r => T(r, sun ? 'none' : 'scale(.5)', sun ? 1 : 0));
+    },
+    play(next) {
+      const anims = [], body = $('.ph-body'), add = $('.ph-add'), sub = $('.ph-sub');
+      if (next === 'dark') {
+        $$('.ph-ray').forEach((r, i) => anims.push(A(r, [{ transform: 'none', opacity: 1 }, { transform: 'scale(.5)', opacity: 0 }], { duration: 200, delay: i * 12, easing: E_OUT })));
+        anims.push(A(body, [{ transform: 'scale(.53)' }, { transform: 'none' }], { duration: 400, delay: 80, easing: E_OUT }));
+        const k = kFrames(1, K_MOON, easeIO);
+        anims.push(A(add, k.add, { duration: 560, delay: 380 }), A(sub, k.sub, { duration: 560, delay: 380 }));
+        anims.push(A($('.ph-shine'), [{ opacity: 0 }, { opacity: .16 }], { duration: 300, delay: 420, easing: 'ease' }));
+        anims.push(A($('.ph-craters'), [{ opacity: 0 }, { opacity: .28 }], { duration: 300, delay: 420, easing: 'ease' }));
+        anims.push(tint($('.ph'), next, 60, 760, '#f8fafc'));      // sun → white full moon → cool blue as the terminator sweeps
+      } else {
+        const k = kFrames(K_MOON, 1, easeIO);
+        anims.push(A(add, k.add, { duration: 500 }), A(sub, k.sub, { duration: 500 }));
+        anims.push(A($('.ph-shine'), [{ opacity: .16 }, { opacity: 0 }], { duration: 220, delay: 300, easing: 'ease' }));
+        anims.push(A($('.ph-craters'), [{ opacity: .28 }, { opacity: 0 }], { duration: 250, easing: 'ease' }));
+        anims.push(A(body, [{ transform: 'none' }, { transform: 'scale(.53)' }], { duration: 340, delay: 380, easing: E_IO }));
+        $$('.ph-ray').forEach((r, i) => anims.push(A(r, [{ transform: 'scale(.5)', opacity: 0 }, { transform: 'scale(1.12)', opacity: 1, offset: .6 }, { transform: 'none', opacity: 1 }], { duration: 300, delay: 470 + i * 24, easing: E_OUT })));
+        anims.push(tint($('.ph'), next, 140, 580, '#fff7e6'));     // full moon goes white-hot, then gold
+      }
+      return settle(anims, this.mount, next);
+    },
+  };
+
+  /* =====================================================================
+     4 · LIQUID — one filled shape, sampled at 160 fixed angles, driven by two values:
+     a = how far the crescent's bite has filled in (0 crescent → 1 full disc)
+     b = how far the sun's spikes have grown out of the rim (0 disc → 1 sun), swirling into place.
+     To light: the bite fills, then the spikes splash out on a spring with droplets.
+     To dark: the spikes retract and the droplets are pulled in, then the bite carves in on a spring.
+     ===================================================================== */
+  const N = 160, TAU = Math.PI * 2, C0 = [12, 12], R0 = 8.5;
+  const TH = Array.from({ length: N }, (_, i) => -Math.PI / 2 + (i / N) * TAU);
+  const sunR = th => 4.9 + 3.7 * Math.pow((Math.cos(8 * (th + Math.PI / 2)) + 1) / 2, 6);
+  const rim = th => [C0[0] + R0 * Math.cos(th), C0[1] + R0 * Math.sin(th)];
+  // The crescent at the same angles: outside the bite it is the rim itself; inside, the bite's arc.
+  const CRES = (() => {
+    const c2 = [17, 7], r2 = 7.5, dx = c2[0] - C0[0], dy = c2[1] - C0[1], d = Math.hypot(dx, dy), a = (R0 * R0 - r2 * r2 + d * d) / (2 * d);
+    const half = Math.atan2(Math.sqrt(R0 * R0 - a * a), a), psi = Math.atan2(dy, dx), norm = x => ((x % TAU) + TAU) % TAU;
+    const p1 = rim(psi - half), p2 = rim(psi + half), f1 = Math.atan2(p1[1] - c2[1], p1[0] - c2[0]), f2 = Math.atan2(p2[1] - c2[1], p2[0] - c2[0]);
+    const inc = norm(f2 - f1), span = norm(psi + Math.PI - f1) < inc ? inc : -(TAU - inc); // the side of the bite facing the moon's centre
+    return TH.map(th => { const u = norm(th - (psi - half)) / (2 * half); if (u > 1) return rim(th); const f = f1 + span * u; return [c2[0] + r2 * Math.cos(f), c2[1] + r2 * Math.sin(f)]; });
+  })();
+  const DISC = TH.map(rim);
+  function shapeAt(a, b) {
+    const swirl = (1 - b) * .55;
+    return 'M' + TH.map((th, i) => { const off = (sunR(th - swirl) - R0) * b, x = CRES[i][0] + (DISC[i][0] - CRES[i][0]) * a + off * Math.cos(th), y = CRES[i][1] + (DISC[i][1] - CRES[i][1]) * a + off * Math.sin(th); return `${x.toFixed(2)} ${y.toFixed(2)}`; }).join('L') + 'Z';
+  }
+  // spring (bounce .25, perceptual .5s): x(seconds) and its settle time
+  const SPR = (() => { const z = .75, w = TAU / .5, wd = w * Math.sqrt(1 - z * z), x = t => t <= 0 ? 0 : 1 - Math.exp(-z * w * t) * (Math.cos(wd * t) + (z * w / wd) * Math.sin(wd * t)); let Tt = 0; for (let t = 0; t < 3; t += .005) if (Math.abs(x(t) - 1) > .002) Tt = t; return { x, ms: (Tt + .005) * 1000 }; })();
+  const DROPS = Array.from({ length: 6 }, (_, i) => { const a = (30 + i * 60) * Math.PI / 180; return [Math.cos(a) * 10.5, Math.sin(a) * 10.5]; });
+  const liquid = {
+    html: `<svg class="ico lq glow" viewBox="0 0 24 24" aria-hidden="true"><g class="lq-drops" fill="currentColor">${DROPS.map(() => '<circle cx="12" cy="12" r=".95"/>').join('')}</g><path class="lq-shape" fill="currentColor"/></svg>`,
+    mount(mode) { const s = mode === 'light' ? 1 : 0; $('.lq-shape').setAttribute('d', shapeAt(s, s)); $$('.lq-drops circle').forEach(c => T(c, 'none', 0)); },
+    play(next) {
+      const shape = $('.lq-shape'), light = next === 'light';
+      const SPLASH = 170, CARVE = 150; // when the spring stage starts (ms)
+      const chA = light ? t => easeIO(clamp(t / 260)) : t => 1 - SPR.x((t - CARVE) / 1000);
+      const chB = light ? t => SPR.x((t - SPLASH) / 1000) : t => 1 - easeIO(clamp(t / 230));
+      const end = (light ? SPLASH : CARVE) + SPR.ms;
+      const anims = $$('.lq-drops circle').map((c, i) => {
+        const [x, y] = DROPS[i];
+        return light
+          ? A(c, [{ transform: 'translate(0px,0px) scale(1)', opacity: 0 }, { transform: `translate(${x * .55}px,${y * .55}px) scale(1)`, opacity: 1, offset: .3 }, { transform: `translate(${x}px,${y}px) scale(.4)`, opacity: 0 }], { duration: 480, delay: SPLASH + 20, easing: E_OUT })
+          : A(c, [{ transform: `translate(${x}px,${y}px) scale(.5)`, opacity: 0 }, { transform: `translate(${x * .7}px,${y * .7}px) scale(1)`, opacity: .9, offset: .35 }, { transform: 'translate(0px,0px) scale(.6)', opacity: 0 }], { duration: 380, easing: E_IO });
+      });
+      anims.push(light ? tint($('.lq'), next, 60, 520, '#fff7e6') : tint($('.lq'), next, 0, 600, '#f8fafc'));
+      const done = new Promise(res => {
+        const t0 = performance.now(), rate = RATE;
+        const step = now => {
+          const t = (now - t0) * rate;
+          if (t >= end) return res();
+          shape.setAttribute('d', shapeAt(chA(t), chB(t)));
+          requestAnimationFrame(step);
+        };
+        requestAnimationFrame(step);
+      });
+      return Promise.all([done, settle(anims, () => {}, next)]).then(() => this.mount(next));
+    },
+  };
+
+  /* =====================================================================
+     5 · MATRIX — a 7×7 LED grid. Sunrise radiates out from the centre;
+     nightfall sweeps across from the right like a terminator.
+     ===================================================================== */
+  const SUN_GRID = ['...#...', '.#...#.', '..###..', '#.###.#', '..###..', '.#...#.', '...#...'];
+  const MOON_GRID = ['..###..', '.###...', '###....', '###....', '###....', '.###...', '..###..'];
+  const P = 24 / 7;
+  const matrix = {
+    html: `<svg class="ico mx" viewBox="0 0 24 24" aria-hidden="true">${Array.from({ length: 49 }, (_, i) => { const x = i % 7, y = (i / 7) | 0;
+      return `<circle cx="${(P / 2 + x * P).toFixed(2)}" cy="${(P / 2 + y * P).toFixed(2)}" r="1.08" data-x="${x}" data-y="${y}"${SUN_GRID[y][x] === '#' ? ' data-s' : ''}${MOON_GRID[y][x] === '#' ? ' data-m' : ''}/>`; }).join('')}</svg>`,
+    mount() { $$('.mx circle').forEach(c => c.style.removeProperty('--d')); },
+    prep(next) { // stagger is set before data-mode flips
+      $$('.mx circle').forEach(c => { const x = +c.dataset.x, y = +c.dataset.y;
+        c.style.setProperty('--d', (next === 'light' ? Math.hypot(x - 3, y - 3) * 55 : (6 - x) * 45 + Math.abs(y - 3) * 8) + 'ms'); });
+    },
+    play() { return new Promise(r => setTimeout(r, 620 / RATE)); },
+  };
+
+
+  return { eclipse, totality, phases, liquid, matrix };
+}
+
+const CARDS = [
+  { key: 'eclipse', name: 'Eclipse', dur: '~450ms', text: 'The shadow slides off as the disc shrinks and the rays sweep in. Pure CSS transitions, so a second click mid-way just turns it around.' },
+  { key: 'totality', name: 'Totality', dur: '~900ms', fav: true, text: 'Both ways pass through a total eclipse with a corona flash. Going light, a diamond-ring sparkle marks where the sun breaks out and the rays fan from there.' },
+  { key: 'phases', name: 'Phases', dur: '~950ms', fav: true, text: 'A lunar terminator sweeps across a cratered moon. The full moon glows white-hot, turns gold, then shrinks into the sun.' },
+  { key: 'liquid', name: 'Liquid', dur: '~850ms', text: 'One blob: the crescent fills to a disc, then spikes splash and swirl out on a spring, throwing droplets. Nightfall pulls them back in.' },
+  { key: 'matrix', name: 'Matrix', dur: '~500ms', text: 'A 7×7 LED grid. Sunrise radiates from the centre; nightfall sweeps in from the right like a terminator.' },
+];
+
+const grid = document.querySelector('.grid');
+const start = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+let uid = 0;
+const cards = CARDS.map((c, i) => {
+  const el = document.createElement('article');
+  el.className = 'card'; el.dataset.mode = start;
+  el.innerHTML = `<div class="card-head"><span class="n">0${i + 1}</span><h2>${c.name}</h2>${c.fav ? '<span class="chip">Shortlisted</span>' : ''}</div>
+    <button class="stage" type="button" aria-label="Play ${c.name}"><span class="theme-btn"></span></button>
+    <p>${c.text}</p>
+    <div class="card-foot"><span class="lbl">Actual size</span><button class="real theme-btn" type="button" aria-label="Play ${c.name} at actual size"></button><span class="dur">${c.dur}</span></div>`;
+  grid.append(el);
+  const icons = [...el.querySelectorAll('.theme-btn')].map(btn => {
+    const v = variantsFor(btn)[c.key], id = ++uid;
+    btn.innerHTML = v.html.replace(/\b(ecl|tot|ph)-m\b/g, `$1-m-${id}`); // masks need unique ids per instance
+    btn.dataset.mode = start; btn.classList.add('no-tx'); v.mount(start); btn.offsetWidth; btn.classList.remove('no-tx');
+    return { btn, v };
+  });
+  const card = { el, icons, busy: false };
+  el.querySelectorAll('.stage,.real').forEach(b => b.addEventListener('click', () => toggle(card)));
+  return card;
+});
+
+async function toggle(card) {
+  if (card.busy) return;
+  const next = card.el.dataset.mode === 'dark' ? 'light' : 'dark';
+  if (reduce()) {
+    card.el.dataset.mode = next;
+    card.icons.forEach(({ btn, v }) => { btn.dataset.mode = next; btn.classList.add('no-tx'); v.mount(next); btn.offsetWidth; btn.classList.remove('no-tx'); });
+    return;
+  }
+  card.busy = true;
+  card.icons.forEach(({ v }) => v.prep?.(next));
+  card.el.dataset.mode = next;
+  card.icons.forEach(({ btn }) => { btn.dataset.mode = next; });
+  const plays = card.icons.map(({ v }) => v.play(next));
+  card.el.getAnimations({ subtree: true }).forEach(a => { a.playbackRate = RATE; }); // CSS transitions + WAAPI alike
+  await Promise.all(plays);
+  card.busy = false;
+}
+
+document.querySelector('[data-all]').addEventListener('click', () => cards.forEach(toggle));
+document.querySelectorAll('[data-rate]').forEach(b => b.addEventListener('click', () => {
+  RATE = +b.dataset.rate;
+  document.querySelectorAll('[data-rate]').forEach(o => o.setAttribute('aria-pressed', String(o === b)));
+}));
+})();
+</script>
+</body>
+</html>
