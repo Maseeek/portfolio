@@ -1,0 +1,650 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Work Section Prototypes</title>
+<meta name="description" content="Four recruiter-first layouts for the portfolio's Work section: static screenshots, plain-English copy, no tabbed demos.">
+<style>
+:root{
+  --bg:#fff;--soft:#f6f7f9;--ink:#17191d;--muted:#6b707a;--line:#e5e8ed;--accent:#155ce9;--accent-soft:#eaf1ff;--good:#377250;--good-soft:#e5f3ea;
+  --ease-out:cubic-bezier(.23,1,.32,1);
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0d1118;--soft:#121823;--ink:#f8fafc;--muted:#a3b3c9;--line:#243042;--accent:#3b82f6;--accent-soft:#192a4a;--good:#4ade80;--good-soft:#16352a;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0d1118;--soft:#121823;--ink:#f8fafc;--muted:#a3b3c9;--line:#243042;--accent:#3b82f6;--accent-soft:#192a4a;--good:#4ade80;--good-soft:#16352a;color-scheme:dark}
+
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
+img{display:block;max-width:100%}
+p,h2,h3,h4,ul{margin:0}
+ul{padding:0;list-style:none}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:6px}
+.wrap{width:min(1200px,calc(100% - 96px));margin-inline:auto}
+
+/* ---------- prototype chrome ---------- */
+.proto-bar{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.proto-bar .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:64px;flex-wrap:wrap;padding-block:10px}
+.proto-bar strong{font-size:13px;font-weight:600;letter-spacing:-.01em}
+.proto-bar small{display:block;color:var(--muted);font-size:12px}
+.seg{display:flex;padding:3px;border-radius:99px;border:1px solid var(--line);background:var(--soft);overflow-x:auto;max-width:100%}
+.seg button{height:30px;padding:0 13px;border-radius:99px;font-size:13px;color:var(--muted);white-space:nowrap;transition:color .15s ease,background-color .15s ease}
+.seg button[aria-pressed="true"]{background:var(--bg);color:var(--ink);box-shadow:0 1px 2px #0000001f}
+@media (hover:hover) and (pointer:fine){.seg button:hover{color:var(--ink)}}
+.theme-toggle{height:32px;padding:0 12px;border:1px solid var(--line);border-radius:99px;font-size:12px;color:var(--muted)}
+.proto-note{margin-top:28px;padding:14px 16px;border:1px dashed var(--line);border-radius:12px;font-size:13px;color:var(--muted);max-width:760px}
+.proto-note b{color:var(--ink);font-weight:600}
+
+/* ---------- shared section bits (match live site) ---------- */
+.work{padding:64px 0 96px}
+.eyebrow{font-size:10px;font-weight:500;letter-spacing:.11em;text-transform:uppercase;color:var(--muted)}
+.section-heading{display:flex;justify-content:space-between;align-items:end;gap:24px;margin-bottom:36px;flex-wrap:wrap}
+.section-heading h2{font-size:40px;line-height:1.1;letter-spacing:-.065em;font-weight:500;margin-top:10px}
+.section-heading p{font-size:13px;line-height:1.6;color:var(--muted);max-width:44ch}
+.variant{display:none}
+.variant.is-on{display:block;animation:in .35s var(--ease-out)}
+@keyframes in{from{opacity:0;transform:translateY(6px)}}
+
+.meta{display:flex;flex-wrap:wrap;gap:6px}
+.chip{display:inline-flex;align-items:center;gap:6px;height:24px;padding:0 9px;border-radius:99px;border:1px solid var(--line);font-size:11.5px;color:var(--muted);white-space:nowrap}
+.chip.live{color:var(--good);border-color:color-mix(in srgb,var(--good) 35%,transparent);background:var(--good-soft)}
+.chip.live::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
+.chip.award{color:var(--accent);border-color:color-mix(in srgb,var(--accent) 35%,transparent);background:var(--accent-soft)}
+.stack{font-size:12px;color:var(--muted);line-height:1.6}
+.links{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+.btn{display:inline-flex;align-items:center;gap:8px;height:38px;padding:0 16px;border-radius:99px;font-size:13px;border:1px solid var(--line);transition:background-color .2s ease,border-color .2s ease,transform .16s var(--ease-out)}
+.btn.primary{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.btn:active{transform:scale(.97)}
+@media (hover:hover) and (pointer:fine){.btn:hover{border-color:var(--muted)}.btn.primary:hover{background:var(--accent);border-color:var(--accent);color:#fff}}
+.btn svg{width:15px;height:15px}
+.built{display:grid;gap:9px}
+.built li{position:relative;padding-left:18px;font-size:14px;line-height:1.55}
+.built li::before{content:"";position:absolute;left:2px;top:.62em;width:6px;height:6px;border-radius:2px;background:var(--accent)}
+.label{font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
+
+/* screenshot frames */
+.shot{border-radius:16px;overflow:hidden;background:var(--soft);border:1px solid var(--line);position:relative}
+.shot.browser::before{content:"";display:block;height:28px;border-bottom:1px solid var(--line);background:
+  radial-gradient(circle at 16px 14px,#ff5f57 4px,transparent 4.5px),
+  radial-gradient(circle at 30px 14px,#febc2e 4px,transparent 4.5px),
+  radial-gradient(circle at 44px 14px,#28c840 4px,transparent 4.5px),var(--bg)}
+.shot.browser img{width:100%;aspect-ratio:16/9.3;object-fit:cover;object-position:top}
+.shot.phone{display:grid;place-items:end center;padding:22px 22px 0}
+.shot.phone img{width:min(220px,70%);aspect-ratio:9/15;object-fit:cover;object-position:top;border-radius:22px 22px 0 0;border:5px solid #11151c;border-bottom:0;box-shadow:0 18px 40px #0000002e}
+.shot.nbn{background:#181210}
+.shot.ks{background:#e9efe4}
+.shot.doit{background:#1a1420}
+:root[data-theme="dark"] .shot.ks{background:#1b2219}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .shot.ks{background:#1b2219}}
+
+/* ======================================================
+   A — CASE STUDIES (stacked, alternating rows)
+   ====================================================== */
+.a-list{display:grid;gap:20px}
+.a-row{display:grid;grid-template-columns:1.1fr 1fr;gap:44px;align-items:center;padding:28px;border:1px solid var(--line);border-radius:24px}
+.a-row:nth-child(even) .shot{order:2}
+.a-row h3{font-size:30px;letter-spacing:-.045em;font-weight:500;line-height:1.1;margin:12px 0 10px}
+.a-pitch{font-size:17px;line-height:1.5;color:var(--muted);margin-bottom:22px;max-width:44ch}
+.a-row .built{margin-bottom:22px}
+.a-row .stack{margin-bottom:22px}
+.a-row .shot.phone{height:100%;min-height:340px}
+
+/* ======================================================
+   B — PROJECT INDEX (scannable rows, expand for detail)
+   ====================================================== */
+.b-filters{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:18px}
+.b-filters button{height:32px;padding:0 14px;border:1px solid var(--line);border-radius:99px;font-size:13px;color:var(--muted);transition:background-color .15s ease,color .15s ease,border-color .15s ease}
+.b-filters button[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.b-head,.b-row summary{display:grid;grid-template-columns:200px 1fr 230px 150px;gap:24px;align-items:center}
+.b-head{padding:0 20px 10px;font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);border-bottom:1px solid var(--line)}
+.b-row{border-bottom:1px solid var(--line)}
+.b-row summary{list-style:none;padding:20px;cursor:pointer;border-radius:12px;transition:background-color .15s ease}
+.b-row summary::-webkit-details-marker{display:none}
+@media (hover:hover) and (pointer:fine){.b-row summary:hover{background:var(--soft)}}
+.b-name{font-size:18px;font-weight:500;letter-spacing:-.03em}
+.b-name small{display:block;margin-top:6px}
+.b-what{font-size:14px;line-height:1.5}
+.b-status{display:flex;justify-content:flex-end;align-items:center;gap:10px}
+.b-plus{width:28px;height:28px;border:1px solid var(--line);border-radius:50%;display:grid;place-items:center;font-size:16px;color:var(--muted);transition:transform .25s var(--ease-out)}
+.b-row[open] .b-plus{transform:rotate(45deg)}
+.b-detail{display:grid;grid-template-columns:1fr 1.1fr;gap:36px;padding:8px 20px 32px}
+.b-detail .shot.phone{max-height:360px}
+.b-detail .links{margin-top:20px}
+.b-row[hidden]{display:none}
+
+/* ======================================================
+   C — FEATURED + GRID
+   ====================================================== */
+.c-hero{display:grid;grid-template-columns:1.35fr 1fr;border:1px solid var(--line);border-radius:28px;overflow:hidden;margin-bottom:20px}
+.c-hero .shot{border:0;border-radius:0;display:flex;align-items:center;padding:28px}
+.c-hero .shot.browser::before{display:none}
+.c-hero .shot img{border-radius:12px;box-shadow:0 24px 60px #00000055}
+.c-copy{padding:36px;display:flex;flex-direction:column;justify-content:center;gap:18px}
+.c-copy h3{font-size:34px;letter-spacing:-.05em;font-weight:500;line-height:1.05}
+.c-copy .a-pitch{margin:0}
+.c-pair{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.c-card{border:1px solid var(--line);border-radius:24px;overflow:hidden;display:flex;flex-direction:column}
+.c-card .shot{border:0;border-radius:0;height:300px}
+.c-card .shot.phone img{width:180px}
+.c-card .c-copy{padding:26px;justify-content:flex-start;gap:14px;flex:1}
+.c-card h3{font-size:26px}
+.c-card .links{margin-top:auto;padding-top:6px}
+.c-more{margin-top:44px}
+.c-more-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px}
+.c-more-head h3{font-size:18px;font-weight:500;letter-spacing:-.03em}
+.c-more-head a{font-size:13px;color:var(--muted)}
+.c-more li a{display:grid;grid-template-columns:180px 1fr auto;gap:20px;align-items:center;padding:16px 0;border-bottom:1px solid var(--line);transition:color .15s ease}
+.c-more li a b{font-weight:500}
+.c-more li a span{color:var(--muted);font-size:14px}
+.c-more li a em{font-style:normal;font-size:12px;color:var(--muted)}
+@media (hover:hover) and (pointer:fine){.c-more li a:hover b{color:var(--accent)}}
+
+/* ======================================================
+   D — SKILLS AT A GLANCE (cards + evidence matrix)
+   ====================================================== */
+.d-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-bottom:48px}
+.d-card{border:1px solid var(--line);border-radius:22px;overflow:hidden;display:flex;flex-direction:column}
+.d-card .shot{border:0;border-radius:0;height:210px}
+.d-card .shot.phone{padding-top:18px}
+.d-card .shot.phone img{width:150px}
+.d-card .shot.browser{display:flex;align-items:flex-start}
+.d-card .shot.browser::before{display:none}
+.d-body{padding:22px;display:flex;flex-direction:column;gap:14px;flex:1}
+.d-body h3{font-size:22px;font-weight:500;letter-spacing:-.04em}
+.d-body p{font-size:14px;line-height:1.5;color:var(--muted)}
+.d-body .built li{font-size:13.5px}
+.d-body .links{margin-top:auto}
+.d-matrix-wrap{border:1px solid var(--line);border-radius:22px;padding:26px 26px 14px;overflow-x:auto}
+.d-matrix-head{display:flex;justify-content:space-between;align-items:baseline;gap:16px;margin-bottom:16px;flex-wrap:wrap}
+.d-matrix-head h3{font-size:18px;font-weight:500;letter-spacing:-.03em}
+.d-matrix-head p{font-size:13px;color:var(--muted)}
+table{border-collapse:collapse;width:100%;min-width:720px}
+th,td{padding:12px 8px;text-align:center;border-bottom:1px solid var(--line);font-size:13px}
+th{font-size:11px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+td:first-child,th:first-child{text-align:left;padding-left:0}
+td:first-child b{font-weight:500}
+td:first-child small{display:block;color:var(--muted);font-size:12px}
+tr:last-child td{border-bottom:0}
+.y{display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--accent)}
+.y[title]{cursor:help}
+td:not(:first-child){color:var(--line)}
+
+/* ---------- responsive ---------- */
+@media (max-width:900px){
+  .wrap{width:calc(100% - 64px)}
+  .a-row,.c-hero,.c-pair,.b-detail{grid-template-columns:1fr}
+  .a-row{gap:24px;padding:20px}
+  .a-row:nth-child(even) .shot{order:0}
+  .a-row .shot.phone{min-height:0;height:300px}
+  .b-head{display:none}
+  .b-row summary{grid-template-columns:1fr auto;gap:8px 16px;padding:18px 4px}
+  .b-name{grid-column:1}
+  .b-status{grid-column:2;grid-row:1}
+  .b-what{grid-column:1/-1}
+  .b-row summary .stack{grid-column:1/-1}
+  .b-detail{padding:0 4px 28px}
+  .d-cards{grid-template-columns:1fr}
+  .c-more li a{grid-template-columns:1fr auto}
+  .c-more li a span{grid-column:1/-1;grid-row:2}
+}
+@media (max-width:600px){
+  .wrap{width:calc(100% - 32px)}
+  .section-heading h2{font-size:32px}
+  .a-row h3,.c-copy h3{font-size:26px}
+  .c-copy{padding:24px}
+}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+
+<div class="proto-bar">
+  <div class="wrap">
+    <div>
+      <strong>Work section · prototypes</strong>
+      <small data-variant-desc></small>
+    </div>
+    <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+      <div class="seg" role="group" aria-label="Layout">
+        <button type="button" data-v="a" aria-pressed="true">A · Case studies</button>
+        <button type="button" data-v="b" aria-pressed="false">B · Project index</button>
+        <button type="button" data-v="c" aria-pressed="false">C · Featured + grid</button>
+        <button type="button" data-v="d" aria-pressed="false">D · Skills at a glance</button>
+      </div>
+      <button type="button" class="theme-toggle" data-theme-toggle>Theme</button>
+    </div>
+  </div>
+</div>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="gh" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.8" d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6 0 0 0-1.3-3.2 4.2 4.2 0 0 0-.1-3.2s-1.1-.3-3.5 1.3a12.3 12.3 0 0 0-6.2 0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2 0 0 0-.1 3.2A4.6 4.6 0 0 0 4 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21"/></symbol>
+</svg>
+
+<main class="work">
+<div class="wrap">
+
+<!-- ===================================================== A -->
+<section class="variant is-on" id="v-a" data-desc="Every project gets the same shape: one screenshot, one sentence, three things I built. No carousel, so nothing is hidden.">
+  <div class="section-heading">
+    <div>
+      <p class="eyebrow">02 · Projects</p>
+      <h2>Things I've built<br>and shipped.</h2>
+    </div>
+    <p>Three live apps I designed and built end to end. Each one is running and the code is public.</p>
+  </div>
+
+  <div class="a-list">
+    <article class="a-row">
+      <div class="shot browser nbn"><img src="work-assets/nbn.webp" alt="Nothing But Net landing page" loading="lazy"></div>
+      <div>
+        <div class="meta"><span class="chip live">Live</span><span class="chip">Personal project</span><span class="chip">Web + Android</span></div>
+        <h3>Nothing But Net</h3>
+        <p class="a-pitch">A basketball shot tracker. Upload a clip and it works out your shot arc, release angle and whether it went in.</p>
+        <p class="label">What I built</p>
+        <ul class="built">
+          <li>A computer-vision pipeline in Python and OpenCV that finds the ball in each frame and fits the shot's arc.</li>
+          <li>The React web app and an Express + MongoDB API, with accounts and paid tiers through Stripe.</li>
+          <li>A native Android companion app in Kotlin for recording shots.</li>
+        </ul>
+        <p class="stack">React 19 · Python · OpenCV · Express · MongoDB · Kotlin</p>
+        <div class="links">
+          <a class="btn primary" href="https://nbnc.vercel.app" target="_blank" rel="noopener noreferrer">Try it ↗</a>
+          <a class="btn" href="https://github.com/Maseeek/nothing-but-net" target="_blank" rel="noopener noreferrer"><svg><use href="#gh"/></svg>Code</a>
+          <a class="btn" href="/blog/nothing-but-net">How it works</a>
+        </div>
+      </div>
+    </article>
+
+    <article class="a-row">
+      <div class="shot phone ks"><img src="work-assets/ks.webp" alt="Keep Safe inbox on a phone" loading="lazy"></div>
+      <div>
+        <div class="meta"><span class="chip live">Live</span><span class="chip">Personal project</span><span class="chip">Open source</span></div>
+        <h3>Keep Safe</h3>
+        <p class="a-pitch">When an AI coding agent hits a login screen, it hands the browser to your phone. You sign in, the agent carries on.</p>
+        <p class="label">What I built</p>
+        <ul class="built">
+          <li>An MCP server that lets agents like Claude Code and Codex pause and ask for a sign-in.</li>
+          <li>Live streaming of a real Chromium browser to a phone app, using Playwright and WebSockets.</li>
+          <li>A security model where the phone app never stores website cookies or keys.</li>
+        </ul>
+        <p class="stack">TypeScript · React 19 · Node.js · Playwright · MCP · WebSockets</p>
+        <div class="links">
+          <a class="btn primary" href="https://keep-safe-eight.vercel.app" target="_blank" rel="noopener noreferrer">Try it ↗</a>
+          <a class="btn" href="https://github.com/Maseeek/keep-safe" target="_blank" rel="noopener noreferrer"><svg><use href="#gh"/></svg>Code</a>
+          <a class="btn" href="https://github.com/Maseeek/keep-safe/blob/main/docs/architecture.md" target="_blank" rel="noopener noreferrer">Architecture</a>
+        </div>
+      </div>
+    </article>
+
+    <article class="a-row">
+      <div class="shot phone doit"><img src="work-assets/doit.webp" alt="Do It daily habits screen" loading="lazy"></div>
+      <div>
+        <div class="meta"><span class="chip live">Live</span><span class="chip">Personal project</span><span class="chip">Mobile web</span></div>
+        <h3>Do It</h3>
+        <p class="a-pitch">A 1v1 habit app. Two friends log daily habits, earn points and compete head to head.</p>
+        <p class="label">What I built</p>
+        <ul class="built">
+          <li>A Next.js 16 app on Supabase Postgres, with row-level security so players only see their own matchups.</li>
+          <li>Syncing from Strava, Apple Health, Health Connect and Hevy, with access tokens encrypted on the server.</li>
+          <li>Offline-first logging and 12-week progress heatmaps, covered by Vitest tests.</li>
+        </ul>
+        <p class="stack">Next.js 16 · TypeScript · Supabase · PostgreSQL · Tailwind · Vitest</p>
+        <div class="links">
+          <a class="btn primary" href="https://do-it-plum-seven.vercel.app/welcome" target="_blank" rel="noopener noreferrer">Try it ↗</a>
+          <a class="btn" href="https://github.com/Maseeek/do-it" target="_blank" rel="noopener noreferrer"><svg><use href="#gh"/></svg>Code</a>
+          <a class="btn" href="/blog/do-it">How it works</a>
+        </div>
+      </div>
+    </article>
+  </div>
+</section>
+
+<!-- ===================================================== B -->
+<section class="variant" id="v-b" data-desc="A scannable list of everything: what it is, what it's built with, whether it's live. Open a row for the screenshot and details.">
+  <div class="section-heading">
+    <div>
+      <p class="eyebrow">02 · Projects</p>
+      <h2>Everything I've built,<br>on one page.</h2>
+    </div>
+    <p>Filter by area. Open any row for a screenshot and what I built.</p>
+  </div>
+
+  <div class="b-filters" role="group" aria-label="Filter projects">
+    <button type="button" data-f="all" aria-pressed="true">All</button>
+    <button type="button" data-f="ai" aria-pressed="false">AI &amp; computer vision</button>
+    <button type="button" data-f="web" aria-pressed="false">Full-stack web</button>
+    <button type="button" data-f="hw" aria-pressed="false">Hardware</button>
+  </div>
+
+  <div class="b-head"><span>Project</span><span>What it does</span><span>Built with</span><span></span></div>
+
+  <details class="b-row" data-tags="ai web" open>
+    <summary>
+      <span class="b-name">Nothing But Net<small class="meta"><span class="chip">Web + Android</span></small></span>
+      <span class="b-what">Tracks a basketball shot from a video clip: arc, release angle, make or miss.</span>
+      <span class="stack">React · Python · OpenCV · MongoDB · Kotlin</span>
+      <span class="b-status"><span class="chip live">Live</span><span class="b-plus" aria-hidden="true">+</span></span>
+    </summary>
+    <div class="b-detail">
+      <div class="shot browser nbn"><img src="work-assets/nbn.webp" alt="Nothing But Net landing page" loading="lazy"></div>
+      <div>
+        <p class="label">What I built</p>
+        <ul class="built">
+          <li>A Python and OpenCV pipeline that finds the ball in each frame and fits the shot's arc.</li>
+          <li>The React web app and Express + MongoDB API, with accounts and Stripe payments.</li>
+          <li>A native Android companion app in Kotlin.</li>
+        </ul>
+        <div class="links">
+          <a class="btn primary" href="https://nbnc.vercel.app" target="_blank" rel="noopener noreferrer">Try it ↗</a>
+          <a class="btn" href="https://github.com/Maseeek/nothing-but-net" target="_blank" rel="noopener noreferrer"><svg><use href="#gh"/></svg>Code</a>
+          <a class="btn" href="/blog/nothing-but-net">How it works</a>
+        </div>
+      </div>
+    </div>
+  </details>
+
+  <details class="b-row" data-tags="ai web">
+    <summary>
+      <span class="b-name">Keep Safe<small class="meta"><span class="chip">Open source</span></small></span>
+      <span class="b-what">Lets an AI coding agent hand a login screen to your phone, then carry on once you've signed in.</span>
+      <span class="stack">TypeScript · React · Playwright · MCP</span>
+      <span class="b-status"><span class="chip live">Live</span><span class="b-plus" aria-hidden="true">+</span></span>
+    </summary>
+    <div class="b-detail">
+      <div class="shot phone ks"><img src="work-assets/ks.webp" alt="Keep Safe inbox on a phone" loading="lazy"></div>
+      <div>
+        <p class="label">What I built</p>
+        <ul class="built">
+          <li>An MCP server so agents like Claude Code and Codex can pause and ask for a sign-in.</li>
+          <li>Live streaming of a real Chromium browser to a phone app over WebSockets.</li>
+          <li>A security model where the phone app never stores website cookies or keys.</li>
+        </ul>
+        <div class="links">
+          <a class="btn primary" href="https://keep-safe-eight.vercel.app" target="_blank" rel="noopener noreferrer">Try it ↗</a>
+          <a class="btn" href="https://github.com/Maseeek/keep-safe" target="_blank" rel="noopener noreferrer"><svg><use href="#gh"/></svg>Code</a>
+        </div>
+      </div>
+    </div>
+  </details>
+
+  <details class="b-row" data-tags="web">
+    <summary>
+      <span class="b-name">Do It<small class="meta"><span class="chip">Mobile web</span></small></span>
+      <span class="b-what">A 1v1 habit app: two friends log habits, earn points and compete.</span>
+      <span class="stack">Next.js · Supabase · PostgreSQL · Vitest</span>
+      <span class="b-status"><span class="chip live">Live</span><span class="b-plus" aria-hidden="true">+</span></span>
+    </summary>
+    <div class="b-detail">
+      <div class="shot phone doit"><img src="work-assets/doit.webp" alt="Do It daily habits screen" loading="lazy"></div>
+      <div>
+        <p class="label">What I built</p>
+        <ul class="built">
+          <li>Row-level security in Postgres so players only see their own matchups.</li>
+          <li>Syncing from Strava, Apple Health, Health Connect and Hevy, with tokens encrypted on the server.</li>
+          <li>Offline-first logging and 12-week progress heatmaps, tested with Vitest.</li>
+        </ul>
+        <div class="links">
+          <a class="btn primary" href="https://do-it-plum-seven.vercel.app/welcome" target="_blank" rel="noopener noreferrer">Try it ↗</a>
+          <a class="btn" href="https://github.com/Maseeek/do-it" target="_blank" rel="noopener noreferrer"><svg><use href="#gh"/></svg>Code</a>
+          <a class="btn" href="/blog/do-it">How it works</a>
+        </div>
+      </div>
+    </div>
+  </details>
+
+  <details class="b-row" data-tags="ai">
+    <summary>
+      <span class="b-name">LyricForge<small class="meta"><span class="chip award">HackNotts '25</span></small></span>
+      <span class="b-what">Rewrites a song's lyrics and re-sings them in the original singer's timing. Built in 24 hours.</span>
+      <span class="stack">Python · Whisper · Gemini · ElevenLabs</span>
+      <span class="b-status"><span class="chip">Hackathon</span><span class="b-plus" aria-hidden="true">+</span></span>
+    </summary>
+    <div class="b-detail">
+      <div class="shot"><img src="work-assets/lyric.webp" alt="LyricForge" loading="lazy" style="aspect-ratio:16/10;object-fit:cover;width:100%"></div>
+      <div>
+        <p class="label">What I built</p>
+        <ul class="built">
+          <li>A five-stage pipeline: split vocals, time every word, rewrite lyrics with matching syllables, synthesise the voice, line it back up.</li>
+          <li>Checkpointing between stages so lyric changes don't re-run the slow audio steps.</li>
+        </ul>
+        <div class="links"><a class="btn" href="https://github.com/Maseeek/LyricForge" target="_blank" rel="noopener noreferrer"><svg><use href="#gh"/></svg>Code</a></div>
+      </div>
+    </div>
+  </details>
+
+  <details class="b-row" data-tags="hw">
+    <summary>
+      <span class="b-name">Lumina</span>
+      <span class="b-what">Controls a Bluetooth LED strip and syncs its colours to whatever's playing on Spotify.</span>
+      <span class="stack">Python · Bluetooth LE · asyncio</span>
+      <span class="b-status"><span class="chip">Side project</span><span class="b-plus" aria-hidden="true">+</span></span>
+    </summary>
+    <div class="b-detail">
+      <div>
+        <p class="label">What I built</p>
+        <ul class="built">
+          <li>Reverse-engineered the strip's Bluetooth command format.</li>
+          <li>A background worker that drops stale commands so the lights keep up with the slider, and reconnects on its own.</li>
+        </ul>
+        <div class="links"><a class="btn" href="https://github.com/Maseeek/LED-REMOTE-CONTROL" target="_blank" rel="noopener noreferrer"><svg><use href="#gh"/></svg>Code</a></div>
+      </div>
+    </div>
+  </details>
+
+  <details class="b-row" data-tags="web">
+    <summary>
+      <span class="b-name">Make-It-All<small class="meta"><span class="chip">Team project</span></small></span>
+      <span class="b-what">A team workspace with three permission levels, Kanban boards, forums and workload charts.</span>
+      <span class="stack">React · Express · MySQL · JWT</span>
+      <span class="b-status"><span class="chip">University</span><span class="b-plus" aria-hidden="true">+</span></span>
+    </summary>
+    <div class="b-detail">
+      <div class="shot"><img src="work-assets/make.webp" alt="Make-It-All" loading="lazy" style="aspect-ratio:16/10;object-fit:cover;width:100%"></div>
+      <div>
+        <p class="label">What I built</p>
+        <ul class="built">
+          <li>Role-based access with bcrypt and JWT login.</li>
+          <li>Manager analytics backed by pooled, parameterised SQL queries.</li>
+        </ul>
+        <div class="links"><a class="btn" href="https://github.com/Maseeek/Make-It-All-Team-20" target="_blank" rel="noopener noreferrer"><svg><use href="#gh"/></svg>Code</a></div>
+      </div>
+    </div>
+  </details>
+</section>
+
+<!-- ===================================================== C -->
+<section class="variant" id="v-c" data-desc="One flagship up top, two supporting apps beside each other, and older work as a plain text list. Clear order of importance.">
+  <div class="section-heading">
+    <div>
+      <p class="eyebrow">02 · Projects</p>
+      <h2>Live apps I've<br>designed and shipped.</h2>
+    </div>
+    <p>All three run in production with public code.</p>
+  </div>
+
+  <article class="c-hero">
+    <div class="shot browser nbn"><img src="work-assets/nbn.webp" alt="Nothing But Net landing page" loading="lazy"></div>
+    <div class="c-copy">
+      <div class="meta"><span class="chip live">Live</span><span class="chip">Flagship</span><span class="chip">Web + Android</span></div>
+      <h3>Nothing But Net</h3>
+      <p class="a-pitch">Upload a basketball clip and get your shot arc, release angle and make or miss, worked out by computer vision.</p>
+      <ul class="built">
+        <li>Ball tracking and arc fitting in Python + OpenCV</li>
+        <li>React web app, Express + MongoDB API, Stripe payments</li>
+        <li>Native Android app in Kotlin</li>
+      </ul>
+      <div class="links">
+        <a class="btn primary" href="https://nbnc.vercel.app" target="_blank" rel="noopener noreferrer">Try it ↗</a>
+        <a class="btn" href="https://github.com/Maseeek/nothing-but-net" target="_blank" rel="noopener noreferrer"><svg><use href="#gh"/></svg>Code</a>
+        <a class="btn" href="/blog/nothing-but-net">How it works</a>
+      </div>
+    </div>
+  </article>
+
+  <div class="c-pair">
+    <article class="c-card">
+      <div class="shot phone ks"><img src="work-assets/ks.webp" alt="Keep Safe inbox on a phone" loading="lazy"></div>
+      <div class="c-copy">
+        <div class="meta"><span class="chip live">Live</span><span class="chip">Open source</span></div>
+        <h3>Keep Safe</h3>
+        <p class="a-pitch">AI coding agents hand login screens to your phone. You sign in; they carry on.</p>
+        <p class="stack">TypeScript · Playwright · MCP · WebSockets</p>
+        <div class="links">
+          <a class="btn primary" href="https://keep-safe-eight.vercel.app" target="_blank" rel="noopener noreferrer">Try it ↗</a>
+          <a class="btn" href="https://github.com/Maseeek/keep-safe" target="_blank" rel="noopener noreferrer"><svg><use href="#gh"/></svg>Code</a>
+        </div>
+      </div>
+    </article>
+    <article class="c-card">
+      <div class="shot phone doit"><img src="work-assets/doit.webp" alt="Do It daily habits screen" loading="lazy"></div>
+      <div class="c-copy">
+        <div class="meta"><span class="chip live">Live</span><span class="chip">Mobile web</span></div>
+        <h3>Do It</h3>
+        <p class="a-pitch">A 1v1 habit app that syncs with Strava and Apple Health, so two friends can compete on real data.</p>
+        <p class="stack">Next.js 16 · Supabase · PostgreSQL · Vitest</p>
+        <div class="links">
+          <a class="btn primary" href="https://do-it-plum-seven.vercel.app/welcome" target="_blank" rel="noopener noreferrer">Try it ↗</a>
+          <a class="btn" href="https://github.com/Maseeek/do-it" target="_blank" rel="noopener noreferrer"><svg><use href="#gh"/></svg>Code</a>
+        </div>
+      </div>
+    </article>
+  </div>
+
+  <div class="c-more">
+    <div class="c-more-head"><h3>Also built</h3><a href="https://github.com/Maseeek?tab=repositories" target="_blank" rel="noopener noreferrer">All repos ↗</a></div>
+    <ul>
+      <li><a href="https://github.com/Maseeek/LyricForge" target="_blank" rel="noopener noreferrer"><b>LyricForge</b><span>Rewrites a song and re-sings it in time, built in 24h at HackNotts '25.</span><em>Python · AI</em></a></li>
+      <li><a href="https://github.com/Maseeek/LED-REMOTE-CONTROL" target="_blank" rel="noopener noreferrer"><b>Lumina</b><span>Bluetooth LED strip synced to Spotify, with a reverse-engineered protocol.</span><em>Python · BLE</em></a></li>
+      <li><a href="https://github.com/Maseeek/Make-It-All-Team-20" target="_blank" rel="noopener noreferrer"><b>Make-It-All</b><span>University team project: workspace with roles, Kanban and analytics.</span><em>React · MySQL</em></a></li>
+      <li><a href="https://github.com/Maseeek/entcarehub" target="_blank" rel="noopener noreferrer"><b>ENT Care Hub</b><span>Find and compare ENT specialists by location, fees and ratings.</span><em>PHP · MySQL</em></a></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ===================================================== D -->
+<section class="variant" id="v-d" data-desc="Three compact cards, then a grid that maps each project to the skills a job ad asks for. Built for keyword-scanning.">
+  <div class="section-heading">
+    <div>
+      <p class="eyebrow">02 · Projects</p>
+      <h2>What I've built,<br>and what it proves.</h2>
+    </div>
+    <p>Three live apps, then every project mapped to the skills it shows.</p>
+  </div>
+
+  <div class="d-cards">
+    <article class="d-card">
+      <div class="shot browser nbn"><img src="work-assets/nbn.webp" alt="Nothing But Net landing page" loading="lazy"></div>
+      <div class="d-body">
+        <div class="meta"><span class="chip live">Live</span><span class="chip">Web + Android</span></div>
+        <h3>Nothing But Net</h3>
+        <p>Upload a basketball clip; computer vision returns your arc, release angle and make or miss.</p>
+        <ul class="built">
+          <li>Ball tracking in Python + OpenCV</li>
+          <li>React app, Express + MongoDB API</li>
+          <li>Native Kotlin Android app</li>
+        </ul>
+        <div class="links">
+          <a class="btn primary" href="https://nbnc.vercel.app" target="_blank" rel="noopener noreferrer">Try it ↗</a>
+          <a class="btn" href="https://github.com/Maseeek/nothing-but-net" target="_blank" rel="noopener noreferrer"><svg><use href="#gh"/></svg>Code</a>
+        </div>
+      </div>
+    </article>
+    <article class="d-card">
+      <div class="shot phone ks"><img src="work-assets/ks.webp" alt="Keep Safe inbox on a phone" loading="lazy"></div>
+      <div class="d-body">
+        <div class="meta"><span class="chip live">Live</span><span class="chip">Open source</span></div>
+        <h3>Keep Safe</h3>
+        <p>AI coding agents hand login screens to your phone, then carry on once you've signed in.</p>
+        <ul class="built">
+          <li>MCP server for agent sign-in requests</li>
+          <li>Live browser streaming over WebSockets</li>
+          <li>No cookies or keys stored on the phone</li>
+        </ul>
+        <div class="links">
+          <a class="btn primary" href="https://keep-safe-eight.vercel.app" target="_blank" rel="noopener noreferrer">Try it ↗</a>
+          <a class="btn" href="https://github.com/Maseeek/keep-safe" target="_blank" rel="noopener noreferrer"><svg><use href="#gh"/></svg>Code</a>
+        </div>
+      </div>
+    </article>
+    <article class="d-card">
+      <div class="shot phone doit"><img src="work-assets/doit.webp" alt="Do It daily habits screen" loading="lazy"></div>
+      <div class="d-body">
+        <div class="meta"><span class="chip live">Live</span><span class="chip">Mobile web</span></div>
+        <h3>Do It</h3>
+        <p>A 1v1 habit app where two friends compete on real data from Strava and Apple Health.</p>
+        <ul class="built">
+          <li>Postgres row-level security</li>
+          <li>Encrypted fitness-app integrations</li>
+          <li>Offline-first, tested with Vitest</li>
+        </ul>
+        <div class="links">
+          <a class="btn primary" href="https://do-it-plum-seven.vercel.app/welcome" target="_blank" rel="noopener noreferrer">Try it ↗</a>
+          <a class="btn" href="https://github.com/Maseeek/do-it" target="_blank" rel="noopener noreferrer"><svg><use href="#gh"/></svg>Code</a>
+        </div>
+      </div>
+    </article>
+  </div>
+
+  <div class="d-matrix-wrap">
+    <div class="d-matrix-head">
+      <h3>Skills by project</h3>
+      <p>Hover a dot to see what I did.</p>
+    </div>
+    <table>
+      <thead><tr><th>Project</th><th>Frontend</th><th>Backend / API</th><th>Databases</th><th>AI / CV</th><th>Mobile</th><th>Security</th><th>Testing</th><th>Hardware</th></tr></thead>
+      <tbody>
+        <tr><td><b>Nothing But Net</b><small>Live · Web + Android</small></td>
+          <td><i class="y" title="React 19 + Three.js web app"></i></td><td><i class="y" title="Express 5 API gateway"></i></td><td><i class="y" title="MongoDB"></i></td><td><i class="y" title="OpenCV ball tracking + arc fitting"></i></td><td><i class="y" title="Kotlin CameraX Android app"></i></td><td><i class="y" title="JWT auth, Stripe tiers"></i></td><td>·</td><td>·</td></tr>
+        <tr><td><b>Keep Safe</b><small>Live · Open source</small></td>
+          <td><i class="y" title="React 19 PWA"></i></td><td><i class="y" title="Node bridge, MCP server, WebSockets"></i></td><td>·</td><td><i class="y" title="Tooling for AI coding agents (MCP)"></i></td><td><i class="y" title="Phone-first PWA with push notifications"></i></td><td><i class="y" title="No cookies or keys on the client"></i></td><td>·</td><td>·</td></tr>
+        <tr><td><b>Do It</b><small>Live · Mobile web</small></td>
+          <td><i class="y" title="Next.js 16 + Tailwind v4"></i></td><td><i class="y" title="Next.js server routes, OAuth integrations"></i></td><td><i class="y" title="Supabase PostgreSQL"></i></td><td>·</td><td><i class="y" title="Mobile-first, offline-first"></i></td><td><i class="y" title="Row-level security, AES-256-GCM token vault"></i></td><td><i class="y" title="Vitest"></i></td><td>·</td></tr>
+        <tr><td><b>LyricForge</b><small>HackNotts '25 · 24h</small></td>
+          <td>·</td><td><i class="y" title="Python pipeline orchestration"></i></td><td>·</td><td><i class="y" title="Whisper, Gemini, ElevenLabs"></i></td><td>·</td><td>·</td><td>·</td><td>·</td></tr>
+        <tr><td><b>Lumina</b><small>Side project</small></td>
+          <td><i class="y" title="Web control panel"></i></td><td><i class="y" title="Flask + asyncio worker"></i></td><td><i class="y" title="SQLite"></i></td><td>·</td><td>·</td><td>·</td><td>·</td><td><i class="y" title="Reverse-engineered Bluetooth LE protocol"></i></td></tr>
+        <tr><td><b>Make-It-All</b><small>University team project</small></td>
+          <td><i class="y" title="React"></i></td><td><i class="y" title="Node + Express"></i></td><td><i class="y" title="MySQL with pooled queries"></i></td><td>·</td><td>·</td><td><i class="y" title="bcrypt + JWT, role-based access"></i></td><td>·</td><td>·</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<p class="proto-note"><b>What changed from the live section:</b> no tabbed screen demos or dark-mode toggle, one static screenshot per app, copy rewritten for a non-engineer reader (jargon moved to the "How it works" pages), and every project visible without a carousel. Screenshots are copied into <code>concepts/work-assets/</code>.</p>
+
+</div>
+</main>
+
+<script>
+(function(){
+  var btns=document.querySelectorAll('[data-v]'),desc=document.querySelector('[data-variant-desc]');
+  function show(v){
+    btns.forEach(function(b){b.setAttribute('aria-pressed',String(b.dataset.v===v))});
+    document.querySelectorAll('.variant').forEach(function(s){
+      var on=s.id==='v-'+v;s.classList.toggle('is-on',on);if(on)desc.textContent=s.dataset.desc;
+    });
+    try{history.replaceState(null,'','#'+v)}catch(e){}
+  }
+  btns.forEach(function(b){b.addEventListener('click',function(){show(b.dataset.v)})});
+  var h=(location.hash||'').slice(1);show(/^[abcd]$/.test(h)?h:'a');
+
+  // B filters
+  var fb=document.querySelectorAll('[data-f]');
+  fb.forEach(function(b){b.addEventListener('click',function(){
+    fb.forEach(function(x){x.setAttribute('aria-pressed',String(x===b))});
+    var f=b.dataset.f;
+    document.querySelectorAll('.b-row').forEach(function(r){r.hidden=!(f==='all'||r.dataset.tags.split(' ').indexOf(f)>-1)});
+  })});
+
+  // theme
+  var root=document.documentElement;
+  document.querySelector('[data-theme-toggle]').addEventListener('click',function(){
+    var dark=root.dataset.theme?root.dataset.theme==='dark':matchMedia('(prefers-color-scheme: dark)').matches;
+    root.dataset.theme=dark?'light':'dark';
+  });
+})();
+</script>
+</body>
+</html>

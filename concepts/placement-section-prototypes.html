@@ -1,0 +1,456 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Placement Section Prototypes</title>
+<meta name="description" content="Four recruiter-first layouts for the Next plc placement section, replacing the interactive AI Attribution 2.0 demo.">
+<style>
+:root{
+  --bg:#fff;--soft:#f5f7fb;--ink:#17191d;--muted:#5f6876;--line:#e4e8ef;--accent:#155ce9;--accent-soft:#eaf1ff;--good:#2f7a4c;--good-soft:#e5f3ea;--amber:#9a5b00;--amber-soft:#fff3dc;
+  --ease-out:cubic-bezier(.23,1,.32,1);
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0d1118;--soft:#121823;--ink:#f8fafc;--muted:#a3b3c9;--line:#243042;--accent:#3b82f6;--accent-soft:#192a4a;--good:#4ade80;--good-soft:#16352a;--amber:#fbbf24;--amber-soft:#3a2a0c;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0d1118;--soft:#121823;--ink:#f8fafc;--muted:#a3b3c9;--line:#243042;--accent:#3b82f6;--accent-soft:#192a4a;--good:#4ade80;--good-soft:#16352a;--amber:#fbbf24;--amber-soft:#3a2a0c;color-scheme:dark}
+
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
+p,h2,h3,h4,ul,ol,dl,dd,blockquote{margin:0}
+ul,ol{padding:0;list-style:none}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:6px}
+.wrap{width:min(1200px,calc(100% - 96px));margin-inline:auto}
+
+/* prototype chrome */
+.proto-bar{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.proto-bar .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:64px;flex-wrap:wrap;padding-block:10px}
+.proto-bar strong{font-size:13px;font-weight:600}
+.proto-bar small{display:block;color:var(--muted);font-size:12px;max-width:60ch}
+.seg{display:flex;padding:3px;border-radius:99px;border:1px solid var(--line);background:var(--soft);overflow-x:auto;max-width:100%}
+.seg button{height:30px;padding:0 13px;border-radius:99px;font-size:13px;color:var(--muted);white-space:nowrap;transition:color .15s ease,background-color .15s ease}
+.seg button[aria-pressed="true"]{background:var(--bg);color:var(--ink);box-shadow:0 1px 2px #0000001f}
+@media (hover:hover) and (pointer:fine){.seg button:hover{color:var(--ink)}}
+.theme-toggle{height:32px;padding:0 12px;border:1px solid var(--line);border-radius:99px;font-size:12px;color:var(--muted)}
+.proto-note{margin-top:40px;padding:14px 16px;border:1px dashed var(--line);border-radius:12px;font-size:13px;color:var(--muted);max-width:780px}
+.proto-note b{color:var(--ink);font-weight:600}
+
+/* shared */
+main{padding:64px 0 96px}
+.eyebrow{font-size:10px;font-weight:500;letter-spacing:.11em;text-transform:uppercase;color:var(--muted)}
+.section-heading{display:flex;justify-content:space-between;align-items:end;gap:24px;margin-bottom:32px;flex-wrap:wrap}
+.section-heading h2{font-size:40px;line-height:1.1;letter-spacing:-.065em;font-weight:500;margin-top:10px}
+.section-heading p{font-size:13px;line-height:1.6;color:var(--muted);max-width:42ch}
+.variant{display:none}
+.variant.is-on{display:block;animation:in .35s var(--ease-out)}
+@keyframes in{from{opacity:0;transform:translateY(6px)}}
+.card{border:1px solid var(--line);border-radius:24px;background:var(--bg)}
+.chip{display:inline-flex;align-items:center;gap:6px;height:24px;padding:0 10px;border-radius:99px;border:1px solid var(--line);font-size:11.5px;color:var(--muted);white-space:nowrap}
+.chip.accent{color:var(--accent);border-color:color-mix(in srgb,var(--accent) 35%,transparent);background:var(--accent-soft)}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.label{font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
+.built{display:grid;gap:10px}
+.built li{position:relative;padding-left:18px;font-size:14.5px;line-height:1.55}
+.built li::before{content:"";position:absolute;left:2px;top:.62em;width:6px;height:6px;border-radius:2px;background:var(--accent)}
+.built b{font-weight:600}
+.lede{font-size:17px;line-height:1.55;color:var(--muted)}
+.lede b{color:var(--ink);font-weight:500}
+.btn{display:inline-flex;align-items:center;gap:8px;height:38px;padding:0 16px;border-radius:99px;font-size:13px;border:1px solid var(--line);transition:border-color .2s ease,transform .16s var(--ease-out)}
+.btn:active{transform:scale(.97)}
+@media (hover:hover) and (pointer:fine){.btn:hover{border-color:var(--muted)}}
+
+/* role header (shared by A, C, D) */
+.role{display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap;padding:20px 24px;margin-bottom:16px}
+.role-id{display:flex;align-items:center;gap:14px}
+.logo{width:44px;height:44px;border-radius:12px;background:var(--ink);color:var(--bg);display:grid;place-items:center;font-weight:700;font-size:10.5px;letter-spacing:.04em;flex-shrink:0}
+.role-id strong{display:block;font-size:16px;font-weight:600;letter-spacing:-.02em}
+.role-id span{font-size:13px;color:var(--muted)}
+
+/* proof strip */
+.proof{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--line)}
+.proof div{padding:18px 24px;border-right:1px solid var(--line)}
+.proof div:last-child{border-right:0}
+.proof strong{display:block;font-size:24px;font-weight:500;letter-spacing:-.04em}
+.proof span{font-size:12.5px;color:var(--muted)}
+
+/* CEO highlight */
+.highlight{display:flex;gap:14px;align-items:flex-start;padding:16px 18px;border-radius:14px;background:var(--accent-soft);color:var(--ink);font-size:14px;line-height:1.5}
+.highlight svg{width:20px;height:20px;flex-shrink:0;color:var(--accent);margin-top:1px}
+.highlight b{font-weight:600}
+
+/* before/after flow */
+.flow{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;counter-reset:step}
+.step{position:relative;padding:18px;border:1px solid var(--line);border-radius:16px;background:var(--soft)}
+.step::before{counter-increment:step;content:counter(step);display:grid;place-items:center;width:24px;height:24px;border-radius:50%;background:var(--ink);color:var(--bg);font-size:12px;font-weight:600;margin-bottom:12px}
+.step h4{font-size:15px;font-weight:600;letter-spacing:-.02em;margin-bottom:6px}
+.step p{font-size:13.5px;line-height:1.5;color:var(--muted)}
+.step:not(:last-child)::after{content:"→";position:absolute;right:-12px;top:50%;transform:translate(50%,-50%);color:var(--muted);font-size:14px;z-index:1}
+.step .eg{display:flex;flex-wrap:wrap;gap:5px;margin-top:12px}
+.eg span{font-size:11px;padding:3px 8px;border-radius:6px;border:1px solid var(--line);background:var(--bg);color:var(--muted)}
+.eg span.ok{color:var(--good);background:var(--good-soft);border-color:transparent}
+.eg span.ai{color:var(--accent);background:var(--accent-soft);border-color:transparent}
+.eg span.hm{color:var(--amber);background:var(--amber-soft);border-color:transparent}
+
+.ba{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.ba > div{padding:20px;border-radius:16px;border:1px solid var(--line)}
+.ba .before{background:var(--soft)}
+.ba .after{background:var(--accent-soft);border-color:transparent}
+.ba h4{font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+.ba .after h4{color:var(--accent)}
+.ba p{font-size:15px;line-height:1.5}
+
+/* side work */
+.side{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px}
+.side article{padding:24px}
+.side h3{font-size:19px;font-weight:500;letter-spacing:-.03em;margin:10px 0 8px}
+.side p{font-size:14px;line-height:1.55;color:var(--muted)}
+.side .chips{margin-top:14px}
+
+/* ===== A — Outcome first ===== */
+.a-main{overflow:hidden}
+.a-body{padding:32px;display:grid;grid-template-columns:1.05fr 1fr;gap:40px}
+.a-body h3{font-size:30px;font-weight:500;letter-spacing:-.045em;line-height:1.12;margin:12px 0 14px}
+.a-body .lede{margin-bottom:22px}
+.a-body .highlight{margin-top:22px}
+.a-right{display:flex;flex-direction:column;gap:12px}
+.a-right .ba{grid-template-columns:1fr}
+.a-right .tech{padding-top:4px}
+.a-main .role{margin:0;border-bottom:1px solid var(--line)}
+
+/* ===== B — CV entry ===== */
+.b-entry{display:grid;grid-template-columns:260px 1fr;gap:48px;padding:36px}
+.b-left{position:sticky;top:96px;align-self:start;display:grid;gap:14px}
+.b-left .logo{width:52px;height:52px;font-size:12px}
+.b-left h3{font-size:22px;font-weight:500;letter-spacing:-.04em;line-height:1.2}
+.b-left dl{display:grid;gap:10px;font-size:13px}
+.b-left dt{color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.06em}
+.b-left dd{margin-top:2px}
+.b-work{display:grid;gap:0}
+.b-item{padding:0 0 28px 28px;border-left:1px solid var(--line);position:relative}
+.b-item:last-child{padding-bottom:0}
+.b-item::before{content:"";position:absolute;left:-6px;top:6px;width:11px;height:11px;border-radius:50%;background:var(--bg);border:2px solid var(--muted)}
+.b-item.main::before{border-color:var(--accent);background:var(--accent)}
+.b-item h4{font-size:20px;font-weight:500;letter-spacing:-.03em;margin-bottom:6px;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.b-item > p{font-size:15px;line-height:1.55;color:var(--muted);margin-bottom:14px;max-width:62ch}
+.b-item .highlight{margin:16px 0 0;max-width:62ch}
+.b-stats{display:flex;gap:28px;flex-wrap:wrap;margin-top:28px;padding-top:24px;border-top:1px solid var(--line)}
+.b-stats strong{display:block;font-size:22px;font-weight:500;letter-spacing:-.04em}
+.b-stats span{font-size:12.5px;color:var(--muted)}
+
+/* ===== C — How it works ===== */
+.c-main{padding:32px}
+.c-top{display:grid;grid-template-columns:1.2fr 1fr;gap:40px;align-items:end;margin-bottom:28px}
+.c-top h3{font-size:30px;font-weight:500;letter-spacing:-.045em;line-height:1.12;margin:12px 0 12px}
+.c-mine{display:grid;grid-template-columns:1fr 1fr;gap:32px;margin-top:28px;padding-top:28px;border-top:1px solid var(--line)}
+
+/* ===== D — STAR brief ===== */
+.d-main{overflow:hidden}
+.d-head{padding:32px 32px 24px;display:flex;justify-content:space-between;gap:24px;align-items:flex-end;flex-wrap:wrap}
+.d-head h3{font-size:30px;font-weight:500;letter-spacing:-.045em;line-height:1.12;margin-top:12px;max-width:22ch}
+.star{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--line)}
+.star > div{padding:24px;border-right:1px solid var(--line)}
+.star > div:last-child{border-right:0;background:var(--accent-soft)}
+.star h4{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;display:flex;gap:8px;align-items:center}
+.star h4 i{font-style:normal;display:grid;place-items:center;width:22px;height:22px;border-radius:6px;background:var(--ink);color:var(--bg);font-size:11px}
+.star > div:last-child h4{color:var(--accent)}
+.star > div:last-child h4 i{background:var(--accent);color:#fff}
+.star p{font-size:14px;line-height:1.55}
+.star .built li{font-size:13.5px}
+
+/* responsive */
+@media (max-width:980px){
+  .wrap{width:calc(100% - 64px)}
+  .a-body,.c-top,.c-mine,.b-entry{grid-template-columns:1fr}
+  .b-left{position:static}
+  .flow{grid-template-columns:1fr 1fr}
+  .step:nth-child(2)::after{display:none}
+  .star{grid-template-columns:1fr 1fr}
+  .star > div:nth-child(2){border-right:0}
+  .star > div:nth-child(-n+2){border-bottom:1px solid var(--line)}
+  .proof{grid-template-columns:1fr 1fr}
+  .proof div:nth-child(2){border-right:0}
+  .proof div:nth-child(-n+2){border-bottom:1px solid var(--line)}
+}
+@media (max-width:640px){
+  .wrap{width:calc(100% - 32px)}
+  .section-heading h2{font-size:32px}
+  .a-body,.c-main,.b-entry{padding:22px}
+  .d-head{padding:22px}
+  .a-body h3,.c-top h3,.d-head h3{font-size:25px}
+  .flow,.star,.side,.ba{grid-template-columns:1fr}
+  .step::after{display:none}
+  .star > div{border-right:0;border-bottom:1px solid var(--line)}
+  .star > div:last-child{border-bottom:0}
+}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+
+<div class="proto-bar">
+  <div class="wrap">
+    <div>
+      <strong>Placement section · prototypes</strong>
+      <small data-variant-desc></small>
+    </div>
+    <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+      <div class="seg" role="group" aria-label="Layout">
+        <button type="button" data-v="a" aria-pressed="true">A · Outcome first</button>
+        <button type="button" data-v="b" aria-pressed="false">B · CV entry</button>
+        <button type="button" data-v="c" aria-pressed="false">C · How it works</button>
+        <button type="button" data-v="d" aria-pressed="false">D · STAR brief</button>
+      </div>
+      <button type="button" class="theme-toggle" data-theme-toggle>Theme</button>
+    </div>
+  </div>
+</div>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="star" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2.8l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 16.8l-5.4 2.9 1-6.1-4.4-4.3 6.1-.9z"/></symbol>
+</svg>
+
+<main>
+<div class="wrap">
+
+<!-- ================================================= A -->
+<section class="variant is-on" id="v-a" data-desc="Leads with the result (sole owner, CEO mention), explains the job in two sentences, then a simple before/after in place of the demo. Other workstreams sit below, always visible.">
+  <div class="section-heading">
+    <div>
+      <p class="eyebrow">01 · Industry experience</p>
+      <h2>AI in production<br>at a FTSE 100 retailer.</h2>
+    </div>
+    <p>12-month placement on Next plc's product information team, July 2026 to July 2027.</p>
+  </div>
+
+  <article class="card a-main">
+    <div class="role">
+      <div class="role-id"><span class="logo">NEXT</span><div><strong>Systems Placement Developer · Next plc</strong><span>Online Shopping, PIM Strategic Team · Jul 2026 – Jul 2027</span></div></div>
+      <div class="chips"><span class="chip">C# / .NET</span><span class="chip">Blazor</span><span class="chip">React</span><span class="chip">AI integration</span></div>
+    </div>
+    <div class="a-body">
+      <div>
+        <div class="chips"><span class="chip accent">Sole owner</span><span class="chip">AI Attribution 2.0</span></div>
+        <h3>I rebuilt how Next fills in product details, so AI does the typing and people check it.</h3>
+        <p class="lede">Every product on next.co.uk needs details like age group, material and occasion before it can go live. Staff used to pick each one from dropdowns. <b>I owned the rebuild that has Next's in-house AI, Shield, suggest them instead.</b></p>
+        <p class="label">What I built</p>
+        <ul class="built">
+          <li><b>The review screen</b> editors use, where AI suggestions they're confident in (90%+) approve themselves.</li>
+          <li><b>A feedback loop</b> that records whether each suggestion was accepted, changed or rejected, so the AI team can improve the model.</li>
+          <li><b>A rules engine</b> so the business decides which fields AI may fill and which always need a person.</li>
+        </ul>
+        <div class="highlight"><svg><use href="#star"/></svg><p>Highlighted by <b>CEO Simon Wolfson</b> in Next's half-year results.</p></div>
+      </div>
+      <div class="a-right">
+        <div class="ba">
+          <div class="before"><h4>Before</h4><p>An editor fills every field by hand, product after product.</p></div>
+          <div class="after"><h4>After</h4><p>AI fills the fields. Confident answers go straight through; editors only check the rest. Every correction feeds back to the model.</p></div>
+        </div>
+        <p class="tech label" style="margin-bottom:0">Worked with the business and the Shield AI API team</p>
+      </div>
+    </div>
+    <div class="proof">
+      <div><strong>20+</strong><span>merged pull requests</span></div>
+      <div><strong>210+</strong><span>commits shipped</span></div>
+      <div><strong>Sole</strong><span>owner of AI Attribution 2.0</span></div>
+      <div><strong>CEO</strong><span>mention in half-year results</span></div>
+    </div>
+  </article>
+
+  <div class="side">
+    <article class="card">
+      <p class="eyebrow">Also at Next</p>
+      <h3>Moving an internal tool from Blazor to React</h3>
+      <p>Led the port of NEOS Item Tracker to React using AI coding agents, set up to work from the old code, the new design and the architecture docs. The first version is merged to main.</p>
+      <div class="chips"><span class="chip">React</span><span class="chip">TypeScript</span><span class="chip">Testing</span></div>
+    </article>
+    <article class="card">
+      <p class="eyebrow">Also at Next</p>
+      <h3>Teaching the team to build with AI agents</h3>
+      <p>Wrote reusable agent workflows and a review loop the team can repeat, and gave a talk on using AI in development to the PIM Strategic team.</p>
+      <div class="chips"><span class="chip">Agentic engineering</span><span class="chip">Playwright</span><a class="chip accent" href="ai-development-presentation.html" target="_blank" rel="noopener noreferrer">See the talk ↗</a></div>
+    </article>
+  </div>
+</section>
+
+<!-- ================================================= B -->
+<section class="variant" id="v-b" data-desc="Reads like a strong CV entry: role facts on the left, a timeline of what you did on the right. Quietest option; nothing to click.">
+  <div class="section-heading">
+    <div>
+      <p class="eyebrow">01 · Industry experience</p>
+      <h2>Next plc,<br>Systems Placement.</h2>
+    </div>
+  </div>
+
+  <article class="card b-entry">
+    <div class="b-left">
+      <span class="logo">NEXT</span>
+      <h3>Systems Placement Developer</h3>
+      <dl>
+        <div><dt>Company</dt><dd>Next plc (FTSE 100)</dd></div>
+        <div><dt>Team</dt><dd>Online Shopping, PIM Strategic</dd></div>
+        <div><dt>Dates</dt><dd>Jul 2026 – Jul 2027 · 12 months</dd></div>
+        <div><dt>Stack</dt><dd>C# / .NET, Blazor, React, TypeScript, Playwright</dd></div>
+      </dl>
+    </div>
+    <div>
+      <div class="b-work">
+        <div class="b-item main">
+          <h4>AI Attribution 2.0 <span class="chip accent">Sole owner</span></h4>
+          <p>Rebuilt how product details (age group, material, occasion) get filled in before items go live on next.co.uk. Next's in-house AI now suggests them and editors review, where they used to pick every value by hand.</p>
+          <ul class="built">
+            <li>Built the review screen, where AI answers with 90%+ confidence approve themselves.</li>
+            <li>Added a feedback loop that logs every accept, change and rejection for the AI team.</li>
+            <li>Built a rules engine that controls which fields AI may fill, and blocks conflicting rules.</li>
+            <li>Pulled shared parts (dropdowns, field cards) into a common library for other NEOS screens.</li>
+          </ul>
+          <div class="highlight"><svg><use href="#star"/></svg><p>Highlighted by <b>CEO Simon Wolfson</b> in Next's half-year results.</p></div>
+        </div>
+        <div class="b-item">
+          <h4>Item Tracker: Blazor to React</h4>
+          <p>Leading the port of an internal tool to React with AI coding agents. First version merged to main; saved views, bulk filtering and exports in progress on later branches.</p>
+        </div>
+        <div class="b-item">
+          <h4>AI agent workflows for the team</h4>
+          <p>Wrote reusable agent skills and a multi-pass review loop, and gave a talk on <a href="ai-development-presentation.html" target="_blank" rel="noopener noreferrer" style="color:var(--accent)">using AI in development ↗</a> to the team.</p>
+        </div>
+      </div>
+      <div class="b-stats">
+        <div><strong>20+</strong><span>merged PRs</span></div>
+        <div><strong>210+</strong><span>commits</span></div>
+        <div><strong>3</strong><span>workstreams</span></div>
+      </div>
+    </div>
+  </article>
+</section>
+
+<!-- ================================================= C -->
+<section class="variant" id="v-c" data-desc="Swaps the clickable demo for a four-step diagram of how the system works, then splits out exactly which parts were yours.">
+  <div class="section-heading">
+    <div>
+      <p class="eyebrow">01 · Industry experience</p>
+      <h2>AI in production<br>at a FTSE 100 retailer.</h2>
+    </div>
+    <p>Systems Placement Developer at Next plc, July 2026 to July 2027.</p>
+  </div>
+
+  <article class="card" style="overflow:hidden">
+    <div class="role" style="border-bottom:1px solid var(--line);margin:0">
+      <div class="role-id"><span class="logo">NEXT</span><div><strong>Next plc · PIM Strategic Team</strong><span>Systems Placement Developer · 12 months</span></div></div>
+      <div class="chips"><span class="chip accent">Sole owner · AI Attribution 2.0</span></div>
+    </div>
+    <div class="c-main">
+      <div class="c-top">
+        <div>
+          <h3>Product details on next.co.uk are now filled in by AI and checked by people.</h3>
+          <p class="lede">I owned the rebuild end to end, working with the business and the team behind Next's in-house AI, Shield.</p>
+        </div>
+        <div class="highlight"><svg><use href="#star"/></svg><p>Highlighted by <b>CEO Simon Wolfson</b> in Next's half-year results.</p></div>
+      </div>
+
+      <p class="label">How it works</p>
+      <ol class="flow">
+        <li class="step"><h4>A new product arrives</h4><p>It needs details filled in before it can go on sale.</p><div class="eg"><span>Age group</span><span>Material</span><span>Occasion</span></div></li>
+        <li class="step"><h4>Shield AI suggests values</h4><p>Each suggestion comes with a confidence score.</p><div class="eg"><span class="ai">Cotton mix · 84%</span></div></li>
+        <li class="step"><h4>Confident ones go through</h4><p>90%+ approves automatically. Business rules decide which fields always need a person.</p><div class="eg"><span class="ok">1 year · 96% ✓</span><span class="hm">Occasion · manual</span></div></li>
+        <li class="step"><h4>Editors check the rest</h4><p>Every accept, change or rejection is logged to help train the model.</p><div class="eg"><span>Accepted</span><span>Changed</span><span>Rejected</span></div></li>
+      </ol>
+
+      <div class="c-mine">
+        <div>
+          <p class="label">The parts I built</p>
+          <ul class="built">
+            <li>The editor review screen (steps 3 and 4)</li>
+            <li>The feedback logging that trains the model</li>
+            <li>The approval rules engine, which blocks conflicting rules</li>
+            <li>A shared component library for other NEOS screens</li>
+          </ul>
+        </div>
+        <div>
+          <p class="label">Also at Next</p>
+          <ul class="built">
+            <li><b>Item Tracker:</b> leading a Blazor-to-React port with AI coding agents; first version merged.</li>
+            <li><b>Team enablement:</b> reusable agent workflows and a <a href="ai-development-presentation.html" target="_blank" rel="noopener noreferrer" style="color:var(--accent)">talk on AI in development ↗</a>.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="proof">
+      <div><strong>20+</strong><span>merged pull requests</span></div>
+      <div><strong>210+</strong><span>commits shipped</span></div>
+      <div><strong>C# / .NET</strong><span>Blazor WebAssembly</span></div>
+      <div><strong>React</strong><span>TypeScript, Playwright</span></div>
+    </div>
+  </article>
+</section>
+
+<!-- ================================================= D -->
+<section class="variant" id="v-d" data-desc="Situation, Task, Action, Result: the format recruiters and interviewers already think in. Doubles as your interview answer.">
+  <div class="section-heading">
+    <div>
+      <p class="eyebrow">01 · Industry experience</p>
+      <h2>AI in production<br>at a FTSE 100 retailer.</h2>
+    </div>
+    <p>Systems Placement Developer, Next plc · PIM Strategic Team · Jul 2026 – Jul 2027.</p>
+  </div>
+
+  <article class="card d-main">
+    <div class="d-head">
+      <div>
+        <div class="chips"><span class="chip accent">Sole owner</span><span class="chip">AI Attribution 2.0</span><span class="chip">C# / .NET · Blazor</span></div>
+        <h3>Replacing manual data entry with AI on next.co.uk.</h3>
+      </div>
+      <div class="highlight" style="max-width:360px"><svg><use href="#star"/></svg><p>Highlighted by <b>CEO Simon Wolfson</b> in Next's half-year results.</p></div>
+    </div>
+    <div class="star">
+      <div><h4><i>S</i>Situation</h4><p>Every product needs details like age group, material and occasion before going live. Staff picked each one from dropdowns by hand.</p></div>
+      <div><h4><i>T</i>Task</h4><p>Own the rebuild so Next's in-house AI, Shield, fills them in, without losing human control over quality.</p></div>
+      <div><h4><i>A</i>Action</h4><ul class="built"><li>Built the editor review screen</li><li>Auto-approval at 90%+ confidence</li><li>Feedback logging for the AI team</li><li>Rules engine for human-only fields</li></ul></div>
+      <div><h4><i>R</i>Result</h4><p>Editors review instead of type. The work was called out by the CEO in the half-year results.</p></div>
+    </div>
+    <div class="proof">
+      <div><strong>20+</strong><span>merged pull requests</span></div>
+      <div><strong>210+</strong><span>commits shipped</span></div>
+      <div><strong>12</strong><span>month placement</span></div>
+      <div><strong>FTSE 100</strong><span>retailer</span></div>
+    </div>
+  </article>
+
+  <div class="side">
+    <article class="card">
+      <p class="eyebrow">Also at Next</p>
+      <h3>Blazor to React with AI agents</h3>
+      <p>Leading the Item Tracker port. First version merged to main.</p>
+    </article>
+    <article class="card">
+      <p class="eyebrow">Also at Next</p>
+      <h3>Agent workflows &amp; a team talk</h3>
+      <p>Reusable agent skills, a review loop, and a <a href="ai-development-presentation.html" target="_blank" rel="noopener noreferrer" style="color:var(--accent)">talk on AI in development ↗</a>.</p>
+    </article>
+  </div>
+</section>
+
+<p class="proto-note"><b>What changed from the live section:</b> the fake NEOS screen and "Simulate editor override" button are gone, replaced by a plain before/after or step diagram. Jargon (<code>FeedbackOverride</code>, <code>Neos.Common</code>, Shield 84%) is now ordinary language. The CEO mention moves from body text to a callout. The two other workstreams are always visible instead of behind a "See more" drawer.</p>
+
+</div>
+</main>
+
+<script>
+(function(){
+  var btns=document.querySelectorAll('[data-v]'),desc=document.querySelector('[data-variant-desc]');
+  function show(v){
+    btns.forEach(function(b){b.setAttribute('aria-pressed',String(b.dataset.v===v))});
+    document.querySelectorAll('.variant').forEach(function(s){var on=s.id==='v-'+v;s.classList.toggle('is-on',on);if(on)desc.textContent=s.dataset.desc});
+    try{history.replaceState(null,'','#'+v)}catch(e){}
+  }
+  btns.forEach(function(b){b.addEventListener('click',function(){show(b.dataset.v)})});
+  var h=(location.hash||'').slice(1);show(/^[abcd]$/.test(h)?h:'a');
+  var root=document.documentElement;
+  document.querySelector('[data-theme-toggle]').addEventListener('click',function(){
+    var dark=root.dataset.theme?root.dataset.theme==='dark':matchMedia('(prefers-color-scheme: dark)').matches;
+    root.dataset.theme=dark?'light':'dark';
+  });
+})();
+</script>
+</body>
+</html>

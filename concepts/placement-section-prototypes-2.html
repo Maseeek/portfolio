@@ -1,0 +1,536 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Placement Prototypes, Round 2</title>
+<meta name="description" content="Second round of placement-section layouts: refinements of the CV-entry layout and tighter versions of the outcome-first layout.">
+<style>
+:root{
+  --bg:#fff;--soft:#f5f7fb;--ink:#17191d;--muted:#5f6876;--line:#e4e8ef;--accent:#155ce9;--accent-soft:#eaf1ff;
+  --ease-out:cubic-bezier(.23,1,.32,1);color-scheme:light;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0d1118;--soft:#121823;--ink:#f8fafc;--muted:#a3b3c9;--line:#243042;--accent:#3b82f6;--accent-soft:#192a4a;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0d1118;--soft:#121823;--ink:#f8fafc;--muted:#a3b3c9;--line:#243042;--accent:#3b82f6;--accent-soft:#192a4a;color-scheme:dark}
+
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
+p,h2,h3,h4,ul,ol,dl,dd{margin:0}
+ul,ol{padding:0;list-style:none}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:6px}
+.wrap{width:min(1200px,calc(100% - 96px));margin-inline:auto}
+
+/* prototype chrome */
+.proto-bar{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.proto-bar .wrap{display:flex;align-items:center;justify-content:space-between;gap:12px 16px;min-height:64px;flex-wrap:wrap;padding-block:10px}
+.proto-bar strong{font-size:13px;font-weight:600}
+.proto-bar small{display:block;color:var(--muted);font-size:12px;max-width:62ch}
+.controls{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.seg{display:flex;padding:3px;border-radius:99px;border:1px solid var(--line);background:var(--soft);overflow-x:auto;max-width:100%}
+.seg button{height:30px;padding:0 12px;border-radius:99px;font-size:13px;color:var(--muted);white-space:nowrap;transition:color .15s ease,background-color .15s ease}
+.seg button[aria-pressed="true"]{background:var(--bg);color:var(--ink);box-shadow:0 1px 2px #0000001f}
+.seg-label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;padding:0 6px 0 10px;align-self:center}
+@media (hover:hover) and (pointer:fine){.seg button:hover{color:var(--ink)}}
+.theme-toggle{height:32px;padding:0 12px;border:1px solid var(--line);border-radius:99px;font-size:12px;color:var(--muted)}
+.proto-note{margin-top:40px;padding:14px 16px;border:1px dashed var(--line);border-radius:12px;font-size:13px;color:var(--muted);max-width:780px}
+.proto-note b{color:var(--ink);font-weight:600}
+
+/* shared */
+main{padding:56px 0 96px}
+.eyebrow{font-size:10px;font-weight:500;letter-spacing:.11em;text-transform:uppercase;color:var(--muted)}
+.section-heading{display:flex;justify-content:space-between;align-items:end;gap:24px;margin-bottom:28px;flex-wrap:wrap}
+.section-heading h2{font-size:40px;line-height:1.1;letter-spacing:-.065em;font-weight:500;margin-top:10px}
+.section-heading p{font-size:13px;line-height:1.6;color:var(--muted);max-width:42ch}
+.variant{display:none}
+.variant.is-on{display:block;animation:in .35s var(--ease-out)}
+@keyframes in{from{opacity:0;transform:translateY(6px)}}
+.card{border:1px solid var(--line);border-radius:22px;background:var(--bg)}
+.chip{display:inline-flex;align-items:center;gap:6px;height:24px;padding:0 10px;border-radius:99px;border:1px solid var(--line);font-size:11.5px;color:var(--muted);white-space:nowrap;font-weight:400;letter-spacing:0}
+.chip.accent{color:var(--accent);border-color:color-mix(in srgb,var(--accent) 35%,transparent);background:var(--accent-soft)}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.label{font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
+.built{display:grid;gap:9px}
+.built li{position:relative;padding-left:18px;font-size:14.5px;line-height:1.55}
+.built li::before{content:"";position:absolute;left:2px;top:.62em;width:6px;height:6px;border-radius:2px;background:var(--accent)}
+.built b{font-weight:600}
+.muted{color:var(--muted)}
+.link{color:var(--accent)}
+.logo{width:44px;height:44px;border-radius:12px;background:var(--ink);color:var(--bg);display:grid;place-items:center;font-weight:700;font-size:10.5px;letter-spacing:.04em;flex-shrink:0}
+.highlight{display:flex;gap:12px;align-items:flex-start;padding:13px 16px;border-radius:12px;background:var(--accent-soft);font-size:14px;line-height:1.5}
+.highlight svg{width:18px;height:18px;flex-shrink:0;color:var(--accent);margin-top:1px}
+.highlight b{font-weight:600}
+.stats{display:flex;gap:32px;flex-wrap:wrap}
+.stats strong{display:block;font-size:22px;font-weight:500;letter-spacing:-.04em;line-height:1.2}
+.stats span{font-size:12.5px;color:var(--muted)}
+
+/* timeline (B family) */
+.tl{display:grid}
+.tl-item{padding:0 0 26px 28px;border-left:1px solid var(--line);position:relative}
+.tl-item:last-child{padding-bottom:0;border-left-color:transparent}
+.tl-item::before{content:"";position:absolute;left:-6px;top:7px;width:11px;height:11px;border-radius:50%;background:var(--bg);border:2px solid var(--muted)}
+.tl-item.main::before{border-color:var(--accent);background:var(--accent)}
+.tl-item h4{font-size:20px;font-weight:500;letter-spacing:-.03em;margin-bottom:6px;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.tl-item > p{font-size:15px;line-height:1.55;color:var(--muted);margin-bottom:14px;max-width:64ch}
+.tl-item > p:last-child{margin-bottom:0}
+.tl-item .highlight{margin-top:16px;max-width:64ch}
+
+/* ===== B1 — refined CV entry ===== */
+.b1{display:grid;grid-template-columns:240px 1fr;gap:48px;padding:36px}
+.b1-left{position:sticky;top:96px;align-self:start;display:grid;gap:14px}
+.b1-left .logo{width:52px;height:52px;font-size:12px}
+.b1-left h3{font-size:22px;font-weight:500;letter-spacing:-.04em;line-height:1.2}
+.b1-left dl{display:grid;gap:10px;font-size:13px}
+.b1-left dt{color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.06em}
+.b1-left dd{margin-top:2px}
+.b1 .stats{margin-top:26px;padding-top:22px;border-top:1px solid var(--line)}
+
+/* ===== B2 — scope split ===== */
+.scope{display:grid;grid-template-columns:1fr 1.5fr;gap:0;border:1px solid var(--line);border-radius:14px;overflow:hidden;margin:4px 0 2px;max-width:820px}
+.scope > div{padding:16px 18px}
+.scope .proj{background:var(--soft);border-right:1px solid var(--line)}
+.scope .proj p{font-size:14px;line-height:1.55;color:var(--muted)}
+.scope .mine .built li{font-size:14px}
+
+/* ===== B3 — horizontal header ===== */
+.b3{overflow:hidden}
+.b3-head{display:flex;align-items:center;gap:16px;padding:22px 28px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.b3-head h3{font-size:18px;font-weight:600;letter-spacing:-.02em}
+.b3-head .muted{font-size:13px}
+.b3-head dl{display:flex;gap:28px;margin-left:auto;flex-wrap:wrap}
+.b3-head dt{color:var(--muted);font-size:10.5px;text-transform:uppercase;letter-spacing:.07em}
+.b3-head dd{font-size:13px;margin-top:2px}
+.b3-body{display:grid;grid-template-columns:1fr 220px;gap:40px;padding:32px 28px}
+.b3-side{display:grid;gap:22px;align-content:start;padding-left:28px;border-left:1px solid var(--line)}
+.b3-side .stats{flex-direction:column;gap:16px}
+
+/* ===== A1 — compact outcome ===== */
+.a1{padding:28px 30px;display:grid;gap:22px}
+.a1-top{display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+.a1-top .who strong{display:block;font-size:15px;font-weight:600}
+.a1-top .who span{font-size:13px;color:var(--muted)}
+.a1-top .chips{margin-left:auto}
+.a1 h3{font-size:28px;font-weight:500;letter-spacing:-.045em;line-height:1.15;max-width:28ch}
+.a1-grid{display:grid;grid-template-columns:1fr 300px;gap:32px;align-items:start}
+.a1-aside{display:grid;gap:12px}
+.ba-strip{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:10px;font-size:13.5px;line-height:1.45}
+.ba-strip > div{padding:12px 14px;border-radius:12px;background:var(--soft)}
+.ba-strip > div:last-child{background:var(--accent-soft)}
+.ba-strip b{display:block;font-size:10.5px;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:3px}
+.ba-strip > div:last-child b{color:var(--accent)}
+.ba-strip > span{color:var(--muted)}
+.a1-foot{display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap;padding-top:18px;border-top:1px solid var(--line)}
+.a1-foot .others{font-size:13.5px;color:var(--muted)}
+.a1-foot .others b{color:var(--ink);font-weight:500}
+
+/* ===== A2 — three tiles ===== */
+.a2-head{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;padding:26px 28px;border-bottom:1px solid var(--line)}
+.a2-head h3{font-size:26px;font-weight:500;letter-spacing:-.045em;line-height:1.15;margin-top:10px;max-width:30ch}
+.a2-tiles{display:grid;grid-template-columns:repeat(3,1fr)}
+.a2-tiles article{padding:24px 28px;border-right:1px solid var(--line)}
+.a2-tiles article:last-child{border-right:0}
+.a2-tiles .num{font-size:12px;color:var(--accent);font-weight:600;letter-spacing:.04em}
+.a2-tiles h4{font-size:17px;font-weight:500;letter-spacing:-.025em;margin:8px 0 6px}
+.a2-tiles p{font-size:14px;line-height:1.5;color:var(--muted)}
+.a2-foot{display:flex;align-items:center;gap:20px;justify-content:space-between;flex-wrap:wrap;padding:16px 28px;border-top:1px solid var(--line);background:var(--soft);border-radius:0 0 22px 22px}
+.a2-foot .stats{gap:28px}
+.a2-foot .stats strong{font-size:18px;display:inline;margin-right:6px}
+.a2-foot .stats div{display:flex;align-items:baseline}
+
+/* ===== A3 — A × B hybrid ===== */
+.a3-hero{padding:26px 28px;display:grid;grid-template-columns:1fr auto;gap:24px;align-items:center;border-bottom:1px solid var(--line)}
+.a3-hero h3{font-size:26px;font-weight:500;letter-spacing:-.045em;line-height:1.15;margin-top:10px;max-width:30ch}
+.a3-hero .stats{gap:28px}
+.a3-body{padding:28px}
+.a3-row{display:grid;grid-template-columns:200px 1fr;gap:28px;padding:20px 0;border-bottom:1px solid var(--line)}
+.a3-row:first-child{padding-top:0}
+.a3-row:last-child{border-bottom:0;padding-bottom:0}
+.a3-row h4{font-size:16px;font-weight:600;letter-spacing:-.02em}
+.a3-row h4 + .chip{margin-top:8px}
+.a3-row p{font-size:14.5px;line-height:1.55;color:var(--muted)}
+.a3-row .built{margin-top:10px}
+.a3-row .built li{font-size:14px}
+
+/* responsive */
+@media (max-width:980px){
+  .wrap{width:calc(100% - 64px)}
+  .b1,.b3-body,.a1-grid{grid-template-columns:1fr}
+  .b1-left{position:static}
+  .b3-side{padding-left:0;border-left:0;padding-top:22px;border-top:1px solid var(--line)}
+  .b3-side .stats{flex-direction:row}
+  .b3-head dl{margin-left:0;width:100%}
+  .a2-tiles{grid-template-columns:1fr}
+  .a2-tiles article{border-right:0;border-bottom:1px solid var(--line)}
+  .a2-tiles article:last-child{border-bottom:0}
+  .a3-hero{grid-template-columns:1fr}
+}
+@media (max-width:640px){
+  .wrap{width:calc(100% - 32px)}
+  .section-heading h2{font-size:32px}
+  .b1,.a1{padding:22px}
+  .a1 h3,.a2-head h3,.a3-hero h3{font-size:23px}
+  .a1-top .chips{margin-left:0}
+  .scope{grid-template-columns:1fr}
+  .scope .proj{border-right:0;border-bottom:1px solid var(--line)}
+  .ba-strip{grid-template-columns:1fr}
+  .ba-strip > span{display:none}
+  .a3-row{grid-template-columns:1fr;gap:8px}
+  .a2-head,.a2-tiles article,.a2-foot,.a3-hero,.a3-body,.b3-head,.b3-body{padding-inline:20px}
+}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+
+<div class="proto-bar">
+  <div class="wrap">
+    <div>
+      <strong>Placement section · round 2</strong>
+      <small data-variant-desc></small>
+    </div>
+    <div class="controls">
+      <div class="seg" role="group" aria-label="Layout">
+        <span class="seg-label">B</span>
+        <button type="button" data-v="b1" aria-pressed="true">B1 · Refined</button>
+        <button type="button" data-v="b2" aria-pressed="false">B2 · Scope split</button>
+        <button type="button" data-v="b3" aria-pressed="false">B3 · Wide header</button>
+        <span class="seg-label">A</span>
+        <button type="button" data-v="a1" aria-pressed="false">A1 · Compact</button>
+        <button type="button" data-v="a2" aria-pressed="false">A2 · Three tiles</button>
+        <button type="button" data-v="a3" aria-pressed="false">A3 · A × B</button>
+      </div>
+      <button type="button" class="theme-toggle" data-theme-toggle>Theme</button>
+    </div>
+  </div>
+</div>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="star" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2.8l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 16.8l-5.4 2.9 1-6.1-4.4-4.3 6.1-.9z"/></symbol>
+</svg>
+
+<main>
+<div class="wrap">
+
+<!-- ================================================= B1 -->
+<section class="variant is-on" id="v-b1" data-desc="Round 1's B with corrected scope: you owned the UI overhaul and built the rules; the attribution system itself was a wider team effort.">
+  <div class="section-heading">
+    <div>
+      <p class="eyebrow">01 · Industry experience</p>
+      <h2>Next plc,<br>Systems Placement.</h2>
+    </div>
+  </div>
+
+  <article class="card b1">
+    <div class="b1-left">
+      <span class="logo">NEXT</span>
+      <h3>Systems Placement Developer</h3>
+      <dl>
+        <div><dt>Company</dt><dd>Next plc (FTSE 100)</dd></div>
+        <div><dt>Team</dt><dd>Online Shopping, PIM Strategic</dd></div>
+        <div><dt>Dates</dt><dd>Jul 2026 – Jul 2027 · 12 months</dd></div>
+        <div><dt>Stack</dt><dd>C# / .NET, Blazor, React, TypeScript, Playwright</dd></div>
+      </dl>
+    </div>
+    <div>
+      <div class="tl">
+        <div class="tl-item main">
+          <h4>AI Attribution 2.0 <span class="chip accent">Owned the UI overhaul</span></h4>
+          <p>Next uses its in-house AI, Shield, to suggest product details like age group, material and occasion, which editors used to pick by hand. I owned the overhaul of the editor interface and built the approval rules behind it.</p>
+          <ul class="built">
+            <li>Rebuilt the review screen so editors confirm AI suggestions instead of picking every value.</li>
+            <li>Built the rules engine that decides which fields AI may fill and which always need a person, blocking conflicting rules in the UI and API.</li>
+            <li>Turned editor edits into accept, change and reject signals for the Shield team.</li>
+            <li>Pulled shared parts (dropdowns, field cards, AI and rule chips) into a common library.</li>
+          </ul>
+          <div class="highlight"><svg><use href="#star"/></svg><p>The project was highlighted by <b>CEO Simon Wolfson</b> in Next's half-year results.</p></div>
+        </div>
+        <div class="tl-item">
+          <h4>Item Tracker: Blazor to React</h4>
+          <p>Leading the port of an internal tool to React with AI coding agents. First version merged to main; saved views, bulk filtering and exports in progress on later branches.</p>
+        </div>
+        <div class="tl-item">
+          <h4>AI agent workflows for the team</h4>
+          <p>Wrote reusable agent skills and a multi-pass review loop, and gave a talk on <a class="link" href="ai-development-presentation.html" target="_blank" rel="noopener noreferrer">using AI in development ↗</a> to the team.</p>
+        </div>
+      </div>
+      <div class="stats">
+        <div><strong>20+</strong><span>merged PRs</span></div>
+        <div><strong>210+</strong><span>commits</span></div>
+        <div><strong>3</strong><span>workstreams</span></div>
+      </div>
+    </div>
+  </article>
+</section>
+
+<!-- ================================================= B2 -->
+<section class="variant" id="v-b2" data-desc="Same CV layout, but the main entry splits 'the project' from 'my part', so a recruiter can't misread what you owned.">
+  <div class="section-heading">
+    <div>
+      <p class="eyebrow">01 · Industry experience</p>
+      <h2>Next plc,<br>Systems Placement.</h2>
+    </div>
+  </div>
+
+  <article class="card b1">
+    <div class="b1-left">
+      <span class="logo">NEXT</span>
+      <h3>Systems Placement Developer</h3>
+      <dl>
+        <div><dt>Company</dt><dd>Next plc (FTSE 100)</dd></div>
+        <div><dt>Team</dt><dd>Online Shopping, PIM Strategic</dd></div>
+        <div><dt>Dates</dt><dd>Jul 2026 – Jul 2027 · 12 months</dd></div>
+        <div><dt>Stack</dt><dd>C# / .NET, Blazor, React, TypeScript, Playwright</dd></div>
+      </dl>
+    </div>
+    <div>
+      <div class="tl">
+        <div class="tl-item main">
+          <h4>AI Attribution 2.0</h4>
+          <div class="scope">
+            <div class="proj">
+              <p class="label">The project</p>
+              <p>Next's in-house AI, Shield, suggests product details like age group and material, which editors used to pick by hand.</p>
+            </div>
+            <div class="mine">
+              <p class="label">My part</p>
+              <ul class="built">
+                <li><b>Owned the UI overhaul:</b> editors now confirm AI suggestions instead of picking every value.</li>
+                <li><b>Built the rules engine</b> for which fields AI may fill and which need a person.</li>
+                <li><b>Shared components</b> pulled into a common library.</li>
+              </ul>
+            </div>
+          </div>
+          <div class="highlight"><svg><use href="#star"/></svg><p>The project was highlighted by <b>CEO Simon Wolfson</b> in Next's half-year results.</p></div>
+        </div>
+        <div class="tl-item">
+          <h4>Item Tracker: Blazor to React</h4>
+          <p>Leading the port of an internal tool to React with AI coding agents. First version merged to main.</p>
+        </div>
+        <div class="tl-item">
+          <h4>AI agent workflows for the team</h4>
+          <p>Reusable agent skills, a multi-pass review loop, and a <a class="link" href="ai-development-presentation.html" target="_blank" rel="noopener noreferrer">talk on AI in development ↗</a>.</p>
+        </div>
+      </div>
+      <div class="stats">
+        <div><strong>20+</strong><span>merged PRs</span></div>
+        <div><strong>210+</strong><span>commits</span></div>
+        <div><strong>3</strong><span>workstreams</span></div>
+      </div>
+    </div>
+  </article>
+</section>
+
+<!-- ================================================= B3 -->
+<section class="variant" id="v-b3" data-desc="The role facts move into one header row, which frees the full width for the timeline. Numbers sit in a narrow side column.">
+  <div class="section-heading">
+    <div>
+      <p class="eyebrow">01 · Industry experience</p>
+      <h2>Next plc,<br>Systems Placement.</h2>
+    </div>
+  </div>
+
+  <article class="card b3">
+    <div class="b3-head">
+      <span class="logo">NEXT</span>
+      <div><h3>Systems Placement Developer</h3><span class="muted">Next plc (FTSE 100)</span></div>
+      <dl>
+        <div><dt>Team</dt><dd>Online Shopping, PIM Strategic</dd></div>
+        <div><dt>Dates</dt><dd>Jul 2026 – Jul 2027</dd></div>
+        <div><dt>Stack</dt><dd>C# / .NET · Blazor · React</dd></div>
+      </dl>
+    </div>
+    <div class="b3-body">
+      <div class="tl">
+        <div class="tl-item main">
+          <h4>AI Attribution 2.0 <span class="chip accent">Owned the UI overhaul</span></h4>
+          <p>Next's in-house AI, Shield, suggests product details that editors used to pick by hand. I owned the overhaul of the editor interface and built the approval rules behind it.</p>
+          <ul class="built">
+            <li>Rebuilt the review screen so editors confirm AI suggestions instead of typing.</li>
+            <li>Built the rules engine for which fields AI may fill and which need a person.</li>
+            <li>Pulled shared parts into a common component library.</li>
+          </ul>
+        </div>
+        <div class="tl-item">
+          <h4>Item Tracker: Blazor to React</h4>
+          <p>Leading the port of an internal tool to React with AI coding agents. First version merged to main.</p>
+        </div>
+        <div class="tl-item">
+          <h4>AI agent workflows for the team</h4>
+          <p>Reusable agent skills, a review loop, and a <a class="link" href="ai-development-presentation.html" target="_blank" rel="noopener noreferrer">talk on AI in development ↗</a>.</p>
+        </div>
+      </div>
+      <aside class="b3-side">
+        <div class="highlight"><svg><use href="#star"/></svg><p>Attribution 2.0 was highlighted by <b>CEO Simon Wolfson</b> in the half-year results.</p></div>
+        <div class="stats">
+          <div><strong>20+</strong><span>merged PRs</span></div>
+          <div><strong>210+</strong><span>commits</span></div>
+          <div><strong>3</strong><span>workstreams</span></div>
+        </div>
+      </aside>
+    </div>
+  </article>
+</section>
+
+<!-- ================================================= A1 -->
+<section class="variant" id="v-a1" data-desc="A, tightened: one card, no empty right column, before/after shrunk to a thin strip, the other workstreams folded into one footer line.">
+  <div class="section-heading">
+    <div>
+      <p class="eyebrow">01 · Industry experience</p>
+      <h2>AI in production<br>at a FTSE 100 retailer.</h2>
+    </div>
+    <p>Systems Placement Developer at Next plc, Jul 2026 – Jul 2027.</p>
+  </div>
+
+  <article class="card a1">
+    <div class="a1-top">
+      <span class="logo">NEXT</span>
+      <div class="who"><strong>Next plc · PIM Strategic Team</strong><span>Systems Placement Developer · 12 months</span></div>
+      <div class="chips"><span class="chip">C# / .NET</span><span class="chip">Blazor</span><span class="chip">React</span></div>
+    </div>
+    <div>
+      <div class="chips" style="margin-bottom:12px"><span class="chip accent">Owned the UI overhaul</span><span class="chip">AI Attribution 2.0</span></div>
+      <h3>I rebuilt the screen Next's editors use to check AI-suggested product details.</h3>
+    </div>
+    <div class="a1-grid">
+      <div>
+        <ul class="built">
+          <li>Editors now confirm Shield AI's suggestions instead of picking every value.</li>
+          <li>Built the rules engine for which fields AI may fill and which need a person.</li>
+          <li>Pulled shared parts into a common component library.</li>
+        </ul>
+      </div>
+      <div class="a1-aside">
+        <div class="highlight"><svg><use href="#star"/></svg><p>Highlighted by <b>CEO Simon Wolfson</b> in Next's half-year results.</p></div>
+        <div class="ba-strip">
+          <div><b>Before</b>Pick every value by hand</div>
+          <span aria-hidden="true">→</span>
+          <div><b>After</b>Check what AI suggests</div>
+        </div>
+      </div>
+    </div>
+    <div class="a1-foot">
+      <p class="others"><b>Also:</b> leading a Blazor-to-React port · team agent workflows and a <a class="link" href="ai-development-presentation.html" target="_blank" rel="noopener noreferrer">talk ↗</a></p>
+      <div class="stats" style="gap:24px">
+        <div><strong>20+</strong><span>merged PRs</span></div>
+        <div><strong>210+</strong><span>commits</span></div>
+      </div>
+    </div>
+  </article>
+</section>
+
+<!-- ================================================= A2 -->
+<section class="variant" id="v-a2" data-desc="One headline, then three equal tiles, one per workstream, each a single sentence. Numbers in a thin footer. Least text of any option.">
+  <div class="section-heading">
+    <div>
+      <p class="eyebrow">01 · Industry experience</p>
+      <h2>AI in production<br>at a FTSE 100 retailer.</h2>
+    </div>
+    <p>Systems Placement Developer at Next plc, Jul 2026 – Jul 2027.</p>
+  </div>
+
+  <article class="card">
+    <div class="a2-head">
+      <div>
+        <div class="chips"><span class="chip">Next plc · PIM Strategic Team</span><span class="chip">12 months</span></div>
+        <h3>Building the tools Next uses to get products online, with AI in the loop.</h3>
+      </div>
+      <div class="highlight" style="max-width:340px"><svg><use href="#star"/></svg><p>AI Attribution 2.0 was highlighted by <b>CEO Simon Wolfson</b> in the half-year results.</p></div>
+    </div>
+    <div class="a2-tiles">
+      <article>
+        <span class="num">01 · OWNED</span>
+        <h4>AI Attribution 2.0 UI</h4>
+        <p>Overhauled the editor screen so staff confirm Shield AI's product suggestions, and built the rules for which fields need a person.</p>
+      </article>
+      <article>
+        <span class="num">02 · LEADING</span>
+        <h4>Blazor to React port</h4>
+        <p>Moving the Item Tracker tool to React with AI coding agents. First version merged to main.</p>
+      </article>
+      <article>
+        <span class="num">03 · TEAM</span>
+        <h4>AI agent workflows</h4>
+        <p>Reusable agent skills, a review loop, and a <a class="link" href="ai-development-presentation.html" target="_blank" rel="noopener noreferrer">talk on AI in development ↗</a>.</p>
+      </article>
+    </div>
+    <div class="a2-foot">
+      <div class="stats">
+        <div><strong>20+</strong><span>merged PRs</span></div>
+        <div><strong>210+</strong><span>commits</span></div>
+      </div>
+      <div class="chips"><span class="chip">C# / .NET</span><span class="chip">Blazor</span><span class="chip">React</span><span class="chip">TypeScript</span><span class="chip">Playwright</span></div>
+    </div>
+  </article>
+</section>
+
+<!-- ================================================= A3 -->
+<section class="variant" id="v-a3" data-desc="A's bold headline and numbers on top, B's honest workstream list underneath, as aligned rows instead of a timeline.">
+  <div class="section-heading">
+    <div>
+      <p class="eyebrow">01 · Industry experience</p>
+      <h2>Next plc,<br>Systems Placement.</h2>
+    </div>
+    <p>Online Shopping, PIM Strategic Team · Jul 2026 – Jul 2027.</p>
+  </div>
+
+  <article class="card">
+    <div class="a3-hero">
+      <div>
+        <div class="chips"><span class="chip accent">FTSE 100</span><span class="chip">C# / .NET · Blazor · React</span></div>
+        <h3>Shipping AI-assisted tools for the team that puts products on next.co.uk.</h3>
+      </div>
+      <div class="stats">
+        <div><strong>20+</strong><span>merged PRs</span></div>
+        <div><strong>210+</strong><span>commits</span></div>
+      </div>
+    </div>
+    <div class="a3-body">
+      <div class="a3-row">
+        <div><h4>AI Attribution 2.0</h4><span class="chip accent">Owned the UI overhaul</span></div>
+        <div>
+          <p>Shield AI suggests product details that editors used to pick by hand. I owned the editor interface overhaul and built the approval rules.</p>
+          <ul class="built">
+            <li>Editors confirm AI suggestions instead of picking every value</li>
+            <li>Rules engine for which fields AI may fill and which need a person</li>
+          </ul>
+          <div class="highlight" style="margin-top:14px;max-width:560px"><svg><use href="#star"/></svg><p>The project was highlighted by <b>CEO Simon Wolfson</b> in the half-year results.</p></div>
+        </div>
+      </div>
+      <div class="a3-row">
+        <div><h4>Item Tracker</h4><span class="chip">Leading</span></div>
+        <p>Porting an internal tool from Blazor to React with AI coding agents. First version merged to main.</p>
+      </div>
+      <div class="a3-row">
+        <div><h4>Agent workflows</h4><span class="chip">Team</span></div>
+        <p>Reusable agent skills, a review loop, and a <a class="link" href="ai-development-presentation.html" target="_blank" rel="noopener noreferrer">talk on AI in development ↗</a>.</p>
+      </div>
+    </div>
+  </article>
+</section>
+
+<p class="proto-note"><b>Wording change across all six:</b> "Sole owner of AI Attribution 2.0" is now "Owned the UI overhaul", the rules engine is credited to you, and the CEO line says "the project was highlighted" rather than implying it was all your work.</p>
+
+</div>
+</main>
+
+<script>
+(function(){
+  var btns=document.querySelectorAll('[data-v]'),desc=document.querySelector('[data-variant-desc]'),ids=[];
+  btns.forEach(function(b){ids.push(b.dataset.v)});
+  function show(v){
+    btns.forEach(function(b){b.setAttribute('aria-pressed',String(b.dataset.v===v))});
+    document.querySelectorAll('.variant').forEach(function(s){var on=s.id==='v-'+v;s.classList.toggle('is-on',on);if(on)desc.textContent=s.dataset.desc});
+    try{history.replaceState(null,'','#'+v)}catch(e){}
+  }
+  btns.forEach(function(b){b.addEventListener('click',function(){show(b.dataset.v)})});
+  var h=(location.hash||'').slice(1);show(ids.indexOf(h)>-1?h:'b1');
+  var root=document.documentElement;
+  document.querySelector('[data-theme-toggle]').addEventListener('click',function(){
+    var dark=root.dataset.theme?root.dataset.theme==='dark':matchMedia('(prefers-color-scheme: dark)').matches;
+    root.dataset.theme=dark?'light':'dark';
+  });
+})();
+</script>
+</body>
+</html>

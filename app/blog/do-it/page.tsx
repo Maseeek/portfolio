@@ -35,7 +35,7 @@ export default function DoItBlog() {
 
         <div className="flex flex-wrap gap-4 pt-4">
           <a 
-            href="https://do-it-plum-seven.vercel.app" 
+            href="https://do-it-plum-seven.vercel.app/welcome" 
             target="_blank" 
             rel="noopener noreferrer" 
             className="inline-flex items-center px-6 py-3 bg-white text-black hover:bg-emerald-400 hover:text-black rounded-full text-sm font-bold transition-all transform hover:scale-105"
