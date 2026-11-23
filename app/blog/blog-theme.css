@@ -1,0 +1,148 @@
+/* Portfolio theme for /blog/* — matches public/05-the-full-portfolio.html.
+   Remaps the legacy dark Tailwind palette onto the portfolio tokens. */
+
+html:has(.pf-blog) {
+  --pf-bg: #fff;
+  --pf-ink: #17191d;
+  --pf-muted: #6b707a;
+  --pf-line: #e5e8ed;
+  --pf-accent: #155ce9;
+  --pf-accent-soft: #eaf1ff;
+  --pf-surface: #f5f7fb;
+  --pf-good: #377250;
+  --pf-good-soft: #e3f2e8;
+
+  --background: var(--pf-bg);
+  --foreground: var(--pf-ink);
+  --muted: var(--pf-surface);
+  --muted-foreground: var(--pf-muted);
+  --accent: var(--pf-accent);
+  --accent-rgb: 21, 92, 233;
+  --accent-foreground: #fff;
+  --border: var(--pf-line);
+  --card: var(--pf-bg);
+  --card-foreground: var(--pf-ink);
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  html:has(.pf-blog) {
+    --pf-bg: #0d1118;
+    --pf-ink: #f8fafc;
+    --pf-muted: #a3b3c9;
+    --pf-line: #243042;
+    --pf-accent: #3b82f6;
+    --pf-accent-soft: #192a4a;
+    --pf-surface: #121823;
+    --pf-good: #4ade80;
+    --pf-good-soft: #16352a;
+    --accent-rgb: 59, 130, 246;
+    color-scheme: dark;
+  }
+}
+
+/* Hide the legacy chrome (navbar, footer, cursor, grain, progress bar) */
+html:has(.pf-blog) body > a[href="#main-content"] ~ div nav.fixed,
+html:has(.pf-blog) nav.glass,
+html:has(.pf-blog) footer:not(.pf-foot),
+html:has(.pf-blog) .fixed.inset-0.pointer-events-none.hidden.md\:block,
+html:has(.pf-blog) .fixed.top-0.left-0.right-0.origin-left {
+  display: none !important;
+}
+html:has(.pf-blog) .grain::before { display: none !important; }
+html:has(.pf-blog) body,
+html:has(.pf-blog) body.custom-cursor-active,
+html:has(.pf-blog) body.custom-cursor-active * { cursor: auto; }
+html:has(.pf-blog) body.custom-cursor-active a,
+html:has(.pf-blog) body.custom-cursor-active button { cursor: pointer; }
+
+html:has(.pf-blog) body {
+  background: var(--pf-bg) !important;
+  color: var(--pf-ink);
+  font-family: Inter, Arial, sans-serif;
+}
+
+.pf-blog { font-family: Inter, Arial, sans-serif; color: var(--pf-ink); }
+.pf-blog *, .pf-blog .font-sans, .pf-blog .font-display, .pf-blog .font-heading { font-family: inherit; }
+.pf-blog .font-mono, .pf-blog code, .pf-blog pre { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+
+/* Portfolio nav + footer */
+.pf-nav-wrap { border-bottom: 1px solid var(--pf-line); background: var(--pf-bg); position: sticky; top: 0; z-index: 50; }
+.pf-nav { width: min(1200px, calc(100% - 96px)); margin: 0 auto; height: 86px; display: flex; justify-content: space-between; align-items: center; gap: 24px; }
+.pf-brand { display: flex; align-items: center; gap: 10px; font-size: 14px; font-weight: 600; letter-spacing: -.04em; color: var(--pf-ink); }
+.pf-brand-dot { width: 26px; height: 26px; border-radius: 8px; background: var(--pf-accent); color: #fff; display: grid; place-items: center; font-size: 11px; font-weight: 700; letter-spacing: 0; }
+.pf-links { display: flex; align-items: center; gap: 29px; font-size: 11px; text-transform: uppercase; letter-spacing: .08em; }
+.pf-links a { padding-block: 12px; color: var(--pf-ink); }
+.pf-links a:hover { color: var(--pf-accent); }
+.pf-links .pf-contact { padding: 11px 17px; background: var(--pf-ink); color: var(--pf-bg); border-radius: 30px; font-size: 10px; }
+.pf-links .pf-contact:hover { color: var(--pf-bg); background: var(--pf-accent); }
+.pf-foot { border-top: 1px solid var(--pf-line); margin-top: 64px; }
+.pf-foot-in { width: min(1200px, calc(100% - 96px)); margin: 0 auto; padding: 32px 0; display: flex; justify-content: space-between; gap: 16px; font-size: 12px; color: var(--pf-muted); }
+.pf-foot a:hover { color: var(--pf-accent); }
+@media (max-width: 640px) {
+  .pf-nav, .pf-foot-in { width: calc(100% - 32px); }
+  .pf-nav { height: 64px; }
+  .pf-links { gap: 16px; }
+  .pf-links .pf-hide-sm { display: none; }
+  .pf-foot-in { flex-direction: column; }
+}
+
+/* ---- Palette remap inside articles ---- */
+.pf-blog .text-white, .pf-blog .text-slate-200, .pf-blog .text-slate-100, .pf-blog .text-gray-100,
+.pf-blog .text-gray-200, .pf-blog .hover\:text-white:hover, .pf-blog .text-foreground { color: var(--pf-ink) !important; }
+.pf-blog .text-gray-300, .pf-blog .text-slate-300, .pf-blog .text-gray-400, .pf-blog .text-slate-400,
+.pf-blog .text-gray-500, .pf-blog .text-white\/70, .pf-blog .text-white\/60, .pf-blog .text-white\/80,
+.pf-blog .text-white\/50, .pf-blog .text-foreground\/60, .pf-blog .text-foreground\/70,
+.pf-blog .text-foreground\/80, .pf-blog .text-muted-foreground { color: var(--pf-muted) !important; }
+.pf-blog .text-accent, .pf-blog .hover\:text-accent:hover, .pf-blog .group:hover .group-hover\:text-accent,
+.pf-blog .text-cyan-400, .pf-blog .text-indigo-400, .pf-blog .text-purple-400, .pf-blog .text-blue-400 { color: var(--pf-accent) !important; }
+.pf-blog .text-emerald-400, .pf-blog .text-emerald-300, .pf-blog .text-green-400, .pf-blog .hover\:text-emerald-400:hover { color: var(--pf-good) !important; }
+.pf-blog .text-amber-400, .pf-blog .text-orange-400, .pf-blog .text-yellow-400 { color: #b45309 !important; }
+@media (prefers-color-scheme: dark) {
+  .pf-blog .text-amber-400, .pf-blog .text-orange-400, .pf-blog .text-yellow-400 { color: #f59e0b !important; }
+}
+.pf-blog .text-black, .pf-blog .hover\:text-black:hover { color: var(--pf-ink) !important; }
+
+/* Surfaces */
+.pf-blog [class*="bg-white/"], .pf-blog [class*="bg-black/"], .pf-blog .bg-muted,
+.pf-blog [class*="bg-slate-9"], .pf-blog [class*="bg-gray-9"], .pf-blog [class*="bg-zinc-9"] { background-color: var(--pf-surface) !important; }
+.pf-blog .bg-white { background-color: var(--pf-ink) !important; color: var(--pf-bg) !important; }
+.pf-blog .bg-white.text-black, .pf-blog .bg-white .text-black { color: var(--pf-bg) !important; }
+.pf-blog [class*="bg-accent/"], .pf-blog [class*="bg-cyan-500/"], .pf-blog [class*="bg-indigo-500/"],
+.pf-blog [class*="bg-purple-500/"], .pf-blog [class*="bg-blue-500/"] { background-color: var(--pf-accent-soft) !important; }
+.pf-blog [class*="bg-emerald-500/"], .pf-blog [class*="bg-green-500/"] { background-color: var(--pf-good-soft) !important; }
+.pf-blog [class*="bg-amber-500/"], .pf-blog [class*="bg-orange-500/"] { background-color: color-mix(in srgb, #f59e0b 12%, var(--pf-bg)) !important; }
+.pf-blog .bg-accent, .pf-blog .hover\:bg-accent:hover { background-color: var(--pf-accent) !important; color: #fff !important; }
+.pf-blog [class*="hover:bg-white/"]:hover, .pf-blog [class*="hover:bg-accent/"]:hover { background-color: var(--pf-accent-soft) !important; }
+.pf-blog [class*="bg-gradient-"], .pf-blog [class*="from-"] { background-image: none !important; }
+.pf-blog [class*="blur-["] { display: none; }
+.pf-blog [class*="shadow-"] { box-shadow: 0 1px 2px rgb(16 24 40 / .05) !important; }
+
+/* Borders */
+.pf-blog [class*="border-white"], .pf-blog [class*="border-accent"], .pf-blog [class*="border-emerald"],
+.pf-blog [class*="border-amber"], .pf-blog [class*="border-purple"], .pf-blog [class*="border-orange"],
+.pf-blog [class*="border-cyan"], .pf-blog [class*="border-indigo"], .pf-blog .border-border,
+.pf-blog [class*="border-slate"], .pf-blog [class*="border-gray"] { border-color: var(--pf-line) !important; }
+.pf-blog [class*="hover:border-"]:hover { border-color: var(--pf-accent) !important; }
+
+/* Type: portfolio headings are tight, medium-weight, sentence-case */
+.pf-blog h1 { letter-spacing: -.045em !important; font-weight: 600 !important; text-transform: none !important; line-height: 1.02 !important; }
+.pf-blog h2, .pf-blog h3 { letter-spacing: -.03em; font-weight: 600 !important; }
+.pf-blog .font-black { font-weight: 700 !important; }
+.pf-blog p, .pf-blog li { line-height: 1.65; }
+.pf-blog ::selection { background: var(--pf-accent-soft); color: var(--pf-ink); }
+.pf-blog pre, .pf-blog code { background: var(--pf-surface); color: var(--pf-ink); border-color: var(--pf-line); }
+.pf-blog img { border-radius: 14px; }
+
+/* Markdown articles (prose) */
+.pf-blog .prose { color: var(--pf-ink); max-width: 72ch; }
+.pf-blog .prose :where(h1, h2, h3, h4, strong, a) { color: var(--pf-ink); }
+.pf-blog .prose a { color: var(--pf-accent); text-decoration: underline; text-underline-offset: 3px; }
+.pf-blog .prose :where(p, li, blockquote) { color: var(--pf-muted); }
+.pf-blog .prose blockquote { border-left: 3px solid var(--pf-accent); padding-left: 1rem; }
+.pf-blog .prose hr { border-color: var(--pf-line); }
+.pf-blog .prose table { border-color: var(--pf-line); }
+.pf-blog .prose :where(th, td) { border-color: var(--pf-line); }
+
+/* `selection:bg-*` classes matched the surface remaps above; undo on wrappers */
+.pf-blog [class*="selection:bg-"]:not([class^="bg-"]):not([class*=" bg-"]) { background-color: transparent !important; }
