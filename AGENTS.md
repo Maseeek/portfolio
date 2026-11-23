@@ -13,6 +13,12 @@
     - `git show legacy-portfolio:app/page.tsx`
     - `git ls-tree -r --name-only legacy-portfolio app/blog/`
 
+## Shipping trivial changes
+
+- Trivial changes (copy and text edits, location/date/metric tweaks, typo fixes, small single-purpose markup changes) go straight to `main`. Commit them and push to `origin/main` without asking. Don't open a branch or PR.
+- Apply the same edit to every copy of the page: `public/05-the-full-portfolio.html`, `concepts/05-the-full-portfolio.html`, `concepts/index.html`, and the source `concepts/src/05-template.html`.
+- Larger or riskier work (new sections, layout or JS changes, anything touching `next.config.ts` or `app/`) still needs the user's go-ahead before it is pushed.
+
 ## Agent skills
 
 ### Issue tracker
