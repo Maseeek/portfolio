@@ -643,6 +643,8 @@ html[data-theme="dark"] .nx{--nx-stage:#121823;--nx-line:#243042;--nx-tile:#171f
 .nx-role strong{display:block;font-size:15px;font-weight:600;letter-spacing:-.02em;color:var(--ink)}
 .nx-role span{display:block;font-size:12.5px;color:var(--muted)}
 .nx-metrics{display:flex;gap:28px;margin-left:auto}
+.nx-metrics[hidden]{display:none}
+.nx-metrics.enter{animation:nx-in .2s cubic-bezier(.23,1,.32,1)}
 .nx-metric strong{display:block;font-size:19px;font-weight:600;letter-spacing:-.04em;line-height:1.1;white-space:nowrap;color:var(--ink)}
 .nx-metric span{display:block;font-size:12px;color:var(--muted);margin-top:2px}
 .nx-body{display:grid;grid-template-columns:260px 1fr;min-height:400px}
@@ -674,7 +676,7 @@ html[data-theme="dark"] .nx{--nx-stage:#121823;--nx-line:#243042;--nx-tile:#171f
 html[data-theme="dark"] .nx .tags span{background:#192a4a;color:#93c5fd}
 .nx-link{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:500;color:var(--accent)}
 @media(hover:hover) and (pointer:fine){.nx-link:hover{text-decoration:underline;text-underline-offset:4px}}
-@media(prefers-reduced-motion:reduce){.nx-panel.enter{animation:none}.nx-tab:active{transform:none}}
+@media(prefers-reduced-motion:reduce){.nx-panel.enter,.nx-metrics.enter{animation:none}.nx-tab:active{transform:none}}
 html:not(.js) .nx-tabs{display:none}
 html:not(.js) .nx-body{grid-template-columns:1fr}
 html:not(.js) .nx-panel[hidden]{display:grid!important;border-top:1px solid var(--nx-line)}
@@ -1464,8 +1466,10 @@ html[data-theme="dark"] .app-frame.doit-frame{
     <div class="nx reveal">
       <div class="nx-head">
         <span class="nx-logo" aria-hidden="true"><svg viewBox="0 0 83 20"><path fill="currentColor" fill-rule="evenodd" d="M24.32,19.4 L38.61,19.4 L38.61,16.49 L27.33,16.49 L27.33,11.38 L37.58,11.38 L37.58,8.49 L27.33,8.49 L27.33,3.48 L38.61,3.48 L38.61,0.56 L24.32,0.56 L24.32,19.4M66.09,3.48 L73,3.48 L73,19.4 L76.01,19.4 L76.01,3.48 L82.91,3.48 L82.91,0.56 L66.09,0.56 L66.09,3.48M13.97,12.87 L0,0 L0,19.4 L3.01,19.4 L3.01,6.97 L16.98,20 L16.98,0.56 L13.97,0.56 L13.97,12.87M58.62,0.56 L53.09,7.43 L47.57,0.56 L43.68,0.56 L51.17,9.76 L43.68,19.4 L47.57,19.4 L53.09,12.24 L58.62,19.41 L62.51,19.41 L55.02,9.76 L62.51,0.56 L58.62,0.56"/></svg></span>
-        <div class="nx-role"><strong>Systems Placement Developer</strong><span>Since July 2026 · 12-month placement</span></div>
-        <div class="nx-metrics"><div class="nx-metric"><strong>45%</strong><span>Editor time saved</span></div><div class="nx-metric"><strong>20+</strong><span>Merged PRs</span></div><div class="nx-metric"><strong>210+</strong><span>Commits shipped</span></div></div>
+        <div class="nx-role"><strong>Systems Placement Developer</strong><span>Since July 2026 · 12-month placement · 20+ merged PRs · 210+ commits</span></div>
+        <div class="nx-metrics" data-for="nx-panel-attr"><div class="nx-metric"><strong>45%</strong><span>Editor time saved</span></div><div class="nx-metric"><strong>UI + API</strong><span>Rule conflicts blocked</span></div><div class="nx-metric"><strong>CEO-cited</strong><span>In half-year results</span></div></div>
+        <div class="nx-metrics" data-for="nx-panel-tracker" hidden><div class="nx-metric"><strong>3</strong><span>Sources of truth</span></div><div class="nx-metric"><strong>v5 → v7</strong><span>Branches shipped</span></div><div class="nx-metric"><strong>React</strong><span>From Blazor</span></div></div>
+        <div class="nx-metrics" data-for="nx-panel-skills" hidden><div class="nx-metric"><strong>4</strong><span>Agent workflows</span></div><div class="nx-metric"><strong>2</strong><span>Verification gates</span></div><div class="nx-metric"><strong>1</strong><span>Team talk</span></div></div>
       </div>
       <div class="nx-body">
         <div class="nx-tabs" role="tablist" aria-label="Workstreams at NEXT">
@@ -2760,6 +2764,8 @@ function selectNx(i,focus){
     const on=j===i,p=document.getElementById(t.getAttribute('aria-controls'));
     t.setAttribute('aria-selected',String(on));t.tabIndex=on?0:-1;
     if(p){p.hidden=!on;if(on){p.classList.remove('enter');void p.offsetWidth;p.classList.add('enter');}}
+    const m=document.querySelector('.nx-metrics[data-for="'+t.getAttribute('aria-controls')+'"]');
+    if(m){m.hidden=!on;if(on){m.classList.remove('enter');void m.offsetWidth;m.classList.add('enter');}}
   });
   if(focus)nxTabs[i].focus();
   updateBrandScrollFill();
