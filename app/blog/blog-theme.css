@@ -64,7 +64,9 @@ html:has(.pf-blog) body {
 
 .pf-blog { font-family: Inter, Arial, sans-serif; color: var(--pf-ink); }
 .pf-blog *, .pf-blog .font-sans, .pf-blog .font-display, .pf-blog .font-heading { font-family: inherit; }
-.pf-blog .font-mono, .pf-blog code, .pf-blog pre { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+/* Mono only for real code; tags, meta rows and labels use Inter like the portfolio */
+.pf-blog .font-mono { font-family: inherit; letter-spacing: .02em; }
+.pf-blog code, .pf-blog pre, .pf-blog pre *, .pf-blog p.font-mono, .pf-blog p.font-mono * { font-family: ui-monospace, SFMono-Regular, Menlo, monospace !important; letter-spacing: 0; }
 
 /* Portfolio nav + footer */
 .pf-nav-wrap { border-bottom: 1px solid var(--pf-line); background: var(--pf-bg); position: sticky; top: 0; z-index: 50; }
@@ -125,9 +127,10 @@ html:has(.pf-blog) body {
 .pf-blog [class*="border-slate"], .pf-blog [class*="border-gray"] { border-color: var(--pf-line) !important; }
 .pf-blog [class*="hover:border-"]:hover { border-color: var(--pf-accent) !important; }
 
-/* Type: portfolio headings are tight, medium-weight, sentence-case */
-.pf-blog h1 { letter-spacing: -.045em !important; font-weight: 600 !important; text-transform: none !important; line-height: 1.02 !important; }
-.pf-blog h2, .pf-blog h3 { letter-spacing: -.03em; font-weight: 600 !important; }
+/* Type: matches the portfolio (h1 550 / -.065em, h2 500 / -.05em, sentence case) */
+.pf-blog h1, .pf-blog h1.font-black { letter-spacing: -.065em !important; font-weight: 550 !important; text-transform: none !important; line-height: 1.02 !important; }
+.pf-blog h2 { letter-spacing: -.05em !important; font-weight: 500 !important; text-transform: none !important; line-height: 1.1; }
+.pf-blog h3 { letter-spacing: -.03em; font-weight: 600 !important; text-transform: none !important; }
 .pf-blog .font-black { font-weight: 700 !important; }
 .pf-blog p, .pf-blog li { line-height: 1.65; }
 .pf-blog ::selection { background: var(--pf-accent-soft); color: var(--pf-ink); }
@@ -146,3 +149,20 @@ html:has(.pf-blog) body {
 
 /* `selection:bg-*` classes matched the surface remaps above; undo on wrappers */
 .pf-blog [class*="selection:bg-"]:not([class^="bg-"]):not([class*=" bg-"]) { background-color: transparent !important; }
+
+/* Table/list dividers (divide-white/*) were invisible on the light background */
+.pf-blog [class*="divide-white"] > :not(:last-child),
+.pf-blog [class*="divide-border"] > :not(:last-child) { border-color: var(--pf-line) !important; }
+
+/* Callout and code-block spacing */
+.pf-blog blockquote > p:first-child { margin-top: 0; }
+.pf-blog blockquote > p:last-child { margin-bottom: 0; }
+.pf-blog pre > code:only-child { display: block; }
+
+/* Small accent text on tinted chips needs more contrast in dark mode */
+@media (prefers-color-scheme: dark) {
+  .pf-blog [class^="bg-accent/"] .text-accent, .pf-blog [class*=" bg-accent/"] .text-accent, .pf-blog [class*=" bg-accent/"].text-accent,
+  .pf-blog [class*=" bg-accent/"] .text-cyan-400, .pf-blog [class*=" bg-accent/"] .text-indigo-400,
+  .pf-blog [class*=" bg-accent/"] .text-purple-400, .pf-blog [class*=" bg-accent/"] .text-blue-400 { color: #93c5fd !important; }
+  .pf-blog [class*=" bg-emerald-500/"] .text-emerald-400, .pf-blog [class*=" bg-emerald-500/"].text-emerald-400 { color: #86efac !important; }
+}
