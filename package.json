@@ -4,6 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "blog": "node scripts/blog/build.mjs",
+    "prebuild": "node scripts/blog/build.mjs",
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
@@ -34,6 +36,7 @@
     "eslint": "^9",
     "eslint-config-next": "16.1.4",
     "lighthouse": "12.8.2",
+    "micromark": "^4.0.2",
     "tailwindcss": "^4",
     "typescript": "^5"
   }

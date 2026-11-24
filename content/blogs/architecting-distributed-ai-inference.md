@@ -1,39 +1,40 @@
 ---
 id: post_init_sample_01
 slug: architecting-distributed-ai-inference
-title: Architecting Distributed AI Inference for Low-Latency Vision Systems
-summary: A comprehensive architectural breakdown of zero-copy GPU memory pipelines, ONNX Runtime acceleration, and asynchronous microservices for real-time edge intelligence.
+title: Architecting distributed AI inference for low-latency vision
+summary: How separating frame capture from inference, with shared-memory ring buffers and ONNX Runtime on TensorRT, took a live vision pipeline's p99 latency from 84 ms to 12.4 ms.
 tags:
-  - AI Systems
-  - Computer Vision
-  - Distributed Systems
-  - GPU Acceleration
-coverImage: /images/nbn-dash.png
+  - AI systems
+  - Computer vision
+  - Distributed systems
+  - GPU acceleration
+coverImage: /blog/img/nbn-dash.webp
 published: true
-readingTime: 6 min read
+readingTime: 3 min read
 publishedAt: 2026-08-19T00:00:00.000Z
 createdAt: 2026-08-19T00:00:00.000Z
-updatedAt: 2026-08-19T00:00:00.000Z
+updatedAt: 2026-11-24T00:00:00.000Z
 ---
 
-# Introduction
+## The problem
 
-In high-throughput visual computing, latency is the ultimate metric. When authoring computer vision pipelines for live athletic tracking (such as in **Nothing But Net**) or enterprise attribution pipelines at scale, standard monolithic inference models quickly bottleneck on memory bandwidth and serial IPC overhead.
+In live video analysis, latency is what people notice. A pipeline that handles one frame at a time (decode it, copy it to the GPU, run the model, read the result) copes at low frame rates and falls apart at 60 FPS. This post covers how the pipeline moved to an asynchronous design that keeps up with 60 FPS at under 15 ms end to end.
 
-This article details how we designed a zero-copy asynchronous inference architecture capable of processing 60 FPS video streams with sub-15ms end-to-end latency.
+## Where the time went
 
----
+Three costs stacked up.
 
-## The Monolithic Bottleneck
+1. Every raw frame was copied from CPU memory to GPU memory, one after another.
+2. Python's global interpreter lock blocked the main loop while it waited on the model.
+3. The queues had no limit. When the GPU slowed down, for example while throttling for heat, frames piled up and the system spent its time on stale ones.
 
-Typical deep learning inference stacks suffer from three compounding sources of latency:
+## Separate capture from inference
 
-1. **Host-to-Device Memory Transfers**: Copying raw frame buffers between CPU RAM and GPU VRAM sequentially.
-2. **Synchronous Python Runtime Locks (GIL)**: Blocking the main event loop while awaiting tensor execution.
-3. **Unbounded Queue Congestion**: Unchecked frame accumulation during transient GPU thermal throttling.
+Capture and inference now run independently, joined by a bounded ring buffer in shared memory. Capture never waits for the model. If inference falls behind, the oldest frames are dropped by timestamp, so results always describe the present instead of a backlog.
 
-```typescript
-// Architectural Flow of the Asynchronous Vision Pipeline
+Each frame travels as a small packet. The region-of-interest box lets the model work on a crop instead of the full frame.
+
+```ts
 interface FramePacket {
   frameId: number;
   timestampNs: bigint;
@@ -42,22 +43,18 @@ interface FramePacket {
 }
 ```
 
----
+> Dropping frames on purpose is the key decision. A bounded buffer that throws away old frames keeps latency flat when the GPU slows down. An unbounded queue turns a short slowdown into seconds of lag.
 
-## Asynchronous Architecture & Bounded Ring Buffers
+## The parts
 
-To resolve frame drops, we migrated to a multi-tiered architecture powered by bounded ring buffers and asynchronous worker pools:
+- Decode threads write frames into POSIX shared memory, and inference workers read them in place, so frames are never copied between processes.
+- ONNX Runtime runs the model through the TensorRT execution provider, which compiles it into a CUDA engine tuned to the specific GPU.
+- After inference, a physics filter fits a polynomial to the ball's path at 1000 Hz. It fills in frames the model missed and rejects detections that don't fit the trajectory.
 
-> **Key Architectural Insight**: By decoupling frame ingestion from neural inference via thread-safe shared memory ring buffers, frame capture never blocks on model forward passes. If GPU compute falls behind, frames are deterministically dropped based on timestamp delta rather than queuing stale telemetry.
+## Results
 
-### Core Implementation Pillars
+Moving from synchronous request and response to streaming inference cut p99 latency from 84 ms to 12.4 ms.
 
-- **Zero-Copy Frame Sharing**: Using POSIX shared memory segments to pass video frames directly from decoding threads to inference workers.
-- **ONNX Runtime with TensorRT Execution Provider**: Compiling model graphs into optimized CUDA engine binaries tailored to specific hardware architectures.
-- **Polynomial Trajectory Fitting**: Post-inference physics filters running at 1000 Hz to extrapolate missing frames and reject false-positive outlier trajectories.
+## What's next
 
----
-
-## Conclusion & Next Horizons
-
-Moving from synchronous request-response loops to decoupled, event-driven streaming inference reduced our p99 latency from **84ms down to 12.4ms**. As edge hardware continues to evolve, techniques like INT8 quantization and WebGPU tensor shaders will bring enterprise-grade computer vision directly to browser endpoints.
+INT8 quantisation would make the model smaller and faster again, and WebGPU could move some of this work into the browser.
